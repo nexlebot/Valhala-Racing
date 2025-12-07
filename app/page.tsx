@@ -6,6 +6,7 @@ import RecentResultSection from "./_components/homePageSpecificSections/recentRe
 import Testimonials from "./_components/homePageSpecificSections/testimonials"
 import UpComingRaceListView from "./_components/homePageSpecificSections/upComingRaceListView"
 import LeftRightBlog from "./_components/leftRightBlog"
+import Navbar from "./_components/navbar"
 
 
 const blogPosts = [
@@ -39,8 +40,9 @@ const blogPosts = [
 const page = () => {
   return (
     <>
+      <Navbar />
       <HeroSection title="Own, Race, Win The Vahala Racing Way" description="Join a professional stable delivering high-performance horses, expert care, and exceptional ownership opportunities in every race." backgroundImage="/heroImage.png" />
-      <UpComingRaceListView />
+      {/* <UpComingRaceListView /> */}
       <RecentResultSection />
       <ImageSlider />
       <OwnerShipAndSyndication />

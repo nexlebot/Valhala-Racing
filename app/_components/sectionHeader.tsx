@@ -21,8 +21,8 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
     return (
         <div className={`flex justify-between items-center mb-12 ${className}`}>
             <div>
-                <h1 className="text-4xl font-semibold mb-1 text-[#1ADB04]">{title}</h1>
-                {subtitle && <p className="">{subtitle}</p>}
+                <h1 className="text-xl lg:text-4xl font-semibold mb-1 text-[#1ADB04]">{title}</h1>
+                {subtitle && <p className="text-sm lg:text-base">{subtitle}</p>}
             </div>
 
             {buttonText && (

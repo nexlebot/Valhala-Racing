@@ -42,19 +42,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
                     </div>
 
-                    <div className='md:flex justify-center gap-7'>
+                    <div className='md:flex justify-center items-center gap-7 pb-12 lg:pb-4'>
                         <p className="mb-8 max-w-md text-sm text-white/90 md:text-base">
                             {description}
                         </p>
 
                         {/* CTA Buttons */}
-                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                            <button className="flex items-center justify-center gap-2 rounded-full bg-green-500 px-6 py-1 text-white transition-all hover:bg-green-600 md:px-8 md:py-3">
+                        <div className="flex flex-col gap-4 lg:flex-row sm:items-center">
+                            <button className="flex items-center justify-center gap-2 rounded-full bg-[#1ADB04] px-6 py-1 text-white transition-all hover:bg-green-600 md:px-8 md:py-3 cursor-pointer">
                                 <Trophy className="h-5 w-5" />
                                 View Upcoming Races
                             </button>
 
-                            <button className="flex items-center justify-center gap-2 rounded-full border-2 border-white bg-white px-6 py-3 text-[#1ADB04] transition-all hover:bg-white/90 md:px-8 md:py-3">
+                            <button className="flex items-center justify-center gap-2 rounded-full border-2 border-white bg-white px-6 py-1 text-[#1ADB04] transition-all hover:bg-white/90 md:px-8 md:py-3 cursor-pointer">
 
                                 <MdPeopleAlt className="h-5 w-5" />
                                 Meet Our Team

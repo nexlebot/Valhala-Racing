@@ -1,11 +1,12 @@
 "use client"
 
+import Button from "../Button";
 import SectionHeader from "../sectionHeader";
 import Image from "next/image";
 
 export const RecentResults = () => {
   return (
-    <section className=" mx-12 py-16">
+    <section className="mx-6 lg:mx-12 py-8 lg:py-14">
       <SectionHeader
         title="Recent Results"
         subtitle="Explore the latest race winners and their moments of glory."
@@ -13,11 +14,11 @@ export const RecentResults = () => {
         buttonVariant="secondary"
       />
 
-      <div className="flex flex-col lg:flex-row gap-20 ">
+      <div className="flex flex-col-reverse lg:flex-row gap-10 lg:gap-20 ">
         {/* Left content */}
-        <div className="flex-1">
-          <h4 className="text-xl font-semibold text-gray-900">Race Day Success: Our Winning Commitment</h4>
-          <p className="mt-3 text-gray-700">Witness the Consistent Performance That Defines Our Syndicates.</p>
+        <div className="flex-1 text-sm lg:text-base">
+          <h4 className="text-xl lg:text-2xl font-semibold text-gray-900">Race Day Success: Our Winning Commitment</h4>
+          <p className="mt-2 text-gray-700 text-base lg:text-[18px] font-medium">Witness the Consistent Performance That Defines Our Syndicates.</p>
 
           <p className="mt-4 text-gray-600 leading-relaxed">
             Every <span className="text-[#06b600] font-medium">race day</span> is a testament to the dedication of our trainers and the quality of our bloodlines. This section proudly
@@ -32,9 +33,7 @@ export const RecentResults = () => {
           </p>
 
           <div className="mt-6">
-            <button className="inline-flex items-center gap-3 rounded-full bg-[#0ed12a] hover:bg-[#04b51b] text-white px-6 py-3 font-medium shadow-md transition">
-              View All Results
-            </button>
+            <Button label="View All Results" variant="primary" className="py-3 px-5" />
           </div>
         </div>
 

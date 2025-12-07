@@ -40,15 +40,15 @@ export default function NewsletterSubscribe() {
     };
 
     return (
-        <section className="max-w-5xl mx-auto py-10 ">
-            <div className="flex rounded-2xl border-2 border-green-300 p-6 lg:p-8 bg-[#1ADB0405]">
+        <section className="max-w-5xl lg:mx-auto mx-6 pb-10 lg:pb-14">
+            <div className="flex rounded-2xl border border-[#1ADB04] p-6 lg:p-8 bg-[#1ADB0405]">
                 <div className="flex flex-col gap-5">
                     <div className="flex-1 min-w-0">
-                        <h2 className="text-3xl font-semibold    text-[#1ADB04] tracking-tight leading-tight">
+                        <h2 className="text-xl lg:text-3xl font-semibold text-[#1ADB04] tracking-tight leading-tight">
                             Stay Updated on Our Runners
                         </h2>
-                        <p className="mt-2  text-[#000000CC]">
-                            Join our mailing list to get the latest race updates, results, and exclusive insights from the Vahala Racing team.
+                        <p className="text-sm lg:text-base mt-2  text-[#000000CC]">
+                            Join our mailing list to get the latest race updates, results, and exclusive insights from the Valhalla Racing team.
                         </p>
                     </div>
 
@@ -66,7 +66,7 @@ export default function NewsletterSubscribe() {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Name"
-                            className="flex-1 min-w-0 px-4 py-2 rounded-lg border border-green-200 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-200"
+                            className="text-sm lg:text-base flex-1 min-w-0 px-4 py-2 rounded-lg border border-[#1ADB04] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#1ADB04]"
                         />
 
                         <label htmlFor="newsletter-email" className="sr-only">
@@ -78,7 +78,7 @@ export default function NewsletterSubscribe() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Email"
-                            className="flex-1 min-w-0 px-4 py-2 rounded-lg border border-green-200 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-200"
+                            className="text-sm lg:text-base flex-1 min-w-0 px-4 py-2 rounded-lg border border-[#1ADB04] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#1ADB04]"
                         />
 
                         <Button label="Subscribe Now" type="submit" variant="primary" className="px-10" />

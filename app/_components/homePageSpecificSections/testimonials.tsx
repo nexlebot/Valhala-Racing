@@ -75,7 +75,7 @@ const Avatar = ({ image }: AvatarProps) => {
 
 
 const TestimonialCard = ({ item }: { item: Testimonial }) => (
-  <figure className="break-inside-avoid mb-6 p-6 border-1 border-[#1ADB0480] rounded-2xl bg-white shadow-sm">
+  <figure className="break-inside-avoid mb-6 p-6 bg-[#FCFFFB] border-[#1ADB0480] rounded-2xl shadow-sm">
     <blockquote className="text-gray-700 text-sm leading-relaxed mb-4">
       <p className="relative">
         <span className="text-[#1ADB04] text-xl font-bold">"</span>
@@ -97,7 +97,7 @@ const TestimonialCard = ({ item }: { item: Testimonial }) => (
 
 const Testimonials = () => {
   return (
-    <section className="mx-12 mt-16 bg-[#FCFFFB]">
+    <section className="mx-12 mt-16 ">
       {/* <h2 className="sr-only">Testimonials</h2> */}
       <SectionHeader
         title="Testimonials & Highlights"

@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import SectionHeader from "../sectionHeader";
+
 type RaceItem = {
     name: string;
     race: string;
@@ -19,10 +20,12 @@ const items: RaceItem[] = [
 export default function UpComingRaceListView() {
     return (
         <section className="py-10 mx-12">
-            <SectionHeader title="Upcoming Races"
+            <SectionHeader
+                title="Upcoming Races"
                 subtitle="Stay ahead of the action — explore the latest horse racing events happening soon across Australia."
                 buttonText="View all races"
-                buttonVariant="secondary" />
+                buttonVariant="secondary"
+            />
             <div className="space-y-8">
                 {items.map((it, idx) => (
                     <article
@@ -30,12 +33,17 @@ export default function UpComingRaceListView() {
                         className="relative overflow-visible"
                         aria-label={`Upcoming race ${it.race} for ${it.name}`}
                     >
-                        <Image src="/curvedLine.png" alt="Curved line" fill className="absolute left-0 right-0 top-1/2  pointer-events-none" />
+                        <Image
+                            src="/curvedLine.png"
+                            alt="Curved line"
+                            fill
+                            className="absolute left-0 right-0 top-1/2 pointer-events-none hidden lg:block"
+                        />
 
-                        {/* Row content - sits above the line */}
-                        <div className="relative z-10 grid grid-cols-[270px_1fr_1fr_240px] gap-x-6 items-center py-6">
+                        {/* Row content - flex layout */}
+                        <div className="flex items-center justify-between gap-4 py-6">
                             {/* Left: horse name */}
-                            <div className="pr-4">
+                            <div className="flex-[0_0_270px] pr-4">
                                 <h3 className="text-lg md:text-xl font-medium tracking-tight text-gray-900 dark:text-white">
                                     {it.name}
                                 </h3>
@@ -52,17 +60,13 @@ export default function UpComingRaceListView() {
                             {/* Location with green dot */}
                             <div className="flex items-center gap-3">
                                 <span className="w-2 h-2 rounded-full bg-[#1ADB04] ring-2 ring-white" />
-                                <span className="text-sm text-gray-700 dark:text-gray-200">
-                                    {it.location}
-                                </span>
+                                <span className="text-sm text-gray-700 dark:text-gray-200">{it.location}</span>
                             </div>
 
                             {/* Date with green dot, right aligned */}
-                            <div className="flex items-center justify-end gap-3">
+                            <div className="flex items-center justify-end gap-3 flex-[0_0_240px]">
                                 <span className="w-2 h-2 rounded-full bg-[#1ADB04] ring-2 ring-white" />
-                                <span className="text-sm text-gray-700 dark:text-gray-200">
-                                    {it.date}
-                                </span>
+                                <span className="text-sm text-gray-700 dark:text-gray-200">{it.date}</span>
                             </div>
                         </div>
                     </article>

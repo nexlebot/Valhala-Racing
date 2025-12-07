@@ -26,7 +26,7 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${poppins.variable} antialiased`}
       >
-        <nav><Navbar /></nav>
+        {/* <nav><Navbar /></nav> */}
         {children}
         <div><NewsLetter /></div>
         <footer><Footer /></footer>
