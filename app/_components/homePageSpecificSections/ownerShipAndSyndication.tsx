@@ -1,4 +1,3 @@
-import React from 'react'
 import SectionHeader from '../sectionHeader'
 import Button from '../Button'
 

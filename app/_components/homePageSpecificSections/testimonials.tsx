@@ -4,13 +4,13 @@ import SectionHeader from "../sectionHeader";
 
 const DATA = [
   {
-    text: `Vahala Racing turned my dream of horse ownership into reality. The team’s dedication to both horses and owners is outstanding. Every race, update, and milestone feels personal.`,
+    text: `Vahala Racing turned my dream of horse ownership into reality. The teams dedication to both horses and owners is outstanding. Every race, update, and milestone feels personal.`,
     name: "Sheikh Owais",
     role: "Owner",
     image: '/profile1.jpg',
   },
   {
-    text: `Being part of Vahala’s ownership syndicate has been incredible. The team’s clear communication, expert management, and genuine passion for racing made the whole process enjoyable.
+    text: `Being part of Vahalas ownership syndicate has been incredible. The teams clear communication, expert management, and genuine passion for racing made the whole process enjoyable.
     From stable visits to race-day excitement.
     I always felt connected, informed, and proud to be part of something truly professional and special.
     `,
@@ -19,7 +19,7 @@ const DATA = [
     image: '/profile1.jpg',
   },
   {
-    text: `Being part of Vahala’s ownership syndicate has been incredible. The team’s clear communication, expert management, and genuine passion for racing made the whole process enjoyable.
+    text: `Being part of Vahalas ownership syndicate has been incredible. The teams clear communication, expert management, and genuine passion for racing made the whole process enjoyable.
     From stable visits to race-day excitement.
     I always felt connected, informed, and proud to be part of something truly professional and special.`,
     name: "James Carter",
@@ -77,7 +77,7 @@ const TestimonialCard = ({ item }: { item: Testimonial }) => (
     <blockquote className="text-gray-700 text-sm leading-relaxed mb-4">
       <p className="relative">
         <span className="text-[#1ADB04] text-xl font-bold">"</span>
-        <span dangerouslySetInnerHTML={{ __html: item.text }} />
+        <span>{item.text}</span>
         <span className="text-[#1ADB04] text-xl font-bold">"</span>
       </p>
     </blockquote>
