@@ -2,59 +2,84 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import SectionHeader from '../sectionHeader';
-
+const slides = [
+  {
+    id: 1,
+    image: '/imageSlider1.jpg',
+    title: 'Blaze King',
+    age: '5 Years',
+    details: 'Storm Rider x Flame Queen',
+    result: '25 Start: 7-5-2'
+  },
+  {
+    id: 2,
+    image: '/imageSlider1.jpg',
+    title: 'Blaze King',
+    age: '3 Years',
+    details: 'Sire / Dam: Storm Rider x Martha Queen',
+    result: 'Latest Result: Winner - Horton Derby 2025'
+  },
+  {
+    id: 9,
+    image: '/imageSlider1.jpg',
+    title: 'Thunder Storm',
+    age: '4 Years',
+    details: 'Sire / Dam: Lightning Bolt x Royal Lady',
+    result: '2nd Place - Summer Stakes 2025'
+  },
+  {
+    id: 3,
+    image: '/imageSlider1.jpg',
+    title: 'Midnight Runner',
+    age: '5 Years',
+    details: 'Sire / Dam: Dark Knight x Starlight',
+    result: 'Winner - Classic Cup 2025'
+  },
+  {
+    id: 4,
+    image: '/imageSlider1.jpg',
+    title: 'Golden Arrow',
+    age: '3 Years',
+    details: 'Sire / Dam: Swift Wind x Golden Rose',
+    result: '3rd Place - Spring Derby 2025'
+  }
+];
 const ImageSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
 
-  const slides = [
-    {
-      id: 1,
-      image: '/imageSlider1.jpg',
-      title: 'Blaze King',
-      age: '5 Years',
-      details: 'Storm Rider x Flame Queen',
-      result: '25 Start: 7-5-2'
-    },
-    {
-      id: 2,
-      image: '/imageSlider1.jpg',
-      title: 'Blaze King',
-      age: '3 Years',
-      details: 'Sire / Dam: Storm Rider x Martha Queen',
-      result: 'Latest Result: Winner - Horton Derby 2025'
-    },
-    {
-      id: 9,
-      image: '/imageSlider1.jpg',
-      title: 'Thunder Storm',
-      age: '4 Years',
-      details: 'Sire / Dam: Lightning Bolt x Royal Lady',
-      result: '2nd Place - Summer Stakes 2025'
-    },
-    {
-      id: 3,
-      image: '/imageSlider1.jpg',
-      title: 'Midnight Runner',
-      age: '5 Years',
-      details: 'Sire / Dam: Dark Knight x Starlight',
-      result: 'Winner - Classic Cup 2025'
-    },
-    {
-      id: 4,
-      image: '/imageSlider1.jpg',
-      title: 'Golden Arrow',
-      age: '3 Years',
-      details: 'Sire / Dam: Swift Wind x Golden Rose',
-      result: '3rd Place - Spring Derby 2025'
-    }
-  ];
 
-  const isMobile = () => {
-    if (typeof window === "undefined") return false;
-    return window.innerWidth <= 640;
-  };
+  useEffect(() => {
+    let timeoutId: number | null = null;
+
+    const checkSize = () => {
+      const w = window.innerWidth;
+      setIsMobile(w <= 640);
+      setIsTablet(w > 640 && w <= 1100);
+      setIsDesktop(w > 1100);
+    };
+
+    const handleResize = () => {
+      if (timeoutId) window.clearTimeout(timeoutId);
+      // debounce 80ms
+      timeoutId = window.setTimeout(() => {
+        checkSize();
+        timeoutId = null;
+      }, 80);
+    };
+
+    checkSize(); // initial
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
+  }, []);
+
 
   const goToSlide = (index: number) => {
     if (isAnimating) return;
@@ -92,17 +117,22 @@ const ImageSlider = () => {
   const getSlideStyle = (index: number): React.CSSProperties => {
     const position = getSlidePosition(index);
     const isActive = position === 0;
-    const mobile = isMobile();
+
+    // Tunable multipliers for each breakpoint
+    const settings = isMobile
+      ? { x: 10, z: 40, baseScale: 0.95, scaleStep: 0.05 }
+      : isTablet
+        ? { x: 28, z: 55, baseScale: 0.92, scaleStep: 0.06 } // tablet tweaks
+        : { x: 56, z: 70, baseScale: 0.9, scaleStep: 0.1 }; // desktop
+
+    const translateX = `${position * settings.x}%`;
+    const translateZ = `${-Math.abs(position) * settings.z}px`;
+    const scale = isActive
+      ? 1
+      : Math.max(0, settings.baseScale - Math.abs(position) * settings.scaleStep);
 
     return {
-      transform: `
-      translateX(${mobile ? position * 10 : position * 56}%)
-      translateZ(${mobile ? -Math.abs(position) * 40 : -Math.abs(position) * 70}px)
-      scale(${mobile
-          ? (isActive ? 1 : 0.95 - Math.abs(position) * 0.05)
-          : (isActive ? 1 : 0.9 - Math.abs(position) * 0.1)
-        })
-    `,
+      transform: `translateX(${translateX}) translateZ(${translateZ}) scale(${scale})`,
       opacity: 1,
       filter: isActive ? "brightness(1)" : "brightness(0.4)",
       zIndex: 10 - Math.abs(position),
