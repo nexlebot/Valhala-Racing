@@ -6,10 +6,19 @@ import SectionHeader from '../sectionHeader';
 const ImageSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const slides = [
     {
       id: 1,
+      image: '/imageSlider1.jpg',
+      title: 'Blaze King',
+      age: '5 Years',
+      details: 'Storm Rider x Flame Queen',
+      result: '25 Start: 7-5-2'
+    },
+    {
+      id: 2,
       image: '/imageSlider1.jpg',
       title: 'Blaze King',
       age: '3 Years',
@@ -17,12 +26,12 @@ const ImageSlider = () => {
       result: 'Latest Result: Winner - Horton Derby 2025'
     },
     {
-      id: 2,
+      id: 9,
       image: '/imageSlider1.jpg',
       title: 'Thunder Storm',
       age: '4 Years',
       details: 'Sire / Dam: Lightning Bolt x Royal Lady',
-      result: 'Latest Result: 2nd Place - Summer Stakes 2025'
+      result: '2nd Place - Summer Stakes 2025'
     },
     {
       id: 3,
@@ -30,7 +39,7 @@ const ImageSlider = () => {
       title: 'Midnight Runner',
       age: '5 Years',
       details: 'Sire / Dam: Dark Knight x Starlight',
-      result: 'Latest Result: Winner - Classic Cup 2025'
+      result: 'Winner - Classic Cup 2025'
     },
     {
       id: 4,
@@ -38,25 +47,33 @@ const ImageSlider = () => {
       title: 'Golden Arrow',
       age: '3 Years',
       details: 'Sire / Dam: Swift Wind x Golden Rose',
-      result: 'Latest Result: 3rd Place - Spring Derby 2025'
+      result: '3rd Place - Spring Derby 2025'
     }
   ];
+
+  const isMobile = () => {
+    if (typeof window === "undefined") return false;
+    return window.innerWidth <= 640;
+  };
 
   const goToSlide = (index: number) => {
     if (isAnimating) return;
     setIsAnimating(true);
     setCurrentIndex(index);
+    // setActiveIndex(index);
     setTimeout(() => setIsAnimating(false), 500);
   };
 
   const goToPrevious = () => {
     const newIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
     goToSlide(newIndex);
+    setActiveIndex((i) => (i + 1) % slides.length)
   };
 
   const goToNext = () => {
     const newIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
     goToSlide(newIndex);
+    setActiveIndex((i) => (i + 1) % slides.length)
   };
 
   const getSlidePosition = (index: number) => {
@@ -75,19 +92,25 @@ const ImageSlider = () => {
   const getSlideStyle = (index: number): React.CSSProperties => {
     const position = getSlidePosition(index);
     const isActive = position === 0;
+    const mobile = isMobile();
 
     return {
       transform: `
-        translateX(${position * 35}%) 
-        translateZ(${-Math.abs(position) * 200}px) 
-        scale(${isActive ? 1 : 0.8 - Math.abs(position) * 0.1})
-      `,
-      opacity: Math.abs(position) > 2 ? 0 : 1 - Math.abs(position) * 0.2,
+      translateX(${mobile ? position * 10 : position * 56}%)
+      translateZ(${mobile ? -Math.abs(position) * 40 : -Math.abs(position) * 70}px)
+      scale(${mobile
+          ? (isActive ? 1 : 0.95 - Math.abs(position) * 0.05)
+          : (isActive ? 1 : 0.9 - Math.abs(position) * 0.1)
+        })
+    `,
+      opacity: 1,
+      filter: isActive ? "brightness(1)" : "brightness(0.4)",
       zIndex: 10 - Math.abs(position),
-      transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-      pointerEvents: isActive ? 'auto' : 'none'
+      transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+      pointerEvents: isActive ? "auto" : "none",
     };
   };
+
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -100,15 +123,18 @@ const ImageSlider = () => {
 
   return (
     <div className="relative w-full min-h-screen  py-20 px-4 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
-        <SectionHeader
-          title="Our Horses"
-          subtitle="Discover the pride of Vahala Racing — elite thoroughbreds trained for excellence, speed, and legacy."
-          buttonText="See our Horses"
-          buttonVariant="secondary"
-        />
-        <div className='mx-auto w-full mt-16'>
-          <p className='mt-8 w-1/2 mx-auto'>Meet the champions behind Vahala’s success. Each horse represents a story of strength, dedication, and world-class performance. Explore our racing stars through an elegant grid or carousel showcasing their key details — from bloodline to recent victories. Built for credibility, this section celebrates the talent and tradition that define Vahala Racing.</p>
+      <div className=" mx-12">
+        <div>
+          <SectionHeader
+            title="Our Horses"
+            subtitle="Discover the pride of Vahala Racing — elite thoroughbreds trained for excellence, speed, and legacy."
+            buttonText="See our Horses"
+            buttonVariant="secondary"
+          />
+        </div>
+
+        <div className='mx-auto w-full mt-4'>
+          <p className='mt-8 2-full md:w-[70%] text-center mx-auto text-base font-normal'>Meet the champions behind <span className='text-primary'>Vahala’s</span> success. Each horse represents a story of strength, dedication, and world-class performance. Explore our racing stars through an elegant grid or carousel showcasing their key details — from bloodline to recent victories. <span className='italic font-medium'>Built for credibility, this section celebrates the talent and tradition that define </span> <span className='text-primary'> Vahala Racing.</span></p>
         </div>
 
 
@@ -121,7 +147,7 @@ const ImageSlider = () => {
             {slides.map((slide, index) => (
               <div
                 key={slide.id}
-                className="absolute w-[350px] md:w-[450px]"
+                className="absolute w-[300px] md:w-[396px]"
                 style={getSlideStyle(index)}
               >
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
@@ -132,26 +158,38 @@ const ImageSlider = () => {
                   />
 
                   {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                  <div className="absolute inset-0 bg-linear-to-b from-black/50 via-white/10 to-black/50"></div>
 
-                  <div className="  mb-3 inline-block absolute top-0 m-5 w-full ">
-                    <div className='flex justify-between items-center w-4/5'>
-                      <div className=" text-white text-xs px-3 py-1 ">
-                        <span className='border border-primary rounded-full px-3 py-3' >See Our Horses</span>
-                      </div>
-                      <div className="">
-                        <div className="w-12 h-12 rounded-full bg-primary border-2 border-primary"></div>
+                  {index === activeIndex && (
+                    <div className="  mb-3 inline-block absolute top-3 m-5 w-full ">
+                      <div className='flex justify-between items-center w-4/5'>
+                        <div className=" text-white text-xs px-3 py-0 ">
+                          <span className='border border-primary rounded-full px-3 py-2' >See Our Horses</span>
+                        </div>
+                        <div className="relative -right-8">
+                          <div className="">
+                            <button
+                              onClick={goToNext}
+                              disabled={isAnimating}
+                              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-primary hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed rounded-full flex items-center justify-center text-white shadow-lg transition-all duration-300 hover:scale-110"
+                            ><ChevronRight size={24} /></button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  {/* Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  )}
+                  {index === activeIndex && (
+                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                      <h2 className="text-3xl md:text-4xl font-semibold mb-2">{slide.title}</h2>
+                      <p className="text-base font-light"><span>Age: </span>{slide.age}</p>
+                      <p className="text-base font-light"><span>Sire / Dam: </span>{slide.details}</p>
+                      <p className="text-base font-light"><span>Career: </span> {slide.result}</p>
+                    </div>
+                  )}
 
-                    <h2 className="text-3xl md:text-4xl font-bold mb-2">{slide.title}</h2>
-                    <p className=" text-sm mb-1">{slide.age}</p>
-                    <p className="text-gray-300 text-sm mb-1">{slide.details}</p>
-                    <p className="text-gray-400 text-xs italic">{slide.result}</p>
-                  </div>
+
+                  {/* Content */}
+
                 </div>
               </div>
             ))}
@@ -161,7 +199,7 @@ const ImageSlider = () => {
           <button
             onClick={goToPrevious}
             disabled={isAnimating}
-            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-primary hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed rounded-full flex items-center justify-center text-white shadow-lg transition-all duration-300 hover:scale-110"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-primary hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed rounded-full flex items-center justify-center text-white shadow-lg transition-all duration-300 hover:scale-110"
           >
             <ChevronLeft size={24} />
           </button>
@@ -169,22 +207,22 @@ const ImageSlider = () => {
           <button
             onClick={goToNext}
             disabled={isAnimating}
-            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-primary hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed rounded-full flex items-center justify-center text-white shadow-lg transition-all duration-300 hover:scale-110"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-primary hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed rounded-full flex items-center justify-center text-white shadow-lg transition-all duration-300 hover:scale-110"
           >
             <ChevronRight size={24} />
           </button>
         </div>
 
         {/* Pagination Dots */}
-        <div className="flex justify-center gap-2 mt-8">
+        <div className="flex justify-center gap-2">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
               disabled={isAnimating}
               className={`w-2 h-2 rounded-full transition-all duration-300 ${currentIndex === index
-                ? 'bg-primary w-8'
-                : 'bg-white/50 hover:bg-white/80'
+                ? 'bg-primary'
+                : 'bg-gray-300'
                 }`}
               aria-label={`Go to slide ${index + 1}`}
             />
