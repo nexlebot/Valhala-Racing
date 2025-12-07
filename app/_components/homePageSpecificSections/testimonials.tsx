@@ -1,6 +1,4 @@
 // Testimonials.jsx
-import React from "react";
-import { Quote } from "lucide-react";
 import Image from "next/image";
 import SectionHeader from "../sectionHeader";
 
