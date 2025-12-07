@@ -76,9 +76,7 @@ const TestimonialCard = ({ item }: { item: Testimonial }) => (
   <figure className="break-inside-avoid mb-6 p-6 bg-[#FCFFFB] border-[#1ADB0480] rounded-2xl shadow-sm">
     <blockquote className="text-gray-700 text-sm leading-relaxed mb-4">
       <p className="relative">
-        <span className="text-[#1ADB04] text-xl font-bold">"</span>
-        <span>{item.text}</span>
-        <span className="text-[#1ADB04] text-xl font-bold">"</span>
+        &ldquo;{item.text}&rdquo;
       </p>
     </blockquote>
 
