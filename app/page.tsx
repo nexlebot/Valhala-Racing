@@ -1,4 +1,4 @@
-import HeroSection from "./_components/heroBanner"
+import HeroSection from "./_components/HeroSection"
 import ImageSlider from "./_components/homePageSpecificSections/imageSlider"
 import OwnerShipAndSyndication from "./_components/homePageSpecificSections/ownerShipAndSyndication"
 import RecentResultSection from "./_components/homePageSpecificSections/recentResultSection"

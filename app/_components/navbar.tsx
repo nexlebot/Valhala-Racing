@@ -26,7 +26,7 @@ export default function Navbar({
     navItems = [
         { label: "Home", href: "/" },
         { label: "Ownership", href: "/ownership" },
-        { label: "Upcoming Races", href: "/upcoming" },
+        { label: "Upcoming Races", href: "/upcoming-races" },
         { label: "Results", href: "/results" },
         { label: "Our Horses", href: "/our-horses" },
         { label: "Our Facilities", href: "/our-facilities" },
