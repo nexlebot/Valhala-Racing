@@ -7,7 +7,7 @@ import ContactForm from '../_components/ContactForm'
 
 const featuresData = [
     {
-        title: "Modern Stables Built for Comfort & Safety",
+        title: "Precision Training for Peak Performance",
         image: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=800&h=600&fit=crop",
         paragraphs: [
             "Our team of expert trainers and caring handlers brings years of experience in **professional racing**, **elite behavior**, and **performance development**. Each horse receives individualized attention, tailored training plans, and proven methods and technique. Daily grooming, conditioning exercises, and close monitoring help us adjust routines for the best results. With a perfect balance of discipline and compassion, our staff creates an environment where thoroughbreds feel supported, motivated, and ready to excel. At Vahala Racing, true champions are shaped through expert guidance and consistent dedication.",
@@ -28,34 +28,23 @@ const featuresData = [
 
 const page = () => {
     return (
-        <>
+        <div className='mx-12'>
             <Navbar hasBackgroundImage={false} />
             <PageIntro mainHeading="Our Facilities" intro="At Vahala Racing, we pride ourselves on our state-of-the-art facilities that provide the best environment for our horses to thrive. Our commitment to excellence is reflected in every aspect of our operations, from training to care."
                 blocks={[
                     {
-                        heading: "Cutting-Edge Training Facilities",
+                        heading: "Unmatched Care Beyond the Track",
                         paragraphs: [
-                            "Our training facilities are equipped with the latest technology and amenities to ensure our horses receive top-notch care and training. From advanced treadmills to spacious paddocks, we provide an environment that promotes health and performance."
+                            "At Valhalla Racing, our dedication extends far beyond performance. Every horse receives comprehensive care through advanced wellness programs, balanced nutrition, and constant monitoring tailored to its unique needs. From daily grooming routines to therapeutic treatments, our team ensures optimal physical and mental well-being. With unwavering attention and compassion, we create an environment where horses can recover, grow, and perform at their very best today and for every race ahead."
                         ]
                     },
-                    {
-                        heading: "Expert Care and Management",
-                        paragraphs: [
-                            "Our team of experienced professionals is dedicated to the well-being of our horses. From nutritionists to veterinarians, we have a comprehensive support system in place to ensure each horse receives personalized care tailored to their needs."
-                        ]
-                    },
-                    {
-                        heading: "A Commitment to Excellence",
-                        paragraphs: [
-                            "At Vahala Racing, our facilities are more than just buildings; they are a testament to our dedication to the sport of horse racing. We continuously invest in our infrastructure to provide the best possible environment for our horses and team."
-                        ]
-                    }
+
                 ]} />
 
             <StablesFeatures features={featuresData} />
 
             <ContactForm />
-        </>
+        </div>
     )
 }
 

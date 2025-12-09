@@ -20,15 +20,15 @@ export default function StatsComponent() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
+        <div className="lg:my-14">
             <div
-                className="px-6 py-3 font-semibold text-lg"
+                className="font-semibold text-3xl mb-4"
                 style={{ color: '#1ADB04' }}
             >
                 Season / Career Stats
             </div>
             <div
-                className="rounded-lg overflow-hidden"
+                className="rounded-xl overflow-hidden"
                 style={{
                     border: '2px solid #1ADB04',
                     background: '#1ADB0405'

@@ -9,6 +9,7 @@ interface HeroSectionProps {
     subtitle?: string;
     description: string;
     backgroundImage: string;
+    overlayColor?: string;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
@@ -16,6 +17,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     subtitle,
     description,
     backgroundImage,
+    overlayColor = "bg-black/45",
 }) => {
     return (
         <section className="relative min-h-[127vh] w-full overflow-hidden">
@@ -28,14 +30,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     className="object-cover object-top"
                     priority
                 />
-                <div className="absolute inset-0 bg-black/45" />
+                <div className={`absolute inset-0 ${overlayColor}`} />
             </div>
 
             {/* Content */}
             <div className="absolute bottom-0 w-full z-10 flex flex-col justify-center px-6 md:px-12">
                 <div className="">
                     <h1 className="max-w-2xl mb-4 text-4xl font-semibold italic leading-tight text-white md:text-5xl ">
-                        Own, Race, Win <span className='block'> The Vahala Racing Way </span>
+                        {title ? title : "Own, Race, Win <span className='block'> The Vahala Racing Way </span>"}
                     </h1>
 
                     <div className='m-auto max-w-6xl my-7 border-t border-white/30'>

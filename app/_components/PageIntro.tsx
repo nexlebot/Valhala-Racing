@@ -16,7 +16,7 @@ interface PageIntroProps {
 
 const PageIntro: React.FC<PageIntroProps> = ({ mainHeading, intro, blocks = [] }) => {
   return (
-    <div className="mt-28 lg:mt-44">
+    <div className="mt-28 lg:mt-36 lg:mb-14">
       {/* Main Header + First Paragraph */}
       <div>
         <h1 className="font-semibold text-4xl text-[#1ADB04]">{mainHeading}</h1>
@@ -37,7 +37,7 @@ const PageIntro: React.FC<PageIntroProps> = ({ mainHeading, intro, blocks = [] }
           {block.paragraphs?.map((text, idx) => (
             <p
               key={idx}
-              className={`${idx === 0 ? "mt-2" : "mt-2"} text-[#000000CC]`}
+              className={`${idx === 0 ? "mt-2" : "mt-1"} text-[#000000CC]`}
             >
               {text}
             </p>

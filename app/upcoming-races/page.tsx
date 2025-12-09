@@ -2,12 +2,14 @@ import React from 'react'
 import HeroSection from '../_components/HeroSection'
 import Navbar from '../_components/navbar'
 import MajorWins from '../_components/MajorWins'
+import UpComingRaceListView from '../_components/homePageSpecificSections/upComingRaceListView'
 
 const page = () => {
     return (
         <>
             <Navbar />
-            <HeroSection title="Own, Race, Win The Vahala Racing Way" description="Join a professional stable delivering high-performance horses, expert care, and exceptional ownership opportunities in   every race." backgroundImage="/heroImage.png" />
+            <HeroSection title="Ride the Excitement, Chase the Finish Line" description="Join us for upcoming races featuring elite horses, thrilling moments, and unforgettable experiences on the track." backgroundImage="/upcomingRaceHeroImage.png" overlayColor='bg-black/10' />
+            <UpComingRaceListView />
         </>
     )
 }

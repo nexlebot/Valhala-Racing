@@ -13,30 +13,30 @@ interface StablesFeaturesProps {
 
 export const StablesFeatures: React.FC<StablesFeaturesProps> = ({ features }) => {
     return (
-        <div className="w-full max-w-7xl mx-auto p-6 space-y-12">
+        <div className="w-full space-y-12">
             {features.map((feature, index) => {
-                const isReversed = index % 2 !== 0;
+                const isReversed = index % 2 !== 1;
 
                 return (
                     <div key={index} className="" style={{ borderColor: '#1ADB04' }}>
                         {/* Title */}
-                        <h2 className="text-3xl font-bold mb-8" style={{ color: '#1ADB04' }}>
+                        <h2 className="text-3xl font-semibold mb-8" style={{ color: '#1ADB04' }}>
                             {feature.title}
                         </h2>
 
                         {/* Content Section */}
                         <div className={`flex flex-col ${isReversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-8 items-center`}>
                             {/* Image */}
-                            <div className="w-full lg:w-1/2">
+                            <div className="w-full max-w-[600px] ">
                                 <img
                                     src={feature.image}
                                     alt={feature.title}
-                                    className="w-full h-auto rounded-lg shadow-lg object-cover"
+                                    className=" w-full h-auto rounded-lg shadow-lg object-cover"
                                 />
                             </div>
 
                             {/* Text Content */}
-                            <div className="w-full lg:w-1/2 space-y-4">
+                            <div className="w-full space-y-4">
                                 {feature.paragraphs.map((paragraph, pIndex) => (
                                     <p key={pIndex} className="text-gray-700 leading-relaxed">
                                         {paragraph.split('**').map((part, i) =>

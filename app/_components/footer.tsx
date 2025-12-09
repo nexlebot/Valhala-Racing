@@ -20,7 +20,7 @@ const navLinks = [
 export default function Footer() {
     return (
         <div className="w-full bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="px-4 sm:px-6 lg:px-8">
                 {/* Top Section */}
                 <div className="flex items-center justify-between pb-6">
                     {/* Logo */}

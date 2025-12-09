@@ -14,7 +14,7 @@ interface LeftRightBlogProps {
 
 const LeftRightBlog = ({ blogPosts }: LeftRightBlogProps) => {
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+    <section className="px-4 sm:px-6 lg:px-8 py-16 space-y-16">
       {blogPosts.map((post, index) => {
         const isEven = index % 2 === 0;
 

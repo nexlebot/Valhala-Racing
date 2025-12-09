@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react';
+import Button from './Button';
 
 interface ContactFormData {
     name: string;
@@ -44,7 +45,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="flex justify-center p-4 py-20">
             <div className="w-full max-w-[1000px] bg-white rounded-2xl shadow-lg p-8 border-2" style={{ borderColor: '#1ADB04' }}>
                 <h2 className="text-3xl font-bold mb-3" style={{ color: '#1ADB04' }}>
                     Contact Us
@@ -146,13 +147,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
                     </div>
 
                     {/* Submit Button */}
-                    <button
-                        onClick={handleSubmit}
-                        className="w-full py-3 text-white font-bold rounded-full hover:opacity-90 transition-opacity shadow-md text-sm uppercase tracking-wide"
-                        style={{ backgroundColor: '#1ADB04' }}
-                    >
+                    <Button type="button" variant="primary" onClick={handleSubmit}>
                         Send
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>
