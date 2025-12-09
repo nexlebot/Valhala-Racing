@@ -1,6 +1,7 @@
 import React from 'react'
 import HeroSection from '../_components/HeroSection'
 import Navbar from '../_components/navbar'
+import MajorWins from '../_components/MajorWins'
 
 const page = () => {
     return (

@@ -1,0 +1,162 @@
+"use client";
+import React, { useState } from 'react';
+
+interface ContactFormData {
+    name: string;
+    email: string;
+    phone: string;
+    message: string;
+}
+
+interface ContactFormProps {
+    onSubmit?: (data: ContactFormData) => void;
+}
+
+const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
+    const [formData, setFormData] = useState<ContactFormData>({
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (onSubmit) {
+            onSubmit(formData);
+        }
+        console.log('Form submitted:', formData);
+        // Reset form after submission
+        setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            message: ''
+        });
+    };
+
+    return (
+        <div className="min-h-screen flex items-center justify-center p-4">
+            <div className="w-full max-w-[1000px] bg-white rounded-2xl shadow-lg p-8 border-2" style={{ borderColor: '#1ADB04' }}>
+                <h2 className="text-3xl font-bold mb-3" style={{ color: '#1ADB04' }}>
+                    Contact Us
+                </h2>
+
+                <p className="text-gray-600 text-sm mb-6 leading-relaxed">
+                    Whether you have questions about our upcoming events, racing schedule, memberships, or
+                    sponsorship opportunities — the Vahala Horse Racing team is ready to assist you.
+                </p>
+
+                <div className="space-y-4">
+                    {/* Name Field */}
+                    <div className="relative">
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                            placeholder=" "
+                            className="flex w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition-all peer"
+                            onFocus={(e) => e.target.style.borderColor = '#1ADB04'}
+                            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                        />
+                        <label
+                            htmlFor="name"
+                            className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-focus:text-xs peer-focus:-top-2 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
+                            style={{ color: '#6b7280' }}
+                        >
+                            Name <span className="text-red-500">*</span>
+                        </label>
+                    </div>
+
+                    {/* Email Field */}
+                    <div className="relative">
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                            placeholder=" "
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition-all peer"
+                            onFocus={(e) => e.target.style.borderColor = '#1ADB04'}
+                            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                        />
+                        <label
+                            htmlFor="email"
+                            className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-focus:text-xs peer-focus:-top-2 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
+                        >
+                            Email <span className="text-red-500">*</span>
+                        </label>
+                    </div>
+
+                    {/* Phone Number Field */}
+                    <div className="relative">
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            required
+                            placeholder=" "
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition-all peer"
+                            onFocus={(e) => e.target.style.borderColor = '#1ADB04'}
+                            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                        />
+                        <label
+                            htmlFor="phone"
+                            className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-focus:text-xs peer-focus:-top-2 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
+                        >
+                            Phone number <span className="text-red-500">*</span>
+                        </label>
+                    </div>
+
+                    {/* Message Field */}
+                    <div className="relative">
+                        <textarea
+                            id="message"
+                            name="message"
+                            value={formData.message}
+                            onChange={handleChange}
+                            required
+                            placeholder=" "
+                            rows={4}
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition-all resize-none peer"
+                            onFocus={(e) => e.target.style.borderColor = '#1ADB04'}
+                            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                        />
+                        <label
+                            htmlFor="message"
+                            className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-focus:text-xs peer-focus:-top-2 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
+                        >
+                            Message <span className="text-red-500">*</span>
+                        </label>
+                    </div>
+
+                    {/* Submit Button */}
+                    <button
+                        onClick={handleSubmit}
+                        className="w-full py-3 text-white font-bold rounded-full hover:opacity-90 transition-opacity shadow-md text-sm uppercase tracking-wide"
+                        style={{ backgroundColor: '#1ADB04' }}
+                    >
+                        Send
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default ContactForm;
