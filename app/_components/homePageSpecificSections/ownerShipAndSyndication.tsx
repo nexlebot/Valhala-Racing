@@ -3,11 +3,11 @@ import Button from '../Button'
 
 const OwnerShipAndSyndication = () => {
     return (
-        <div className='mt-10 mx-6 lg:mx-12'>
+        <div className='mx-6 lg:mx-12'>
             <SectionHeader
                 title="Ownership & Syndication"
                 subtitle="Partner with us – own your share of a racehorse with Vahala Racing."
-                buttonText='See about ownership'
+                buttonText='See ownership'
                 buttonVariant='secondary'
             />
             <section className="max-w-3xl mx-auto px-6 text-center relative">

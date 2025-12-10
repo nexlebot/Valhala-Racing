@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export const RecentResults = () => {
   return (
-    <section className="mx-6 lg:mx-12 py-8 lg:py-14">
+    <section className="mx-6 lg:mx-12 lg:pb-14">
       <SectionHeader
         title="Recent Results"
         subtitle="Explore the latest race winners and their moments of glory."

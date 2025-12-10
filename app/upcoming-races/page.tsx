@@ -6,11 +6,13 @@ import UpComingRaceListView from '../_components/homePageSpecificSections/upComi
 
 const page = () => {
     return (
-        <>
+        <div className=''>
             <Navbar />
             <HeroSection title="Ride the Excitement, Chase the Finish Line" description="Join us for upcoming races featuring elite horses, thrilling moments, and unforgettable experiences on the track." backgroundImage="/upcomingRaceHeroImage.png" overlayColor='bg-black/10' />
-            <UpComingRaceListView />
-        </>
+            <div className="mx-6 lg:mx-12">
+                <UpComingRaceListView />
+            </div>
+        </div>
     )
 }
 

@@ -17,9 +17,9 @@ function Button({ label, type = "button", variant = "primary", className = "" }:
     const variants: Record<"primary", string> = {
         primary: "bg-[#1ADB04] text-white hover:bg-[#17c003]",
     };
-    
+
     return (
-        <button 
+        <button
             type={type}
             className={`${baseStyles} ${variants[variant]} ${className}`}
         >
@@ -88,7 +88,7 @@ export default function NewsletterSubscribe() {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Name"
-                            className="text-sm lg:text-base flex-1 min-w-0 px-4 py-2 rounded-lg border border-[#1ADB04] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#1ADB04]"
+                            className="text-sm  flex-1 min-w-0 px-4 py-2 rounded-lg border border-[#19db0471] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#19db046e] bg-white"
                         />
 
                         <label htmlFor="newsletter-email" className="sr-only">
@@ -100,14 +100,14 @@ export default function NewsletterSubscribe() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Email"
-                            className="text-sm lg:text-base flex-1 min-w-0 px-4 py-2 rounded-lg border border-[#1ADB04] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#1ADB04]"
+                            className="text-sm  flex-1 min-w-0 px-4 py-2 rounded-lg border border-[#19db0471] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#19db046e] bg-white"
                         />
 
-                        <Button 
-                            label="Subscribe Now" 
-                            type="submit" 
-                            variant="primary" 
-                            className="px-10 sm:w-auto w-full" 
+                        <Button
+                            label="Subscribe Now"
+                            type="submit"
+                            variant="primary"
+                            className="px-10 sm:w-auto rounded-full! w-full"
                         />
                     </form>
 

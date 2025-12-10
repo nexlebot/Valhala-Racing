@@ -27,3 +27,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-poppins), sans-serif;
 }
+
+.font-roboto {
+  font-family: var(--font-roboto);
+}

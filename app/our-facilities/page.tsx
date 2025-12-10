@@ -42,8 +42,9 @@ const page = () => {
                 ]} />
 
             <StablesFeatures features={featuresData} />
-
-            <ContactForm />
+            <div className='py-14'>
+                <ContactForm />
+            </div>
         </div>
     )
 }

@@ -93,12 +93,12 @@ const TestimonialCard = ({ item }: { item: Testimonial }) => (
 
 const Testimonials = () => {
   return (
-    <section className="mx-6 lg:mx-12 mt-16 ">
+    <section className="mx-6 lg:mx-12 lg:py-14 ">
       {/* <h2 className="sr-only">Testimonials</h2> */}
       <SectionHeader
         title="Testimonials & Highlights"
         subtitle="Hear from our partners and discover the champions who define Vahala Racing."
-        buttonText="See Our Success Story"
+        buttonText="Success Story"
         buttonVariant="secondary"
       />
 

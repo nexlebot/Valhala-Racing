@@ -152,7 +152,7 @@ const ImageSlider = () => {
   }, [currentIndex]);
 
   return (
-    <div className="relative w-full lg:py-16 lg:px-4 overflow-hidden">
+    <div className="relative w-full lg:pb-16 lg:px-4 overflow-hidden">
       <div className="mx-6 lg:mx-12">
         <div>
           <SectionHeader

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react';
+import Button from './Button';
 
 interface ContactFormData {
     name: string;
@@ -11,28 +12,6 @@ interface ContactFormData {
 interface ContactFormProps {
     onSubmit?: (data: ContactFormData) => void;
 }
-
-const Button: React.FC<{
-    type?: 'button' | 'submit' | 'reset';
-    variant?: 'primary' | 'secondary';
-    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    children: React.ReactNode;
-}> = ({ type = 'button', variant = 'primary', onClick, children }) => {
-    const baseStyles = "px-3 py-2 lg:px-6 lg:py-3 rounded-lg font-semibold transition-all duration-300";
-    const variantStyles = variant === 'primary'
-        ? "bg-[#1ADB04] text-white hover:bg-[#17c003] active:scale-95"
-        : "bg-gray-200 text-gray-800 hover:bg-gray-300";
-
-    return (
-        <button
-            type={type}
-            onClick={onClick}
-            className={`${baseStyles} ${variantStyles}`}
-        >
-            {children}
-        </button>
-    );
-};
 
 const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
     const [formData, setFormData] = useState<ContactFormData>({
@@ -66,13 +45,13 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
     };
 
     return (
-        <div className="flex justify-center py-12">
-            <div className="w-full max-w-[1000px] bg-white rounded-2xl shadow-lg p-4 lg:p-8 border-2" style={{ borderColor: '#1ADB04' }}>
+        <div className="flex justify-center ">
+            <div className="w-full max-w-[1000px] border border-[#19db043d] bg-white rounded-2xl shadow-lg shadow-[#19db045e] p-4 lg:p-8">
                 <h2 className="text-2xl lg:text-3xl font-bold mb-3" style={{ color: '#1ADB04' }}>
                     Contact Us
                 </h2>
 
-                <p className="text-gray-600 text-sm mb-6 leading-relaxed">
+                <p className="max-w-2xl text-gray-600 text-sm mb-6 leading-relaxed">
                     Whether you have questions about our upcoming events, racing schedule, memberships, or
                     sponsorship opportunities — the Vahala Horse Racing team is ready to assist you.
                 </p>
@@ -168,9 +147,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
                     </div>
 
                     {/* Submit Button */}
-                    <Button type="button" variant="primary" onClick={handleSubmit}>
-                        Send
-                    </Button>
+                    <Button type="button" label='Send' variant="primary" onClick={handleSubmit} className="px-14! uppercase text-base!" />
+
                 </div>
             </div>
         </div>
