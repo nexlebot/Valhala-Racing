@@ -20,80 +20,81 @@ export default function StatsComponent() {
     };
 
     return (
-        <div className="lg:my-14">
+        <div className="lg:my-14 my-6">
             <div
-                className="font-semibold text-3xl mb-4"
+                className="font-semibold text-xl lg:text-3xl mb-4"
                 style={{ color: '#1ADB04' }}
             >
                 Season / Career Stats
             </div>
             <div
-                className="rounded-xl overflow-hidden"
+                className="rounded-xl"
                 style={{
                     border: '2px solid #1ADB04',
                     background: '#1ADB0405'
                 }}
             >
-                {/* Header */}
+                <div className="overflow-x-auto">
+                    <div style={{ minWidth: '700px' }}>
+                        {/* Season Stats Section */}
+                        <div className="px-6 py-4">
+                            <h3 className="font-semibold text-gray-800 mb-3">
+                                Season Stats (2025/2026)
+                            </h3>
 
+                            <div className="grid grid-cols-7 gap-4 mb-2">
+                                <div className="text-sm font-medium text-gray-600">Overview</div>
+                                <div className="text-sm font-medium text-gray-600">1st Up</div>
+                                <div className="text-sm font-medium text-gray-600">2nd Up</div>
+                                <div className="text-sm font-medium text-gray-600">Firm</div>
+                                <div className="text-sm font-medium text-gray-600">Good</div>
+                                <div className="text-sm font-medium text-gray-600">Soft</div>
+                                <div className="text-sm font-medium text-gray-600">Heavy</div>
+                            </div>
 
-                {/* Season Stats Section */}
-                <div className="px-6 py-4">
-                    <h3 className="font-semibold text-gray-800 mb-3">
-                        Season Stats (2025/2026)
-                    </h3>
+                            <div className="grid grid-cols-7 gap-4">
+                                <div className="text-sm text-gray-800">{seasonStats.overview}</div>
+                                <div className="text-sm text-gray-800">{seasonStats['1stUp']}</div>
+                                <div className="text-sm text-gray-800">{seasonStats['2ndUp']}</div>
+                                <div className="text-sm text-gray-800">{seasonStats.firm}</div>
+                                <div className="text-sm text-gray-800">{seasonStats.good}</div>
+                                <div className="text-sm text-gray-800">{seasonStats.soft}</div>
+                                <div className="text-sm text-gray-800">{seasonStats.heavy}</div>
+                            </div>
+                        </div>
 
-                    <div className="grid grid-cols-7 gap-4 mb-2">
-                        <div className="text-sm font-medium text-gray-600">Overview</div>
-                        <div className="text-sm font-medium text-gray-600">1st Up</div>
-                        <div className="text-sm font-medium text-gray-600">2nd Up</div>
-                        <div className="text-sm font-medium text-gray-600">Firm</div>
-                        <div className="text-sm font-medium text-gray-600">Good</div>
-                        <div className="text-sm font-medium text-gray-600">Soft</div>
-                        <div className="text-sm font-medium text-gray-600">Heavy</div>
-                    </div>
+                        {/* Divider */}
+                        <div
+                            className="h-px mx-6"
+                            style={{ backgroundColor: '#1ADB0420' }}
+                        ></div>
 
-                    <div className="grid grid-cols-7 gap-4">
-                        <div className="text-sm text-gray-800">{seasonStats.overview}</div>
-                        <div className="text-sm text-gray-800">{seasonStats['1stUp']}</div>
-                        <div className="text-sm text-gray-800">{seasonStats['2ndUp']}</div>
-                        <div className="text-sm text-gray-800">{seasonStats.firm}</div>
-                        <div className="text-sm text-gray-800">{seasonStats.good}</div>
-                        <div className="text-sm text-gray-800">{seasonStats.soft}</div>
-                        <div className="text-sm text-gray-800">{seasonStats.heavy}</div>
-                    </div>
-                </div>
+                        {/* Career Form Section */}
+                        <div className="px-6 py-4">
+                            <h3 className="font-semibold text-gray-800 mb-3">
+                                Career Form
+                            </h3>
 
-                {/* Divider */}
-                <div
-                    className="h-px mx-6"
-                    style={{ backgroundColor: '#1ADB0420' }}
-                ></div>
+                            <div className="grid grid-cols-7 gap-4 mb-2">
+                                <div className="text-sm font-medium text-gray-600">Overview</div>
+                                <div className="text-sm font-medium text-gray-600">1st Up</div>
+                                <div className="text-sm font-medium text-gray-600">2nd Up</div>
+                                <div className="text-sm font-medium text-gray-600">Firm</div>
+                                <div className="text-sm font-medium text-gray-600">Good</div>
+                                <div className="text-sm font-medium text-gray-600">Soft</div>
+                                <div className="text-sm font-medium text-gray-600">Heavy</div>
+                            </div>
 
-                {/* Career Form Section */}
-                <div className="px-6 py-4">
-                    <h3 className="font-semibold text-gray-800 mb-3">
-                        Career Form
-                    </h3>
-
-                    <div className="grid grid-cols-7 gap-4 mb-2">
-                        <div className="text-sm font-medium text-gray-600">Overview</div>
-                        <div className="text-sm font-medium text-gray-600">1st Up</div>
-                        <div className="text-sm font-medium text-gray-600">2nd Up</div>
-                        <div className="text-sm font-medium text-gray-600">Firm</div>
-                        <div className="text-sm font-medium text-gray-600">Good</div>
-                        <div className="text-sm font-medium text-gray-600">Soft</div>
-                        <div className="text-sm font-medium text-gray-600">Heavy</div>
-                    </div>
-
-                    <div className="grid grid-cols-7 gap-4">
-                        <div className="text-sm text-gray-800">{careerStats.overview}</div>
-                        <div className="text-sm text-gray-800">{careerStats['1stUp']}</div>
-                        <div className="text-sm text-gray-800">{careerStats['2ndUp']}</div>
-                        <div className="text-sm text-gray-800">{careerStats.firm}</div>
-                        <div className="text-sm text-gray-800">{careerStats.good}</div>
-                        <div className="text-sm text-gray-800">{careerStats.soft}</div>
-                        <div className="text-sm text-gray-800">{careerStats.heavy}</div>
+                            <div className="grid grid-cols-7 gap-4">
+                                <div className="text-sm text-gray-800">{careerStats.overview}</div>
+                                <div className="text-sm text-gray-800">{careerStats['1stUp']}</div>
+                                <div className="text-sm text-gray-800">{careerStats['2ndUp']}</div>
+                                <div className="text-sm text-gray-800">{careerStats.firm}</div>
+                                <div className="text-sm text-gray-800">{careerStats.good}</div>
+                                <div className="text-sm text-gray-800">{careerStats.soft}</div>
+                                <div className="text-sm text-gray-800">{careerStats.heavy}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

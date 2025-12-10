@@ -18,11 +18,11 @@ const items: RaceItem[] = [
 
 export default function UpComingRaceListView() {
     return (
-        <section className="py-14 mx-12">
+        <section className="py-14 mx-6 lg:mx-12">
             <SectionHeader
                 title="Upcoming Races"
                 subtitle="Stay ahead of the action — explore the latest horse racing events happening soon across Australia."
-                buttonText="View all races"
+                buttonText="View races"
                 buttonVariant="secondary"
             />
             <div className="space-y-8">

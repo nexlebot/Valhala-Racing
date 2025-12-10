@@ -152,7 +152,7 @@ const data = {
 
 const Page = () => {
     return (
-        <div className='mx-12'>
+        <div className='mx-6 lg:mx-12'>
             <Navbar hasBackgroundImage={false} />
             <PageIntro {...data} />
             <HorseGallery images={sampleHorses} />

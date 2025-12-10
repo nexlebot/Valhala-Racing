@@ -20,7 +20,7 @@ export const StablesFeatures: React.FC<StablesFeaturesProps> = ({ features }) =>
                 return (
                     <div key={index} className="" style={{ borderColor: '#1ADB04' }}>
                         {/* Title */}
-                        <h2 className="text-3xl font-semibold mb-8" style={{ color: '#1ADB04' }}>
+                        <h2 className="text- lg:text-3xl font-semibold mb-8" style={{ color: '#1ADB04' }}>
                             {feature.title}
                         </h2>
 
@@ -38,7 +38,7 @@ export const StablesFeatures: React.FC<StablesFeaturesProps> = ({ features }) =>
                             {/* Text Content */}
                             <div className="w-full space-y-4">
                                 {feature.paragraphs.map((paragraph, pIndex) => (
-                                    <p key={pIndex} className="text-gray-700 leading-relaxed">
+                                    <p key={pIndex} className="text-gray-700 leading-relaxed text-sm lg:text-base">
                                         {paragraph.split('**').map((part, i) =>
                                             i % 2 === 1 ? (
                                                 <span key={i} style={{ color: '#1ADB04' }} className="font-semibold">
@@ -52,7 +52,7 @@ export const StablesFeatures: React.FC<StablesFeaturesProps> = ({ features }) =>
                                 {/* Button */}
                                 {feature.buttonText && (
                                     <button
-                                        className="mt-6 px-8 py-3 text-white font-semibold rounded-full hover:opacity-90 transition-opacity shadow-md"
+                                        className="text-xs lg:text-base mt-6 px-3 py-2 lg:px-8 lg:py-3 text-white font-semibold rounded-full hover:opacity-90 transition-opacity shadow-md"
                                         style={{ backgroundColor: '#1ADB04' }}
                                     >
                                         {feature.buttonText}

@@ -53,21 +53,21 @@ export default function ImageSlider() {
     };
 
     return (
-        <div className="flex justify-center">
-            <div className="flex items-center justify-center gap-24 w-full">
+        <div className="flex justify-center mt-4">
+            <div className="flex items-center justify-center gap-4 lg:gap-24 w-full">
                 {/* Left Button - Outside */}
                 <button
                     onClick={goToPrevious}
                     disabled={isTransitioning}
-                    className="shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="shrink-0 w-8 h-8 lg:w-12 lg:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     style={{ backgroundColor: '#1ADB04' }}
                     aria-label="Previous slide"
                 >
-                    <ChevronLeft className="w-6 h-6 text-white" strokeWidth={3} />
+                    <ChevronLeft className="w-4 h-4 text-white" strokeWidth={3} />
                 </button>
 
                 {/* Slider Container */}
-                <div className="relative flex-1 max-w-3xl max-h-[575px]">
+                <div className="relative flex-1 w-full max-w-3xl max-h-[575px]">
                     {/* Image with transition */}
                     <div className="relative overflow-hidden rounded-lg shadow-lg bg-white aspect-[4/3]">
                         <img
@@ -100,11 +100,11 @@ export default function ImageSlider() {
                 <button
                     onClick={goToNext}
                     disabled={isTransitioning}
-                    className="shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="shrink-0 w-8 h-8 lg:w-12 lg:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     style={{ backgroundColor: '#1ADB04' }}
                     aria-label="Next slide"
                 >
-                    <ChevronRight className="w-6 h-6 text-white" strokeWidth={3} />
+                    <ChevronRight className="w-4 h-4 text-white" strokeWidth={3} />
                 </button>
             </div>
         </div>

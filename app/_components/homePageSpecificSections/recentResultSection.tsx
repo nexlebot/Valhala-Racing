@@ -10,7 +10,7 @@ export const RecentResults = () => {
       <SectionHeader
         title="Recent Results"
         subtitle="Explore the latest race winners and their moments of glory."
-        buttonText="See full results"
+        buttonText="See results"
         buttonVariant="secondary"
       />
 

@@ -1,16 +1,38 @@
 "use client"
 // NewsletterSubscribe.jsx
 import React, { useState } from "react";
-import Button from "./Button";
 
 type Status = "success" | "error" | null;
 
+interface ButtonProps {
+    label: string;
+    type?: "button" | "submit" | "reset";
+    variant?: "primary";
+    className?: string;
+}
+
+// Simple Button component
+function Button({ label, type = "button", variant = "primary", className = "" }: ButtonProps) {
+    const baseStyles = "px-6 py-2 rounded-lg font-medium transition-colors";
+    const variants: Record<"primary", string> = {
+        primary: "bg-[#1ADB04] text-white hover:bg-[#17c003]",
+    };
+    
+    return (
+        <button 
+            type={type}
+            className={`${baseStyles} ${variants[variant]} ${className}`}
+        >
+            {label}
+        </button>
+    );
+}
 
 export default function NewsletterSubscribe() {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [status, setStatus] = useState<Status>(null); // <-- typed as union
-    const [errorMsg, setErrorMsg] = useState("");
+    const [name, setName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [status, setStatus] = useState<Status>(null);
+    const [errorMsg, setErrorMsg] = useState<string>("");
 
     const validateEmail = (value: string): boolean =>
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).toLowerCase());
@@ -40,21 +62,21 @@ export default function NewsletterSubscribe() {
     };
 
     return (
-        <section className="max-w-5xl lg:mx-auto mx-6 pb-10 lg:pb-14">
-            <div className="flex rounded-2xl border border-[#1ADB04] p-6 lg:p-8 bg-[#1ADB0405]">
+        <section className="w-full max-w-5xl mx-auto px-6 pb-10 lg:pb-14">
+            <div className="rounded-2xl border border-[#1ADB04] p-6 lg:p-8 bg-[#1ADB0405]">
                 <div className="flex flex-col gap-5">
                     <div className="flex-1 min-w-0">
                         <h2 className="text-xl lg:text-3xl font-semibold text-[#1ADB04] tracking-tight leading-tight">
                             Stay Updated on Our Runners
                         </h2>
-                        <p className="text-sm lg:text-base mt-2  text-[#000000CC]">
+                        <p className="text-sm lg:text-base mt-2 text-[#000000CC]">
                             Join our mailing list to get the latest race updates, results, and exclusive insights from the Valhalla Racing team.
                         </p>
                     </div>
 
                     <form
                         onSubmit={handleSubmit}
-                        className="w-full lg:w-auto flex flex-col sm:flex-row items-stretch gap-3"
+                        className="w-full flex flex-col sm:flex-row items-stretch gap-3"
                         aria-label="Subscribe to newsletter"
                     >
                         <label htmlFor="newsletter-name" className="sr-only">
@@ -81,17 +103,24 @@ export default function NewsletterSubscribe() {
                             className="text-sm lg:text-base flex-1 min-w-0 px-4 py-2 rounded-lg border border-[#1ADB04] placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#1ADB04]"
                         />
 
-                        <Button label="Subscribe Now" type="submit" variant="primary" className="px-10" />
+                        <Button 
+                            label="Subscribe Now" 
+                            type="submit" 
+                            variant="primary" 
+                            className="px-10 sm:w-auto w-full" 
+                        />
                     </form>
-                </div>
 
-                {/* Feedback row */}
-                <div className="mt-4">
-                    {status === "success" && (
-                        <p className="text-sm text-green-700">Thanks! You’re subscribed.</p>
-                    )}
-                    {status === "error" && (
-                        <p className="text-sm text-red-600">{errorMsg}</p>
+                    {/* Feedback row */}
+                    {status && (
+                        <div className="mt-0">
+                            {status === "success" && (
+                                <p className="text-sm text-green-700">Thanks! You're subscribed.</p>
+                            )}
+                            {status === "error" && (
+                                <p className="text-sm text-red-600">{errorMsg}</p>
+                            )}
+                        </div>
                     )}
                 </div>
             </div>

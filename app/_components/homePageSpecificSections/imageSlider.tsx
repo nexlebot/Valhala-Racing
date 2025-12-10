@@ -152,23 +152,23 @@ const ImageSlider = () => {
   }, [currentIndex]);
 
   return (
-    <div className="relative w-full min-h-screen  py-20 px-4 overflow-hidden">
-      <div className=" mx-12">
+    <div className="relative w-full lg:py-16 lg:px-4 overflow-hidden">
+      <div className="mx-6 lg:mx-12">
         <div>
           <SectionHeader
             title="Our Horses"
             subtitle="Discover the pride of Vahala Racing — elite thoroughbreds trained for excellence, speed, and legacy."
-            buttonText="See our Horses"
+            buttonText="See Horses"
             buttonVariant="secondary"
           />
         </div>
 
-        <div className='mx-auto w-full mt-4'>
-          <p className='mt-8 2-full md:w-[70%] text-center mx-auto text-base font-normal'>Meet the champions behind <span className='text-primary'>Vahala’s</span> success. Each horse represents a story of strength, dedication, and world-class performance. Explore our racing stars through an elegant grid or carousel showcasing their key details — from bloodline to recent victories. <span className='italic font-medium'>Built for credibility, this section celebrates the talent and tradition that define </span> <span className='text-primary'> Vahala Racing.</span></p>
+        <div className='mx-auto w-full mt-1 lg:mt-4'>
+          <p className='mt-0 lg:mt-8 2-full md:w-[70%] text-center mx-auto text-sm lg:text-base font-normal'>Meet the champions behind <span className='text-primary'>Vahala’s</span> success. Each horse represents a story of strength, dedication, and world-class performance. Explore our racing stars through an elegant grid or carousel showcasing their key details — from bloodline to recent victories. <span className='italic font-medium'>Built for credibility, this section celebrates the talent and tradition that define </span> <span className='text-primary'> Vahala Racing.</span></p>
         </div>
 
 
-        <div className="relative h-[700px] flex items-center justify-center">
+        <div className="relative h-[500px] lg:h-[700px] flex items-center justify-center">
           {/* Slider Container */}
           <div
             className="relative w-full h-full flex items-center justify-center"
@@ -177,14 +177,14 @@ const ImageSlider = () => {
             {slides.map((slide, index) => (
               <div
                 key={slide.id}
-                className="absolute w-[300px] md:w-[396px]"
+                className="absolute w-[250px] md:w-[396px]"
                 style={getSlideStyle(index)}
               >
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                   <img
                     src={slide.image}
                     alt={slide.title}
-                    className="w-full h-[500px] md:h-[600px] object-cover"
+                    className="w-full h-[400px] md:h-[600px] object-cover"
                   />
 
                   {/* Gradient Overlay */}

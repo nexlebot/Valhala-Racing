@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from 'react';
-import Button from './Button';
 
 interface ContactFormData {
     name: string;
@@ -12,6 +11,28 @@ interface ContactFormData {
 interface ContactFormProps {
     onSubmit?: (data: ContactFormData) => void;
 }
+
+const Button: React.FC<{
+    type?: 'button' | 'submit' | 'reset';
+    variant?: 'primary' | 'secondary';
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    children: React.ReactNode;
+}> = ({ type = 'button', variant = 'primary', onClick, children }) => {
+    const baseStyles = "px-3 py-2 lg:px-6 lg:py-3 rounded-lg font-semibold transition-all duration-300";
+    const variantStyles = variant === 'primary'
+        ? "bg-[#1ADB04] text-white hover:bg-[#17c003] active:scale-95"
+        : "bg-gray-200 text-gray-800 hover:bg-gray-300";
+
+    return (
+        <button
+            type={type}
+            onClick={onClick}
+            className={`${baseStyles} ${variantStyles}`}
+        >
+            {children}
+        </button>
+    );
+};
 
 const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
     const [formData, setFormData] = useState<ContactFormData>({
@@ -29,7 +50,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (onSubmit) {
             onSubmit(formData);
@@ -45,9 +66,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
     };
 
     return (
-        <div className="flex justify-center p-4 py-20">
-            <div className="w-full max-w-[1000px] bg-white rounded-2xl shadow-lg p-8 border-2" style={{ borderColor: '#1ADB04' }}>
-                <h2 className="text-3xl font-bold mb-3" style={{ color: '#1ADB04' }}>
+        <div className="flex justify-center py-12">
+            <div className="w-full max-w-[1000px] bg-white rounded-2xl shadow-lg p-4 lg:p-8 border-2" style={{ borderColor: '#1ADB04' }}>
+                <h2 className="text-2xl lg:text-3xl font-bold mb-3" style={{ color: '#1ADB04' }}>
                     Contact Us
                 </h2>
 
@@ -73,7 +94,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
                         />
                         <label
                             htmlFor="name"
-                            className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-focus:text-xs peer-focus:-top-2 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
+                            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm transition-all peer-focus:text-xs peer-focus:top-0 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
                             style={{ color: '#6b7280' }}
                         >
                             Name <span className="text-red-500">*</span>
@@ -96,7 +117,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
                         />
                         <label
                             htmlFor="email"
-                            className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-focus:text-xs peer-focus:-top-2 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
+                            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm transition-all peer-focus:text-xs peer-focus:top-0 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
                         >
                             Email <span className="text-red-500">*</span>
                         </label>
@@ -118,7 +139,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
                         />
                         <label
                             htmlFor="phone"
-                            className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-focus:text-xs peer-focus:-top-2 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
+                            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm transition-all peer-focus:text-xs peer-focus:top-0 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
                         >
                             Phone number <span className="text-red-500">*</span>
                         </label>
@@ -140,7 +161,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
                         />
                         <label
                             htmlFor="message"
-                            className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-focus:text-xs peer-focus:-top-2 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
+                            className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-focus:text-xs peer-focus:top-0 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
                         >
                             Message <span className="text-red-500">*</span>
                         </label>

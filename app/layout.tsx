@@ -27,8 +27,8 @@ export default function RootLayout({
       >
         {/* <nav><Navbar /></nav> */}
         {children}
-        <div><NewsLetter /></div>
-        <footer><Footer /></footer>
+        <NewsLetter />
+        <Footer />
       </body>
     </html>
   );

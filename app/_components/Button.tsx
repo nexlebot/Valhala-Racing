@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
     type = "button"
 }) => {
 
-    const baseStyle = "px-4 py-2 rounded-4xl font-medium transition duration-200 cursor-pointer text-center";
+    const baseStyle = "px-2 lg:px-4 py-2 rounded-4xl font-medium transition duration-200 cursor-pointer text-center";
 
     const variants = {
         primary: "bg-[#1ADB04] text-xs text-white hover:bg-[#7bb972] capitalize",

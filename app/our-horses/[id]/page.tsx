@@ -6,7 +6,7 @@ import PageIntro from '@/app/_components/PageIntro'
 
 const page = () => {
     return (
-        <div className='mx-12'>
+        <div className='mx-6 lg:mx-12'>
             <Navbar hasBackgroundImage={false} />
             <PageIntro mainHeading="Our Horses" intro='Champions bred with passion, trained for excellence.' />
             <Slider />

@@ -41,13 +41,13 @@ const HorseGallery: React.FC<HorseGalleryProps> = ({ images }) => {
                             {/* Top Actions */}
                             <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
                                 {/* Read More Button */}
-                                <button className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium hover:bg-white/30 transition-colors">
+                                <button className="flex items-center border border-[#1ADB04] gap-2 px-4 py-2 bg-transparent rounded-full text-white text-sm font-medium hover:bg-white/30 transition-colors">
                                     Read More
                                     <ArrowRight className="w-4 h-4" />
                                 </button>
 
                                 {/* Green Action Button */}
-                                <button className="w-10 h-10 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center transition-colors shadow-lg">
+                                <button className="w-10 h-10 bg-[#1ADB04] rounded-full flex items-center justify-center transition-colors shadow-lg">
                                     <ArrowRight className="w-5 h-5 text-white" />
                                 </button>
                             </div>

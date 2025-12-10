@@ -73,10 +73,10 @@ const Avatar = ({ image }: AvatarProps) => {
 
 
 const TestimonialCard = ({ item }: { item: Testimonial }) => (
-  <figure className="break-inside-avoid mb-6 p-6 bg-[#FCFFFB] border-[#1ADB0480] rounded-2xl shadow-sm">
-    <blockquote className="text-gray-700 text-sm leading-relaxed mb-4">
+  <figure className="break-inside-avoid mb-6 p-6 bg-[#FCFFFB] border border-[#1aff0080] rounded-2xl shadow-sm">
+    <blockquote className="text-gray-700 text-xs lg:text-sm leading-relaxed mb-4">
       <p className="relative">
-        &ldquo;{item.text}&rdquo;
+        <span className="text-2xl text-[#1ADB04]">&ldquo;</span> {item.text} <span className="text-2xl text-[#1ADB04]">&rdquo;</span>
       </p>
     </blockquote>
 
@@ -93,7 +93,7 @@ const TestimonialCard = ({ item }: { item: Testimonial }) => (
 
 const Testimonials = () => {
   return (
-    <section className="mx-12 mt-16 ">
+    <section className="mx-6 lg:mx-12 mt-16 ">
       {/* <h2 className="sr-only">Testimonials</h2> */}
       <SectionHeader
         title="Testimonials & Highlights"
