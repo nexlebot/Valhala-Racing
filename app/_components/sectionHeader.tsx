@@ -19,19 +19,22 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
     className = "",
 }) => {
     return (
-        <div className={`flex justify-between items-start lg:items-center mb-2 lg:mb-12 ${className}`}>
-            <div className="max-w-[70%]">
-                <h1 className="text-xl lg:text-4xl font-semibold mb-1 text-[#1ADB04]">{title}</h1>
-                {subtitle && <p className="text-sm lg:text-base">{subtitle}</p>}
-            </div>
+        <div className={` mb-2 lg:mb-12 ${className}`}>
+            <div className="flex justify-between items-start lg:items-center ">
 
-            {buttonText && (
-                <Button
-                    label={buttonText}
-                    variant={buttonVariant}
-                    onClick={onButtonClick}
-                />
-            )}
+                <div className="max-w-[60%] mb-2 lg:mb-0">
+                    <h1 className="text-xl lg:text-4xl font-semibold mb-1 text-[#1ADB04]">{title}</h1>
+                </div>
+
+                {buttonText && (
+                    <Button
+                        label={buttonText}
+                        variant={buttonVariant}
+                        onClick={onButtonClick}
+                    />
+                )}
+            </div>
+            {subtitle && <p className="my-2 lg:mt-0 text-sm lg:text-base">{subtitle}</p>}
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface Feature {
-    title: string;
+    title?: string;
     image: string;
     paragraphs: string[];
     buttonText?: string;
@@ -13,16 +13,16 @@ interface StablesFeaturesProps {
 
 export const StablesFeatures: React.FC<StablesFeaturesProps> = ({ features }) => {
     return (
-        <div className="w-full space-y-12">
+        <div className="w-full space-y-6 lg:space-y-12 mt-6 lg:mt-0">
             {features.map((feature, index) => {
                 const isReversed = index % 2 !== 1;
 
                 return (
                     <div key={index} className="" style={{ borderColor: '#1ADB04' }}>
                         {/* Title */}
-                        <h2 className="text- lg:text-3xl font-semibold mb-8" style={{ color: '#1ADB04' }}>
+                        {feature.title && <h2 className="text-xl mb-2 lg:text-3xl font-semibold lg:mb-8" style={{ color: '#1ADB04' }}>
                             {feature.title}
-                        </h2>
+                        </h2>}
 
                         {/* Content Section */}
                         <div className={`flex flex-col ${isReversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-8 items-center`}>
@@ -52,7 +52,7 @@ export const StablesFeatures: React.FC<StablesFeaturesProps> = ({ features }) =>
                                 {/* Button */}
                                 {feature.buttonText && (
                                     <button
-                                        className="text-xs lg:text-base mt-6 px-3 py-2 lg:px-8 lg:py-3 text-white font-semibold rounded-full hover:opacity-90 transition-opacity shadow-md"
+                                        className="text-xs lg:text-base mt-0 lg:mt-6 px-3 py-2 lg:px-8 lg:py-3 text-white font-semibold rounded-full hover:opacity-90 transition-opacity shadow-md"
                                         style={{ backgroundColor: '#1ADB04' }}
                                     >
                                         {feature.buttonText}

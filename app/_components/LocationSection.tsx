@@ -3,14 +3,14 @@
 import React from "react";
 import Image from "next/image";
 
-interface ContactSectionProps {
+interface LocationSectionProps {
     mapSrc: string; // Static map image or dynamic map URL
 }
 
-const ContactSection: React.FC<ContactSectionProps> = ({ mapSrc }) => {
+const LocationSection: React.FC<LocationSectionProps> = ({ mapSrc }) => {
     return (
-        <section className="w-full max-w-[1000px] mx-auto bg-white lg:py-14 font-roboto">
-            <div className="container mx-auto flex gap-14 items-start">
+        <section className="w-full max-w-[1000px] mx-auto bg-white lg:py-14 font-roboto mb-6 lg:mb-0">
+            <div className="container mx-auto flex flex-col lg:flex-row gap-6  lg:gap-14 items-start">
                 {/* Map Image */}
                 <div className=" rounded-xl overflow-hidden">
                     <Image
@@ -24,7 +24,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ mapSrc }) => {
                 </div>
 
                 {/* Content */}
-                <div className="flex flex-col gap-7 text-gray-800">
+                <div className="flex flex-col gap-3 lg:gap-7 text-gray-800">
                     {/* Location */}
                     <div>
                         <h3 className="text-2xl font-medium text-[#1ADB04] mb-2">Our Location</h3>
@@ -62,4 +62,4 @@ const ContactSection: React.FC<ContactSectionProps> = ({ mapSrc }) => {
     );
 };
 
-export default ContactSection;
+export default LocationSection;

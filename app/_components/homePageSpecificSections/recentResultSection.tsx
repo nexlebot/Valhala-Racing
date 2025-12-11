@@ -38,7 +38,7 @@ export const RecentResults = () => {
         </div>
 
         {/* Right visual */}
-        <div className="">
+        <div className="mt-4 lg:mt-0">
           <Image
             src={"/recentResultsImage.png"}
             alt="Horse Racing"

@@ -3,7 +3,7 @@ import Button from '../Button'
 
 const OwnerShipAndSyndication = () => {
     return (
-        <div className='mx-6 lg:mx-12'>
+        <div className='mx-6 lg:mx-12 py-8 lg:pt-14'>
             <SectionHeader
                 title="Ownership & Syndication"
                 subtitle="Partner with us – own your share of a racehorse with Vahala Racing."
@@ -16,7 +16,7 @@ const OwnerShipAndSyndication = () => {
                     &ldquo;
                 </span>
 
-                <p className="text-gray-800 text-sm lg:text-xl leading-relaxed mb-6 relative z-10">
+                <p className="text-gray-800 mt-4 lg:mt-0 text-sm lg:text-xl leading-relaxed mb-6 relative z-10">
                     Experience the thrill of ownership and become part of the{" "}
                     <span className="text-[#1ADB04] font-medium">Vahala Racing</span> family.
                     Through our <span className="text-[#1ADB04] font-medium">Ownership and syndication programs</span>, you can invest in a racehorse and share in the excitement, prestige, and rewards of professional horse racing.

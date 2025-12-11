@@ -46,7 +46,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
 
     return (
         <div className="flex justify-center ">
-            <div className="w-full max-w-[1000px] border border-[#19db043d] bg-white rounded-2xl shadow-lg shadow-[#19db045e] p-4 lg:p-8">
+            <div className="w-full max-w-[1000px] border border-[#19db043d] bg-white rounded-2xl shadow-sm lg:shadow-lg shadow-[#19db045e] p-4 lg:p-8">
                 <h2 className="text-2xl lg:text-3xl font-bold mb-3" style={{ color: '#1ADB04' }}>
                     Contact Us
                 </h2>

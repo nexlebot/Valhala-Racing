@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Button from './Button';
 
 interface HorseCardProps {
@@ -166,10 +167,11 @@ export default function App() {
     ];
 
     return (
-        <div className="min-h-screen py-12 ">
+        <div className="pt-6 lg:pt-0 pb-12">
             <div className="space-y-8 lg:space-y-10">
-                {horses.map((horse) => (
+                {horses.map((horse) => (<Link href={`/ownership/${horse.id}`} key={horse.id}>
                     <HorseCard key={horse.id} {...horse} />
+                </Link>
                 ))}
             </div>
         </div>

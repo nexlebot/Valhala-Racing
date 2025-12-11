@@ -46,7 +46,7 @@ const MajorWins: React.FC = () => {
     ];
 
     return (
-        <div className="w-full">
+        <div className="w-full mt-6 lg:mt-0">
             <div className="flex items-center gap-3 mb-5">
                 <h1 className="text-2xl font-semibold" style={{ color: '#1ADB04CC' }}>
                     Major Wins
