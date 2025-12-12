@@ -12,7 +12,7 @@ interface HorseCardProps {
 }
 
 // Horse Card Component
-function HorseCard({
+export function HorseCard({
     name,
     age,
     breed,
@@ -59,120 +59,6 @@ function HorseCard({
                 </p>
 
                 <Button label='View Details' className='max-w-32 py-3' />
-            </div>
-        </div>
-    );
-}
-
-// Example Usage
-export default function App() {
-    const horses = [
-        {
-            id: 1,
-            name: "SAVABEEL X LET IT ROCK",
-            age: "2 Years Old Bay Colt",
-            breed: "Premium Thoroughbred",
-            sharePrice: "$9,850",
-            sharePercentage: "2.5%",
-            image: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=800&q=80",
-            description: "Sired by champion Savabeel out of Let It Rock, this bay colt shows exceptional early speed and stride mechanics. With a strong shoulder angle and powerful hindquarters, he demonstrates the classic Savabeel acceleration. His dam's stamina lineage suggests versatility across distances. Early training shows quick gate work and natural balance through turns."
-        },
-        {
-            id: 2,
-            name: "NOT A SINGLE DOUBT X STORM QUEEN",
-            age: "3 Years Old Chestnut Mare",
-            breed: "Premium Thoroughbred",
-            sharePrice: "$12,500",
-            sharePercentage: "3%",
-            image: "https://images.unsplash.com/photo-1551884831-bbf3cdc6469e?w=800&q=80",
-            description: "By champion sire Not A Single Doubt from Storm Queen bloodline. Proven track record with 3 wins from 8 starts including a Group 3 placing. Excels in 1200-1400m sprints with sectional times consistently under 11 seconds per furlong. Strong under wet track conditions with excellent recovery rates between races."
-        },
-        {
-            id: 1,
-            name: "SAVABEEL X LET IT ROCK",
-            age: "2 Years Old Bay Colt",
-            breed: "Premium Thoroughbred",
-            sharePrice: "$9,850",
-            sharePercentage: "2.5%",
-            image: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=800&q=80",
-            description: "Sired by champion Savabeel out of Let It Rock, this bay colt shows exceptional early speed and stride mechanics. With a strong shoulder angle and powerful hindquarters, he demonstrates the classic Savabeel acceleration. His dam's stamina lineage suggests versatility across distances. Early training shows quick gate work and natural balance through turns."
-        },
-        {
-            id: 2,
-            name: "NOT A SINGLE DOUBT X STORM QUEEN",
-            age: "3 Years Old Chestnut Mare",
-            breed: "Premium Thoroughbred",
-            sharePrice: "$12,500",
-            sharePercentage: "3%",
-            image: "https://images.unsplash.com/photo-1551884831-bbf3cdc6469e?w=800&q=80",
-            description: "By champion sire Not A Single Doubt from Storm Queen bloodline. Proven track record with 3 wins from 8 starts including a Group 3 placing. Excels in 1200-1400m sprints with sectional times consistently under 11 seconds per furlong. Strong under wet track conditions with excellent recovery rates between races."
-        }, {
-            id: 1,
-            name: "SAVABEEL X LET IT ROCK",
-            age: "2 Years Old Bay Colt",
-            breed: "Premium Thoroughbred",
-            sharePrice: "$9,850",
-            sharePercentage: "2.5%",
-            image: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=800&q=80",
-            description: "Sired by champion Savabeel out of Let It Rock, this bay colt shows exceptional early speed and stride mechanics. With a strong shoulder angle and powerful hindquarters, he demonstrates the classic Savabeel acceleration. His dam's stamina lineage suggests versatility across distances. Early training shows quick gate work and natural balance through turns."
-        },
-        {
-            id: 2,
-            name: "NOT A SINGLE DOUBT X STORM QUEEN",
-            age: "3 Years Old Chestnut Mare",
-            breed: "Premium Thoroughbred",
-            sharePrice: "$12,500",
-            sharePercentage: "3%",
-            image: "https://images.unsplash.com/photo-1551884831-bbf3cdc6469e?w=800&q=80",
-            description: "By champion sire Not A Single Doubt from Storm Queen bloodline. Proven track record with 3 wins from 8 starts including a Group 3 placing. Excels in 1200-1400m sprints with sectional times consistently under 11 seconds per furlong. Strong under wet track conditions with excellent recovery rates between races."
-        }, {
-            id: 1,
-            name: "SAVABEEL X LET IT ROCK",
-            age: "2 Years Old Bay Colt",
-            breed: "Premium Thoroughbred",
-            sharePrice: "$9,850",
-            sharePercentage: "2.5%",
-            image: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=800&q=80",
-            description: "Sired by champion Savabeel out of Let It Rock, this bay colt shows exceptional early speed and stride mechanics. With a strong shoulder angle and powerful hindquarters, he demonstrates the classic Savabeel acceleration. His dam's stamina lineage suggests versatility across distances. Early training shows quick gate work and natural balance through turns."
-        },
-        {
-            id: 2,
-            name: "NOT A SINGLE DOUBT X STORM QUEEN",
-            age: "3 Years Old Chestnut Mare",
-            breed: "Premium Thoroughbred",
-            sharePrice: "$12,500",
-            sharePercentage: "3%",
-            image: "https://images.unsplash.com/photo-1551884831-bbf3cdc6469e?w=800&q=80",
-            description: "By champion sire Not A Single Doubt from Storm Queen bloodline. Proven track record with 3 wins from 8 starts including a Group 3 placing. Excels in 1200-1400m sprints with sectional times consistently under 11 seconds per furlong. Strong under wet track conditions with excellent recovery rates between races."
-        }, {
-            id: 1,
-            name: "SAVABEEL X LET IT ROCK",
-            age: "2 Years Old Bay Colt",
-            breed: "Premium Thoroughbred",
-            sharePrice: "$9,850",
-            sharePercentage: "2.5%",
-            image: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=800&q=80",
-            description: "Sired by champion Savabeel out of Let It Rock, this bay colt shows exceptional early speed and stride mechanics. With a strong shoulder angle and powerful hindquarters, he demonstrates the classic Savabeel acceleration. His dam's stamina lineage suggests versatility across distances. Early training shows quick gate work and natural balance through turns."
-        },
-        {
-            id: 2,
-            name: "NOT A SINGLE DOUBT X STORM QUEEN",
-            age: "3 Years Old Chestnut Mare",
-            breed: "Premium Thoroughbred",
-            sharePrice: "$12,500",
-            sharePercentage: "3%",
-            image: "https://images.unsplash.com/photo-1551884831-bbf3cdc6469e?w=800&q=80",
-            description: "By champion sire Not A Single Doubt from Storm Queen bloodline. Proven track record with 3 wins from 8 starts including a Group 3 placing. Excels in 1200-1400m sprints with sectional times consistently under 11 seconds per furlong. Strong under wet track conditions with excellent recovery rates between races."
-        },
-    ];
-
-    return (
-        <div className="pt-6 lg:pt-0 pb-12">
-            <div className="space-y-8 lg:space-y-10">
-                {horses.map((horse) => (<Link href={`/ownership/${horse.id}`} key={horse.id}>
-                    <HorseCard key={horse.id} {...horse} />
-                </Link>
-                ))}
             </div>
         </div>
     );

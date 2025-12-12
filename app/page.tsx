@@ -6,6 +6,7 @@ import Testimonials from "./_components/homePageSpecificSections/testimonials"
 import UpComingRaceListView from "./_components/homePageSpecificSections/upComingRaceListView"
 import Navbar from "./_components/navbar"
 import OurFacility from "./_components/OurFacility"
+import UpcomingRacesMobile from "./_components/UpcomingRacesMobile"
 
 
 const page = () => {
@@ -14,9 +15,14 @@ const page = () => {
       <Navbar />
       <HeroSection title="Own, Race, Win The Vahala Racing Way" description="Join a professional stable delivering high-performance horses, expert care, and exceptional ownership opportunities in every race." backgroundImage="/heroImage.png" />
       <div className="mx-6 lg:mx-12">
-        <UpComingRaceListView />
+        <div className="hidden lg:block">
+          <UpComingRaceListView />
+        </div>
+        <div className="block my-6 lg:hidden "><UpcomingRacesMobile /></div>
       </div>
-      <RecentResultSection />
+      <div className="my-3 lg:my-0">
+        <RecentResultSection />
+      </div>
       <ImageSlider />
       <OurFacility />
       <OwnerShipAndSyndication />

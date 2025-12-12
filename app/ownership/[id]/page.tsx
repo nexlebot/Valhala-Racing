@@ -66,7 +66,9 @@ const page = () => {
             <PageIntro mainHeading="Ownership" intro='At Vahala Racing, ownership is more than a title — it’s an invitation to become part of a legacy built on passion, precision, and purpose. Every experience brings you closer to the heart of the sport, from early-morning training sessions to thrilling race-day victories. With Vahala, you step into a world where dedication, teamwork, and the pursuit of excellence define every stride.' />
             <Slider />
             <InfoShowCase data={exampleData} />
-            <VideoPlayer url="https://www.youtube.com/embed/dQw4w9WgXcQ" />
+            <div className='flex justify-center'>
+                <VideoPlayer url="https://www.youtube.com/embed/dQw4w9WgXcQ" />
+            </div>
             <div className='py-6 lg:py-14'>
                 <ContactForm />
             </div>

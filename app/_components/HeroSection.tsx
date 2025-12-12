@@ -20,7 +20,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     overlayColor = "bg-black/45",
 }) => {
     return (
-        <section className="relative min-h-[127vh] w-full overflow-hidden">
+        <section className="relative min-h-[75vh] lg:min-h-[127vh]  w-full overflow-hidden">
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
                 <Image

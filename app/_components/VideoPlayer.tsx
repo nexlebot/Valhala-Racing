@@ -9,16 +9,14 @@ interface VideoPlayerProps {
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ url, title = "Video" }) => {
     return (
-        <div className="w-full flex justify-center">
-            <div className="rounded-3xl border-[3px] border-red-500 overflow-hidden shadow-xl w-full max-w-3xl aspect-video">
-                <iframe
-                    className="w-full h-full"
-                    src={url}
-                    title={title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                />
-            </div>
+        <div className="rounded-3xl border-2 lg:border-[3px] border-red-500 overflow-hidden shadow-xl w-full max-w-3xl aspect-video">
+            <iframe
+                className="w-full h-full"
+                src={url}
+                title={title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+            />
         </div>
     );
 };

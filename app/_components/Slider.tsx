@@ -67,9 +67,9 @@ export default function ImageSlider() {
                 </button>
 
                 {/* Slider Container */}
-                <div className="relative flex-1 w-full max-w-3xl max-h-[575px]">
+                <div className="relative flex-1 w-full max-w-2xl">
                     {/* Image with transition */}
-                    <div className="relative overflow-hidden rounded-lg shadow-lg bg-white aspect-[4/3]">
+                    <div className="relative overflow-hidden rounded-lg shadow-lg bg-white aspect-video">
                         <img
                             src={images[currentIndex].url}
                             alt={images[currentIndex].alt}
