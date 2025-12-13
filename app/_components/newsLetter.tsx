@@ -115,7 +115,7 @@ export default function NewsletterSubscribe() {
                     {status && (
                         <div className="mt-0">
                             {status === "success" && (
-                                <p className="text-sm text-green-700">Thanks! You're subscribed.</p>
+                                <p className="text-sm text-green-700">Thanks! You&apos;re subscribed.</p>
                             )}
                             {status === "error" && (
                                 <p className="text-sm text-red-600">{errorMsg}</p>
