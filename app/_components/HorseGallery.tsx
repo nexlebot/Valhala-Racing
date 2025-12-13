@@ -19,7 +19,7 @@ interface HorseGalleryProps {
 const HorseGallery: React.FC<HorseGalleryProps> = ({ images }) => {
     return (
         <div className="w-full mx-auto my-14">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
                 {images.map((image) => (
                     <Link href={`/our-horses/${image.id}`} key={image.id}>
                         <div

@@ -47,7 +47,6 @@ const slides = [
 const ImageSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
@@ -92,13 +91,11 @@ const ImageSlider = () => {
   const goToPrevious = () => {
     const newIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
     goToSlide(newIndex);
-    setActiveIndex((i) => (i + 1) % slides.length)
   };
 
   const goToNext = () => {
     const newIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
     goToSlide(newIndex);
-    setActiveIndex((i) => (i + 1) % slides.length)
   };
 
   const getSlidePosition = (index: number) => {
@@ -190,14 +187,14 @@ const ImageSlider = () => {
                   {/* Gradient Overlay */}
                   <div className="absolute inset-0 bg-linear-to-b from-black/50 via-white/10 to-black/50"></div>
 
-                  {index === activeIndex && (
-                    <div className="  mb-3 inline-block absolute top-3 m-5 w-full ">
+                  {index === currentIndex && (
+                    <div className=" mb-3 inline-block absolute top-3 m-5 w-full ">
                       <div className='flex justify-between items-center w-4/5'>
-                        <div className=" text-white text-xs px-3 py-0 ">
-                          <span className='border border-primary rounded-full px-3 py-2' >See Our Horses</span>
+                        <div className=" text-white text-xs p-0 lg:px-3 py-0 ">
+                          <span className='border border-primary rounded-full px-3 p-2 lg:px-3 lg:py-2' >See Our Horses</span>
                         </div>
                         <div className="relative -right-8">
-                          <div className="">
+                          <div className="hidden lg:block">
                             <button
                               onClick={goToNext}
                               disabled={isAnimating}
@@ -208,12 +205,12 @@ const ImageSlider = () => {
                       </div>
                     </div>
                   )}
-                  {index === activeIndex && (
+                  {index === currentIndex && (
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                      <h2 className="text-3xl md:text-4xl font-semibold mb-2">{slide.title}</h2>
-                      <p className="text-base font-light"><span>Age: </span>{slide.age}</p>
-                      <p className="text-base font-light"><span>Sire / Dam: </span>{slide.details}</p>
-                      <p className="text-base font-light"><span>Career: </span> {slide.result}</p>
+                      <h2 className="text-2xl lg:text-3xl md:text-4xl font-semibold mb-2">{slide.title}</h2>
+                      <p className="text-sm lg:text-base font-light"><span>Age: </span>{slide.age}</p>
+                      <p className="text-sm lg:text-base font-light"><span>Sire / Dam: </span>{slide.details}</p>
+                      <p className="text-sm lg:text-base"><span>Career: </span> {slide.result}</p>
                     </div>
                   )}
 

@@ -10,27 +10,43 @@ type RaceItem = {
     date: string;
 };
 
-const items: RaceItem[] = [
-    { name: "Thunder Blaze", race: "Race #12", location: "Melbourne Racecourse, Australia", date: "October 15, 2025" },
-    { name: "Golden Stride", race: "Race #7", location: "Sydney Park Arena, Australia", date: "October 20, 2025" },
-    { name: "Midnight Charger", race: "Race #3", location: "Adelaide Downs, Australia", date: "October 28, 2025" },
-    { name: "Silver Arrow", race: "Race #9", location: "Brisbane Grand Track, Australia", date: "November 2, 2025" },
-];
+type UpcomingRacesMobileProps = {
+    title?: string;
+    subtitle?: string;
+    buttonText?: string;
+    buttonVariant?: 'primary' | 'secondary';
+    items?: RaceItem[];
+    borderColor?: string;
+    dotColor?: string;
+};
 
-export default function UpcomingRacesMobile() {
+export default function UpcomingRacesMobile({
+    title = "Upcoming Races",
+    subtitle = "Stay ahead of the action — explore the latest horse racing events happening soon across Australia.",
+    buttonText = "View races",
+    buttonVariant = "secondary",
+    items = [],
+    borderColor = "#00D66F",
+    dotColor = "#00D66F"
+}: UpcomingRacesMobileProps) {
     return (
         <div className="bg-white">
             {/* Header Section */}
-            <SectionHeader title="Upcoming Races" subtitle='Stay ahead of the action — explore the latest horse racing events happening soon across Australia.' buttonText='View races' buttonVariant='secondary' />
+            <SectionHeader
+                title={title}
+                subtitle={subtitle}
+                buttonText={buttonText}
+                buttonVariant={buttonVariant}
+            />
 
             {/* Race Cards */}
             <div className="space-y-4 mt-8">
                 {items.map((item, idx) => (
                     <div
                         key={item.name + idx}
-                        className="bg-white border-0  border-l-3 border-[#00D66F] rounded-2xl p-5 shadow-lg"
+                        className="bg-white border-0 border-l-3 rounded-2xl p-5 shadow-lg"
+                        style={{ borderLeftColor: borderColor }}
                     >
-
                         {/* Card Content */}
                         <div className="pr-3">
                             {/* Horse Name and Race Badge */}
@@ -39,7 +55,10 @@ export default function UpcomingRacesMobile() {
                                     {item.name}
                                 </h3>
                                 <div className="flex items-center gap-2 px-3 py-1 rounded-full">
-                                    <span className="w-2 h-2 rounded-full bg-[#00D66F]" />
+                                    <span
+                                        className="w-2 h-2 rounded-full"
+                                        style={{ backgroundColor: dotColor }}
+                                    />
                                     <span className="text-sm font-medium text-gray-600">
                                         {item.race}
                                     </span>
