@@ -5,6 +5,33 @@ import MajorWins from '../_components/MajorWins'
 import UpComingRaceListView from '../_components/homePageSpecificSections/upComingRaceListView'
 import UpcomingRacesMobile from '../_components/UpcomingRacesMobile'
 
+const raceData = [
+    {
+        "name": "Thunder Blaze",
+        "race": "Race #12",
+        "location": "Melbourne Racecourse, Australia",
+        "date": "October 18, 2025"
+    },
+    {
+        "name": "Golden Stride",
+        "race": "Race #7",
+        "location": "Sydney Park Arena, Australia",
+        "date": "October 20, 2025"
+    },
+    {
+        "name": "Midnight Charger",
+        "race": "Race #3",
+        "location": "Adelaide Downs, Australia",
+        "date": "October 28, 2025"
+    },
+    {
+        "name": "Silver Arrow",
+        "race": "Race #9",
+        "location": "Brisbane Grand Track, Australia",
+        "date": "November 2, 2025"
+    }
+]
+
 const page = () => {
     return (
         <div className=''>
@@ -14,7 +41,7 @@ const page = () => {
                 <UpComingRaceListView />
             </div>
             <div className='mx-6 my-6 lg:mx-12 lg:hidden'>
-                <UpcomingRacesMobile />
+                <UpcomingRacesMobile items={raceData} />
             </div>
         </div>
     )

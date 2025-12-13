@@ -3,6 +3,34 @@ import PageIntro from '../_components/PageIntro'
 import Navbar from '../_components/navbar'
 import WinsCard from '../_components/WinsCard'
 import UpComingRaceListView from '../_components/homePageSpecificSections/upComingRaceListView'
+import UpcomingRacesMobile from '../_components/UpcomingRacesMobile'
+
+const raceData = [
+    {
+        "name": "Thunder Blaze",
+        "race": "Race #12",
+        "location": "Melbourne Racecourse, Australia",
+        "date": "October 18, 2025"
+    },
+    {
+        "name": "Golden Stride",
+        "race": "Race #7",
+        "location": "Sydney Park Arena, Australia",
+        "date": "October 20, 2025"
+    },
+    {
+        "name": "Midnight Charger",
+        "race": "Race #3",
+        "location": "Adelaide Downs, Australia",
+        "date": "October 28, 2025"
+    },
+    {
+        "name": "Silver Arrow",
+        "race": "Race #9",
+        "location": "Brisbane Grand Track, Australia",
+        "date": "November 2, 2025"
+    }
+]
 
 const page = () => {
     return (
@@ -21,7 +49,12 @@ const page = () => {
             ]} />
 
             <WinsCard />
-            <UpComingRaceListView />
+            <div className='hidden lg:block'>
+                <UpComingRaceListView />
+            </div>
+            <div className='my-6 lg:my-0 lg:hidden'>
+                <UpcomingRacesMobile items={raceData} />
+            </div>
         </div>
     )
 }
