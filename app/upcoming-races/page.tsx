@@ -4,6 +4,8 @@ import Navbar from '../_components/navbar'
 import MajorWins from '../_components/MajorWins'
 import UpComingRaceListView from '../_components/homePageSpecificSections/upComingRaceListView'
 import UpcomingRacesMobile from '../_components/UpcomingRacesMobile'
+import { IoLocationSharp } from 'react-icons/io5'
+import { FaCalendarAlt } from "react-icons/fa";
 
 const raceData = [
     {
@@ -36,7 +38,20 @@ const page = () => {
     return (
         <div className=''>
             <Navbar />
-            <HeroSection title="Ride the Excitement, Chase the Finish Line" description="Join us for upcoming races featuring elite horses, thrilling moments, and unforgettable experiences on the track." backgroundImage="/upcomingRaceHeroImage.png" overlayColor='bg-black/10' />
+            <HeroSection title="Ride the Excitement, Chase the Finish Line" description="Join us for upcoming races featuring elite horses, thrilling moments, and unforgettable experiences on the track." backgroundImage="/upcomingRaceHeroImage.png" overlayColor='bg-black/10' buttons={[
+                {
+                    text: "View Ownership Opportunities",
+                    href: "/ownership",
+                    icon: <FaCalendarAlt className="w-5 h-5" />,
+                    variant: "primary",
+                },
+                {
+                    text: "Results",
+                    href: "/results",
+                    icon: <IoLocationSharp className="w-5 h-5" />,
+                    variant: "secondary",
+                }
+            ]} />
             <div className="mx-6 lg:mx-12 hidden lg:block ">
                 <UpComingRaceListView />
             </div>

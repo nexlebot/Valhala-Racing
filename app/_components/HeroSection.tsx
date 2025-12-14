@@ -1,8 +1,14 @@
 // components/HeroSection.tsx
-import React from 'react';
+import React, { ReactNode } from 'react';
 import Image from 'next/image';
-import { Trophy } from 'lucide-react';
-import { MdPeopleAlt } from "react-icons/md";
+import Link from 'next/link';
+
+interface HeroButton {
+    text: string;
+    href: string;
+    icon?: ReactNode;
+    variant?: "primary" | "secondary"; // Optional: allows different button styles
+}
 
 interface HeroSectionProps {
     title: string;
@@ -10,6 +16,7 @@ interface HeroSectionProps {
     description: string;
     backgroundImage: string;
     overlayColor?: string;
+    buttons?: HeroButton[]; // Accept multiple buttons
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
@@ -18,6 +25,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     description,
     backgroundImage,
     overlayColor = "bg-black/45",
+    buttons = [],
 }) => {
     return (
         <section className="relative min-h-[75vh] lg:min-h-[127vh] 2xl:min-h-screen w-full overflow-hidden">
@@ -35,33 +43,43 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
             {/* Content */}
             <div className="absolute bottom-0 w-full z-10 flex flex-col justify-center px-6 md:px-12">
-                <div className="">
-                    <h1 className="max-w-2xl mb-4 text-4xl font-semibold italic leading-tight text-white md:text-5xl ">
-                        {title ? title : "Own, Race, Win <span className='block'> The Vahala Racing Way </span>"}
+                <div>
+                    <h1 className="max-w-2xl mb-4 text-4xl font-semibold italic leading-tight text-white md:text-5xl">
+                        {title}
                     </h1>
 
-                    <div className='m-auto max-w-6xl my-7 border-t border-white/30'>
+                    {subtitle && (
+                        <h2 className="mb-4 text-xl font-medium text-white/90">{subtitle}</h2>
+                    )}
 
-                    </div>
+                    <div className='m-auto max-w-6xl my-7 border-t border-white/30' />
 
                     <div className='md:flex justify-center items-center gap-7 pb-12 lg:pb-4'>
                         <p className="mb-8 max-w-md text-sm text-white/90 md:text-base">
                             {description}
                         </p>
 
-                        {/* CTA Buttons */}
-                        <div className="flex flex-col gap-4 lg:flex-row sm:items-center">
-                            <button className="flex items-center justify-center gap-2 rounded-full bg-[#1ADB04] px-6 py-1 text-white transition-all hover:bg-green-600 md:px-8 md:py-3 cursor-pointer">
-                                <Trophy className="h-5 w-5" />
-                                View Upcoming Races
-                            </button>
+                        {/* Buttons */}
+                        {buttons.length > 0 && (
+                            <div className="flex flex-col gap-4 lg:flex-row sm:items-center">
+                                {buttons.map((btn, index) => {
+                                    const baseClasses = "flex items-center justify-center gap-2 rounded-full px-6 py-1 transition-all md:px-8 md:py-3 cursor-pointer";
+                                    const variantClasses =
+                                        btn.variant === "secondary"
+                                            ? "border-2 border-white bg-white text-primary hover:bg-white/90"
+                                            : "bg-primary text-white hover:bg-green-600";
 
-                            <button className="flex items-center justify-center gap-2 rounded-full border-2 border-white bg-white px-6 py-1 text-[#1ADB04] transition-all hover:bg-white/90 md:px-8 md:py-3 cursor-pointer">
-
-                                <MdPeopleAlt className="h-5 w-5" />
-                                Meet Our Team
-                            </button>
-                        </div>
+                                    return (
+                                        <Link key={index} href={btn.href}>
+                                            <button className={`flex items-center ${baseClasses} ${variantClasses}`}>
+                                                {btn.icon && <span>{btn.icon}</span>}
+                                                {btn.text}
+                                            </button>
+                                        </Link>
+                                    );
+                                })}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

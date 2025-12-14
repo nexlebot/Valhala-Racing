@@ -45,15 +45,14 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
     };
 
     return (
-        <div className="flex justify-center ">
+        <div className="flex justify-center font-roboto" style={{ fontFamily: "var(--font-roboto), sans-serif" }}>
             <div className="w-full max-w-[1000px] border border-[#19db043d] bg-white rounded-2xl shadow-sm lg:shadow-lg shadow-[#19db045e] p-4 lg:p-8">
                 <h2 className="text-2xl lg:text-3xl font-bold mb-3" style={{ color: '#1ADB04' }}>
                     Contact Us
                 </h2>
 
                 <p className="max-w-2xl text-gray-600 text-sm mb-6 leading-relaxed">
-                    Whether you have questions about our upcoming events, racing schedule, memberships, or
-                    sponsorship opportunities — the Vahala Horse Racing team is ready to assist you.
+                    Get in contact with any enquiries on current horses, race days or information on owning a horse with Vahala Racing Stables.
                 </p>
 
                 <div className="space-y-4">
@@ -132,18 +131,18 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
                             value={formData.message}
                             onChange={handleChange}
                             required
-                            placeholder=" "
+                            placeholder="Tell us about your ownership goals: Are you interested in a yearling, a ready-to-race horse, or reviewing partnership costs?"
                             rows={4}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition-all resize-none peer"
+                            className="text-sm w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition-all resize-none peer"
                             onFocus={(e) => e.target.style.borderColor = '#1ADB04'}
                             onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
                         />
-                        <label
+                        {/* <label
                             htmlFor="message"
                             className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-focus:text-xs peer-focus:top-0 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
                         >
                             Message <span className="text-red-500">*</span>
-                        </label>
+                        </label> */}
                     </div>
 
                     {/* Submit Button */}

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 interface Feature {
@@ -5,6 +6,7 @@ interface Feature {
     image: string;
     paragraphs: string[];
     buttonText?: string;
+    buttonLink?: string
 }
 
 interface StablesFeaturesProps {
@@ -51,13 +53,26 @@ export const StablesFeatures: React.FC<StablesFeaturesProps> = ({ features }) =>
 
                                 {/* Button */}
                                 {feature.buttonText && (
-                                    <button
-                                        className="text-xs lg:text-base mt-0 lg:mt-6 px-3 py-2 lg:px-8 lg:py-3 text-white font-semibold rounded-full hover:opacity-90 transition-opacity shadow-md"
-                                        style={{ backgroundColor: '#1ADB04' }}
-                                    >
-                                        {feature.buttonText}
-                                    </button>
+                                    feature.buttonLink ? (
+                                        <Link href={feature.buttonLink}>
+                                            <button
+                                                className="text-xs cursor-pointer lg:text-base mt-0 lg:mt-6 px-3 py-2 lg:px-8 lg:py-3 text-white font-semibold rounded-full hover:opacity-90 transition-opacity shadow-md"
+                                                style={{ backgroundColor: "#1ADB04" }}
+                                            >
+                                                {feature.buttonText}
+                                            </button>
+                                        </Link>
+                                    ) : (
+                                        <button
+                                            className="text-xs lg:text-base mt-0 lg:mt-6 px-3 py-2 lg:px-8 lg:py-3 text-white font-semibold rounded-full hover:opacity-90 transition-opacity shadow-md"
+                                            style={{ backgroundColor: "#1ADB04" }}
+
+                                        >
+                                            {feature.buttonText}
+                                        </button>
+                                    )
                                 )}
+
                             </div>
                         </div>
                     </div>

@@ -13,37 +13,38 @@ const MajorWins: React.FC = () => {
     const wins: WinCard[] = [
         {
             id: 1,
-            raceName: "Summer Sprint Stakes",
-            date: "Oct 18, 2024",
-            location: "Cranbourne",
-            horseName: "Midnight Echo",
-            jockeyName: "Jockey: J. Lawson"
+            raceName: "Perth Handicap",
+            date: "Dec 13, 2025",
+            location: "Ascot Pk",
+            horseName: "Soldanelle",
+            jockeyName: "Jockey: W. Pike"
         },
         {
             id: 2,
-            raceName: "Vahala Classic",
-            date: "Aug 9, 2024",
-            location: "Cranbourne",
-            horseName: "Rapid Venture",
-            jockeyName: "Jockey: M. Nguyen"
+            raceName: "Electrical Consultancy Wa Maiden",
+            date: "Dec 11, 2025",
+            location: "Pinjarra",
+            horseName: "Lady Kiki",
+            jockeyName: "Jockey: C. Parnham"
         },
         {
             id: 3,
-            raceName: "Season Finale Cup",
-            date: "Jan 14, 2024",
-            location: "Cranbourne",
-            horseName: "Silver Comet",
-            jockeyName: "Jockey: A. Singh"
+            raceName: "Indigenous Tennis & Learning / Rtsa",
+            date: "Oct 15, 2025",
+            location: "Ascot",
+            horseName: "Vandoula Jet",
+            jockeyName: "Jockey: S. Parnham"
         },
         {
             id: 4,
-            raceName: "Bendigo Gold Cup",
-            date: "Oct 18, 2024",
-            location: "Bendigo",
-            horseName: "Night Commander",
-            jockeyName: "Jockey: K. Delaney"
+            raceName: "Tabtouch Share My Bet Mdn",
+            date: "Oct 08, 2025",
+            location: "Northam",
+            horseName: "Hoya Destroyer",
+            jockeyName: "Jockey: S. Parnham"
         }
     ];
+
 
     return (
         <div className="w-full mt-6 lg:mt-0">

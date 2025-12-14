@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import SectionHeader from '../sectionHeader';
+import Link from 'next/link';
 const slides = [
   {
     id: 1,
@@ -153,15 +154,16 @@ const ImageSlider = () => {
       <div className="mx-6 lg:mx-12">
         <div>
           <SectionHeader
-            title="Our Horses"
+            title="Thoroughbreds Available for Partnership"
             subtitle="Discover the pride of Vahala Racing — elite thoroughbreds trained for excellence, speed, and legacy."
-            buttonText="See Horses"
+            buttonText="See Ownership opportunities "
+            buttonLink='/ownership'
             buttonVariant="secondary"
           />
         </div>
 
         <div className='mx-auto w-full mt-1 lg:mt-4'>
-          <p className='mt-0 lg:mt-8 2-full md:w-[70%] text-center mx-auto text-sm lg:text-base font-normal'>Meet the champions behind <span className='text-primary'>Vahala’s</span> success. Each horse represents a story of strength, dedication, and world-class performance. Explore our racing stars through an elegant grid or carousel showcasing their key details — from bloodline to recent victories. <span className='italic font-medium'>Built for credibility, this section celebrates the talent and tradition that define </span> <span className='text-primary'> Vahala Racing.</span></p>
+          <p className='mt-0 lg:mt-8 2-full md:w-[78%] text-center mx-auto text-sm lg:text-base font-normal'>Discover the next generation of Vahala champions. Our selection process focuses on elite <span className='text-primary'>thoroughbred bloodlines</span>  and proven racing potential, offering you the best opportunity for a rewarding investment. Review the limited <span className='text-primary italic font-medium'>investment percentages</span> currently available in our upcoming horse. Built for success, this section features the horses you can join today.</p>
         </div>
 
 
@@ -191,7 +193,7 @@ const ImageSlider = () => {
                     <div className=" mb-3 inline-block absolute top-3 m-5 w-full ">
                       <div className='flex justify-between items-center w-4/5'>
                         <div className=" text-white text-xs p-0 lg:px-3 py-0 ">
-                          <span className='border border-primary rounded-full px-3 p-2 lg:px-3 lg:py-2' >See Our Horses</span>
+                          <Link href={"/ownership/1"} className='border border-primary rounded-full px-3 p-2 lg:px-3 lg:py-2' >View Details</Link>
                         </div>
                         <div className="relative -right-8">
                           <div className="hidden lg:block">

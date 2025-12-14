@@ -1,20 +1,23 @@
-import { Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Facebook, Instagram, } from 'lucide-react';
+import { FaXTwitter } from "react-icons/fa6";
+
 import Image from 'next/image';
 import Link from 'next/link';
 
 const socialLinks = [
-    { icon: <Facebook className="w-5 h-5" />, href: '#', label: 'Facebook' },
-    { icon: <Instagram className="w-5 h-5" />, href: '#', label: 'Instagram' },
-    { icon: <Linkedin className="w-5 h-5" />, href: '#', label: 'LinkedIn' },
+    { icon: <Facebook className="w-5 h-5" />, href: 'https://www.facebook.com/vahalaracingstables', label: 'Facebook' },
+    { icon: <Instagram className="w-5 h-5" />, href: 'https://www.instagram.com/vahalaracingstables/?hl=en', label: 'Instagram' },
+    { icon: <FaXTwitter className="w-5 h-5" />, href: 'https://x.com/Vahala_Racing', label: 'LinkedIn' },
 ];
 
 const navLinks = [
-    { title: 'Home', href: '#' },
-    { title: 'Upcoming Races', href: '#' },
-    { title: 'Results', href: '#' },
-    { title: 'Horses', href: '#' },
-    { title: 'Facilities', href: '#' },
-    { title: 'Contact', href: '#' },
+    { label: "Home", href: "/" },
+    { label: "Ownership", href: "/ownership" },
+    { label: "Upcoming Races", href: "/upcoming-races" },
+    { label: "Results", href: "/results" },
+    { label: "Our Horses", href: "/our-horses" },
+    { label: "Our Facilities", href: "/our-facilities" },
+    { label: "Contact", href: "/contact" },
 ];
 
 export default function Footer() {
@@ -63,7 +66,7 @@ export default function Footer() {
                                 href={link.href}
                                 className="text-[#000000CC] text-sm lg:text-base hover:text-green-600 transition-colors"
                             >
-                                {link.title}
+                                {link.label}
                             </a>
                         ))}
                     </nav>

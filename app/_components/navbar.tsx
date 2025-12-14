@@ -47,7 +47,7 @@ export default function Navbar({
     // Dynamic color classes based on background
     const textColor = hasBackgroundImage ? "text-white" : "text-gray-900";
     const textColorHover = hasBackgroundImage ? "hover:text-white" : "hover:text-gray-700";
-    const activeTextColor = hasBackgroundImage ? "text-primary" : "text-primary";
+    const activeTextColor = hasBackgroundImage ? "text-[#1ADB04]" : "text-[#1ADB04]";
     const pillBg = hasBackgroundImage ? "bg-white/10 ring-white" : "bg-[#1ADB041A] ring-[#1ADB04]";
     const mobileBg = hasBackgroundImage ? "bg-white/6" : "bg-gray-100";
     const mobileTextColor = hasBackgroundImage ? "text-white/90" : "text-gray-700";

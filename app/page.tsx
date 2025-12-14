@@ -7,6 +7,7 @@ import UpComingRaceListView from "./_components/homePageSpecificSections/upComin
 import Navbar from "./_components/navbar"
 import OurFacility from "./_components/OurFacility"
 import UpcomingRacesMobile from "./_components/UpcomingRacesMobile"
+import { Trophy, Users } from 'lucide-react';
 
 const racingData = [
   {
@@ -39,7 +40,22 @@ const page = () => {
   return (
     <div className="">
       <Navbar />
-      <HeroSection title="Own, Race, Win The Vahala Racing Way" description="Join a professional stable delivering high-performance horses, expert care, and exceptional ownership opportunities in every race." backgroundImage="/heroImage.png" />
+      <HeroSection title="Own, Race, Win The Vahala Racing Way" description="Join a professional stable delivering high-performance horses, expert care, and exceptional ownership opportunities in every race." backgroundImage="/heroImage.png" buttons={[
+        {
+          text: "View Ownership Opportunities",
+          href: "/ownership",
+          icon: <Trophy className="w-5 h-5" />,
+          variant: "primary",
+        },
+        {
+          text: "Upcoming Races",
+          href: "/upcoming-races",
+          icon: <Users className="w-5 h-5" />,
+          variant: "secondary",
+        }
+      ]} />
+      <OwnerShipAndSyndication />
+      <ImageSlider />
       <div className="mx-6 lg:mx-12">
         <div className="hidden lg:block">
           <UpComingRaceListView />
@@ -49,9 +65,7 @@ const page = () => {
       <div className="my-3 lg:my-0">
         <RecentResultSection />
       </div>
-      <ImageSlider />
       <OurFacility />
-      <OwnerShipAndSyndication />
       <Testimonials />
     </div>
   )

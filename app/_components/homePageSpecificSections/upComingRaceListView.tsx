@@ -43,7 +43,7 @@ export default function UpComingRaceListView() {
                         <div className="flex items-center justify-between gap-4 py-6">
                             {/* Left: horse name */}
                             <div className="flex-[0_0_270px] pr-4">
-                                <h3 className="text-lg md:text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+                                <h3 className="text-lg md:text-xl font-medium tracking-tight text-gray-900">
                                     {it.name}
                                 </h3>
                             </div>
@@ -51,7 +51,7 @@ export default function UpComingRaceListView() {
                             {/* Race title with green dot */}
                             <div className="flex items-center gap-3">
                                 <span className="w-2 h-2 rounded-full bg-[#1ADB04] ring-2 ring-white" />
-                                <span className="font-semibold text-sm md:text-base text-gray-700 dark:text-gray-200">
+                                <span className="font-semibold text-sm md:text-base text-gray-700 ">
                                     {it.race}
                                 </span>
                             </div>
@@ -59,13 +59,13 @@ export default function UpComingRaceListView() {
                             {/* Location with green dot */}
                             <div className="flex items-center gap-3">
                                 <span className="w-2 h-2 rounded-full bg-[#1ADB04] ring-2 ring-white" />
-                                <span className="text-sm text-gray-700 dark:text-gray-200">{it.location}</span>
+                                <span className="text-sm text-gray-700">{it.location}</span>
                             </div>
 
                             {/* Date with green dot, right aligned */}
                             <div className="flex items-center justify-end gap-3 flex-[0_0_240px]">
                                 <span className="w-2 h-2 rounded-full bg-[#1ADB04] ring-2 ring-white" />
-                                <span className="text-sm text-gray-700 dark:text-gray-200">{it.date}</span>
+                                <span className="text-sm text-gray-700 ">{it.date}</span>
                             </div>
                         </div>
                     </article>

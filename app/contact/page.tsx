@@ -8,7 +8,7 @@ const page = () => {
     return (
         <div className='mx-6 lg:mx-12'>
             <Navbar hasBackgroundImage={false} />
-            <PageIntro mainHeading='Contact Us' intro='Honoring race champions who earned glory through power, speed, and unforgettable victories.' />
+            <PageIntro mainHeading='Contact Vahala Racing' intro='Your direct line to our ownership team and Ascot-based training facilities.' />
             <div className='py-6 lg:py-0'>
                 <ContactForm />
             </div>
