@@ -23,7 +23,7 @@ export const RecentResults = () => {
           <p className="mt-2 text-gray-700 text-base lg:text-[18px] font-medium">Witness the Consistent Performance That Defines Our Successful Horse Ownership.</p>
 
           <p className="mt-4 text-gray-600 leading-relaxed">
-            Every <span className="text-[#06b600] font-medium">race day</span>  is a testament to the dedication of our trainers and the quality of our bloodlines. This section proudly highlights our history of outstanding <span className="text-[#06b600] font-medium">horse performance</span>  across Australia's elite tracks. While the victories change, our commitment to achieving
+            Every <span className="text-[#06b600] font-medium">race day</span>  is a testament to the dedication of our trainers and the quality of our bloodlines. This section proudly highlights our history of outstanding <span className="text-[#06b600] font-medium">horse performance</span>  across Australia&apos;s elite tracks. While the victories change, our commitment to achieving
             <span className="text-[#06b600] font-medium"> winning form</span> does not. We focus on placing our horses for optimal success, giving the member of our part-ownership group the ultimate thrill of
             <span className="text-[#06b600] font-medium"> ownership success</span> year after year.
           </p>
