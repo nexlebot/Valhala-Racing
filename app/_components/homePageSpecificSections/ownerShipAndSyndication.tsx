@@ -12,7 +12,7 @@ const OwnerShipAndSyndication = () => {
                 buttonLink='/ownership'
                 buttonVariant='secondary'
             />
-            <section className="max-w-[68%] mx-auto px-6 text-center relative">
+            <section className="max-w-none lg:max-w-[68%] mx-auto px-6 text-center relative">
                 {/* Left Quote */}
                 <span className="text-gray-300 text-[40px] lg:text-[80px] font-bold absolute -top-3 lg:-top-10 -left-2 lg:-left-6 select-none">
                     &ldquo;

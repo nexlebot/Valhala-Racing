@@ -26,7 +26,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
             <div className="flex justify-between items-start lg:items-center ">
 
                 <div className="max-w-[70%] mb-2 lg:mb-0">
-                    <h1 className="text-2xl lg:text-4xl font-semibold mb-1 text-[#1ADB04]">{title}</h1>
+                    <h1 className="text-2xl lg:text-4xl font-semibold mb-1 text-primary">{title}</h1>
                 </div>
 
                 {buttonText && buttonLink ? (

@@ -156,7 +156,7 @@ const ImageSlider = () => {
           <SectionHeader
             title="Thoroughbreds Available for Partnership"
             subtitle="Discover the pride of Vahala Racing — elite thoroughbreds trained for excellence, speed, and legacy."
-            buttonText="See Ownership opportunities "
+            buttonText="See Ownership opportunities"
             buttonLink='/ownership'
             buttonVariant="secondary"
           />

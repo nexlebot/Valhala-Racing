@@ -93,7 +93,7 @@ const TestimonialCard = ({ item }: { item: Testimonial }) => (
 
 const Testimonials = () => {
   return (
-    <section className="mx-6 lg:mx-12 lg:py-14 ">
+    <section className="mt-6 lg:mt-0 mx-6 lg:mx-12 lg:py-14 ">
       {/* <h2 className="sr-only">Testimonials</h2> */}
       <SectionHeader
         title="Testimonials & Highlights"
