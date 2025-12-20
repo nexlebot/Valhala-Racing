@@ -3,11 +3,10 @@ import ImageSlider from "./_components/homePageSpecificSections/imageSlider"
 import OwnerShipAndSyndication from "./_components/homePageSpecificSections/ownerShipAndSyndication"
 import RecentResultSection from "./_components/homePageSpecificSections/recentResultSection"
 import Testimonials from "./_components/homePageSpecificSections/testimonials"
-import UpComingRaceListView from "./_components/homePageSpecificSections/upComingRaceListView"
+import UpComingRaceListView, { Column } from "./_components/homePageSpecificSections/upComingRaceListView"
 import Navbar from "./_components/navbar"
 import OurFacility from "./_components/OurFacility"
 import UpcomingRacesMobile from "./_components/UpcomingRacesMobile"
-import { Trophy, Users } from 'lucide-react';
 
 const racingData = [
   {
@@ -36,6 +35,13 @@ const racingData = [
   }
 ]
 
+const columns: Column[] = [
+  { key: "name", label: "Horse Name", grow: 1 },
+  { key: "race", label: "Race Number", grow: 1 },
+  { key: "location", label: "Race Position", grow: 1 },
+  { key: "date", label: "Date", grow: 1, align: "left" },
+];
+
 const page = () => {
   return (
     <div className="">
@@ -44,13 +50,13 @@ const page = () => {
         {
           text: "View Ownership Opportunities",
           href: "/ownership",
-          icon: <Trophy className="w-5 h-5" />,
+          icon: <img src={"/horse.png"} className="w-5 h-5" />,
           variant: "primary",
         },
         {
           text: "Upcoming Races",
           href: "/upcoming-races",
-          icon: <Users className="w-5 h-5" />,
+          icon: <img src={"/flag.png"} className="w-5 h-5" />,
           variant: "secondary",
         }
       ]} />
@@ -58,7 +64,16 @@ const page = () => {
       <ImageSlider />
       <div className="mx-6 lg:mx-12">
         <div className="hidden lg:block">
-          <UpComingRaceListView />
+          <UpComingRaceListView items={racingData} header={{
+            title: "Upcoming Races",
+            subtitle:
+              "Stay ahead of the action — explore the latest horse racing events happening soon across Australia.",
+            buttonText: "view all races",
+            buttonLink: "/upcoming-races",
+            buttonVariant: "secondary",
+          }}
+            columns={columns}
+          />
         </div>
         <div className="block mb-8 lg:mb-0 my-6 lg:hidden "><UpcomingRacesMobile items={racingData} /></div>
       </div>

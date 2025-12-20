@@ -6,7 +6,7 @@ interface CurvedLineProps {
 }
 
 
-const CurvedLine: React.FC<CurvedLineProps> = ({ className }) => {
+export const CurvedLine: React.FC<CurvedLineProps> = ({ className }) => {
     return <svg
         className={`${className} absolute w-full`}
         height="64"
@@ -48,7 +48,7 @@ const HorseProfile = () => {
 
     return (
         <div>
-            <h1 className="text-2xl lg:text-3xl font-semibold text-[#1ADB04] my-14 mb-10">Profile</h1>
+            <h1 className="text-2xl lg:text-3xl font-semibold text-primary my-14 mb-10">Profile</h1>
             <div className=" flex flex-col gap-16 mb-8">
                 {/* First Row */}
                 <div className="relative">
@@ -76,7 +76,7 @@ const HorseProfile = () => {
                                 <span className="text-lg font-medium capitalize min-w-max">
                                     {key.replace(/([A-Z])/g, ' $1').trim()}
                                 </span>
-                                <span className="text-base mt-2 text-gray-900  lg:border-x lg:border-[#1ADB04]">
+                                <span className="text-base mt-2 text-gray-900  lg:border-x lg:border-primary">
                                     {value}
                                 </span>
                             </div>

@@ -41,10 +41,10 @@ const LocationSection: React.FC<LocationSectionProps> = ({ mapSrc }) => {
                             <span className="font-medium">Phone:</span> +0438 811 130
                         </p>
                         <p>
-                            <span className="font-medium">Admin:</span> admin@vahalaracingstables.com.au
+                            <span className="font-medium block">Admin:</span> admin@vahalaracingstables.com.au
                         </p>
-                        <p>
-                            <span className="font-medium">Accounts:</span> accounts@vahalaracingstables.com.au
+                        <p> 
+                            <span className="font-medium block">Accounts:</span> accounts@vahalaracingstables.com.au
                         </p>
                     </div>
 

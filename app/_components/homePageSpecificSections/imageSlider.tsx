@@ -163,7 +163,7 @@ const ImageSlider = () => {
         </div>
 
         <div className='mx-auto w-full mt-1 lg:mt-4'>
-          <p className='mt-0 lg:mt-8 2-full md:w-[78%] text-center mx-auto text-sm lg:text-base font-normal'>Discover the next generation of Vahala champions. Our selection process focuses on elite <span className='text-primary'>thoroughbred bloodlines</span>  and proven racing potential, offering you the best opportunity for a rewarding investment. Review the limited <span className='text-primary italic font-medium'>investment percentages</span> currently available in our upcoming horse. Built for success, this section features the horses you can join today.</p>
+          <p className='mt-0 lg:mt-8 2-full md:w-[78%] text-center mx-auto text-sm lg:text-base font-normal'>Discover the next generation of Vahala champions. Our selection process focuses on elite <span className='text-primary'>thoroughbred bloodlines</span>  and proven racing potential, offering you the best opportunity for a rewarding investment. Review the limited <span className='text-primary'>investment percentages</span> currently available in our upcoming horse. Built for success, this section features the horses you can join today.</p>
         </div>
 
 

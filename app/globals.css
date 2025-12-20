@@ -7,3 +7,7 @@
 body {
   font-family: var(--font-poppins), sans-serif;
 }
+
+.dot {
+  @apply w-2 h-2 rounded-full bg-primary ring-2 ring-white;
+}

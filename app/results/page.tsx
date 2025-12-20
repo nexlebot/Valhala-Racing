@@ -2,10 +2,10 @@ import React from 'react'
 import PageIntro from '../_components/PageIntro'
 import Navbar from '../_components/navbar'
 import WinsCard from '../_components/WinsCard'
-import UpComingRaceListView from '../_components/homePageSpecificSections/upComingRaceListView'
+import UpComingRaceListView, { Column } from '../_components/homePageSpecificSections/upComingRaceListView'
 import UpcomingRacesMobile from '../_components/UpcomingRacesMobile'
 
-const raceData = [
+const raceDataMobile = [
     {
         "name": "Thunder Blaze",
         "race": "Race #12",
@@ -31,6 +31,66 @@ const raceData = [
         "date": "November 2, 2025"
     }
 ]
+const raceDataDesktop = [
+    {
+        "horseName": "Midnight Echo",
+        "position": "1st",
+        "raceNumber": "Race #1",
+        "location": "Cranbourne",
+        "date": "Oct 19"
+    },
+    {
+        "horseName": "Blaze Runner",
+        "position": "1st",
+        "raceNumber": "Race #2",
+        "location": "Pakenham",
+        "date": "Oct 5"
+    },
+    {
+        "horseName": "Silver Comet",
+        "position": "1st",
+        "raceNumber": "Race #3",
+        "location": "Mornington",
+        "date": "Sep 21"
+    },
+    {
+        "horseName": "Rapid Venture",
+        "position": "1st",
+        "raceNumber": "Race #4",
+        "location": "Cranbourne",
+        "date": "Aug 9"
+    },
+    {
+        "horseName": "Silver Comet",
+        "position": "1st",
+        "raceNumber": "Race #5",
+        "location": "Bendigo",
+        "date": "Jul 15"
+    },
+    {
+        "horseName": "Night Commander",
+        "position": "1st",
+        "raceNumber": "Race #6",
+        "location": "Ballarat",
+        "date": "Jun 7"
+    },
+    {
+        "horseName": "Flashpoint",
+        "position": "1st",
+        "raceNumber": "Race #7",
+        "location": "Sandown",
+        "date": "May 18"
+    }
+]
+const columns: Column[] = [
+    { key: "horseName", label: "Horse Name", grow: 1 },
+    { key: "position", label: "Position", grow: 1 },
+    { key: "raceNumber", label: "Race Number", grow: 1 },
+    { key: "location", label: "Race Location", grow: 1 },
+    { key: "date", label: "Date", grow: 1, align: "left" },
+];
+
+
 
 const page = () => {
     return (
@@ -50,10 +110,14 @@ const page = () => {
 
             <WinsCard />
             <div className='hidden lg:block'>
-                <UpComingRaceListView />
+                <UpComingRaceListView items={raceDataDesktop} header={{
+                    title: "Previous Runner Results",
+                    subHeading: "Vahala Racing — Season Race Winners"
+                }} columns={columns} />
+
             </div>
             <div className='my-6 lg:my-0 lg:hidden'>
-                <UpcomingRacesMobile items={raceData} />
+                <UpcomingRacesMobile items={raceDataMobile} />
             </div>
         </div>
     )

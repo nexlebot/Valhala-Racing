@@ -3,6 +3,8 @@ import { HorseCard } from '../_components/HorsesCard'
 import PageIntro from '../_components/PageIntro'
 import Link from 'next/link'
 
+
+
 const page = () => {
     const horses = [
         {

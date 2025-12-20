@@ -1,74 +1,81 @@
-import Image from "next/image";
+import { ReactNode } from "react";
+import { CurvedLine } from "../HorseProfile";
 import SectionHeader from "../sectionHeader";
 
-type RaceItem = {
-    name: string;
-    race: string;
-    location: string;
-    date: string;
+export type Column<T extends Record<string, unknown> = Record<string, unknown>> = {
+    key: string;
+    label: string;
+    grow?: number;
+    width?: string;
+    align?: "left" | "right";
+    render?: (value: unknown, row: T) => ReactNode;
 };
 
-const items: RaceItem[] = [
-    { name: "Thunder Blaze", race: "Race #12", location: "Melbourne Racecourse, Australia", date: "October 15, 2025" },
-    { name: "Golden Stride", race: "Race #13", location: "Sydney Park Arena, Australia", date: "October 20, 2025" },
-    { name: "Midnight Charger", race: "Race #14", location: "Adelaide Downs, Australia", date: "October 28, 2025" },
-    { name: "Silver Arrow", race: "Race #15", location: "Brisbane Grand Track, Australia", date: "November 2, 2025" },
-    { name: "Desert Comet", race: "Race #16", location: "Perth Racecourse, Australia", date: "November 10, 2025" },
-];
+type SectionHeaderProps = {
+    title: string;
+    subtitle?: string;
+    subHeading?: string;
+    buttonText?: string;
+    buttonLink?: string;
+    buttonVariant?: "primary" | "secondary";
+};
 
-export default function UpComingRaceListView() {
+type Props<T extends Record<string, unknown>> = {
+    items: T[];
+    header: SectionHeaderProps;
+    columns: Column<T>[];
+};
+
+
+export default function RaceListView<T extends Record<string, unknown>>({
+    items,
+    header,
+    columns,
+}: Props<T>) {
     return (
         <section className="py-14">
-            <SectionHeader
-                title="Upcoming Races"
-                subtitle="Stay ahead of the action — explore the latest horse racing events happening soon across Australia."
-                buttonText="View races"
-                buttonVariant="secondary"
-            />
-            <div className="space-y-8">
+            <SectionHeader {...header} />
+
+            <div className="relative space-y-6">
+                <CurvedLine className="-top-2 hidden lg:block" />
+
+                {/* TABLE HEADER */}
+                <div className="hidden lg:flex items-center gap-6 py-3 text-sm font-semibold  uppercase">
+                    {columns.map((col) => (
+                        <div
+                            key={col.key}
+                            className={`flex-1 flex items-center ${col.align === "right" ? "justify-end" : ""}`}
+
+                        >
+                            {col.label}
+                        </div>
+                    ))}
+
+                </div>
+
+                {/* DATA ROWS */}
                 {items.map((it, idx) => (
-                    <article
-                        key={it.name + idx}
-                        className="relative overflow-visible"
-                        aria-label={`Upcoming race ${it.race} for ${it.name}`}
+                    <div
+                        key={`${it.horseName}-${idx}`}
+                        className="flex items-center gap-6 py-5"
                     >
-                        <Image
-                            src="/curvedLine.png"
-                            alt="Curved line"
-                            fill
-                            className="absolute left-0 right-0 top-1/2 pointer-events-none hidden lg:block"
-                        />
+                        {columns.map((col) => (
+                            <div
+                                key={col.key}
+                                className={`flex-1 flex items-center gap-3 ${col.align === "right" ? "justify-end" : ""}`}
+                            >
+                                <span className="dot" />
+                                <span className={col.key === "horseName" ? "font-medium" : ""}>
+                                    <span>
+                                        {col.render
+                                            ? col.render(it[col.key], it)
+                                            : String(it[col.key])}
+                                    </span>
 
-                        {/* Row content - flex layout */}
-                        <div className="flex items-center justify-between gap-4 py-6">
-                            {/* Left: horse name */}
-                            <div className="flex-[0_0_270px] pr-4">
-                                <h3 className="text-lg md:text-xl font-medium tracking-tight text-gray-900">
-                                    {it.name}
-                                </h3>
-                            </div>
-
-                            {/* Race title with green dot */}
-                            <div className="flex items-center gap-3">
-                                <span className="w-2 h-2 rounded-full bg-[#1ADB04] ring-2 ring-white" />
-                                <span className="font-semibold text-sm md:text-base text-gray-700 ">
-                                    {it.race}
                                 </span>
                             </div>
-
-                            {/* Location with green dot */}
-                            <div className="flex items-center gap-3">
-                                <span className="w-2 h-2 rounded-full bg-[#1ADB04] ring-2 ring-white" />
-                                <span className="text-sm text-gray-700">{it.location}</span>
-                            </div>
-
-                            {/* Date with green dot, right aligned */}
-                            <div className="flex items-center justify-end gap-3 flex-[0_0_240px]">
-                                <span className="w-2 h-2 rounded-full bg-[#1ADB04] ring-2 ring-white" />
-                                <span className="text-sm text-gray-700 ">{it.date}</span>
-                            </div>
-                        </div>
-                    </article>
+                        ))}
+                    </div>
                 ))}
             </div>
         </section>

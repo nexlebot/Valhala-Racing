@@ -1,8 +1,7 @@
 import React from 'react'
 import HeroSection from '../_components/HeroSection'
 import Navbar from '../_components/navbar'
-import MajorWins from '../_components/MajorWins'
-import UpComingRaceListView from '../_components/homePageSpecificSections/upComingRaceListView'
+import UpComingRaceListView, { Column } from '../_components/homePageSpecificSections/upComingRaceListView'
 import UpcomingRacesMobile from '../_components/UpcomingRacesMobile'
 import { IoLocationSharp } from 'react-icons/io5'
 import { FaCalendarAlt } from "react-icons/fa";
@@ -34,6 +33,14 @@ const raceData = [
     }
 ]
 
+
+const columns: Column[] = [
+    { key: "name", label: "Horse Name", width: "flex-[0_0_300px]" },
+    { key: "race", label: "Race Number", width: "flex-[0_0_260px]" },
+    { key: "location", label: "Race Position", width: "flex-[0_0_400px]" },
+    { key: "date", label: "Date", width: "flex-[0_0_200px]", align: "left" },
+];
+
 const page = () => {
     return (
         <div className=''>
@@ -53,7 +60,13 @@ const page = () => {
                 }
             ]} />
             <div className="mx-6 lg:mx-12 hidden lg:block ">
-                <UpComingRaceListView />
+                <UpComingRaceListView items={raceData} header={{
+                    title: "Upcoming Races",
+                    subtitle:
+                        "Stay ahead of the action — explore the latest horse racing events happening soon across Australia.",
+                }}
+                    columns={columns}
+                />
             </div>
             <div className='mx-6 my-6 lg:mx-12 lg:hidden'>
                 <UpcomingRacesMobile items={raceData} />

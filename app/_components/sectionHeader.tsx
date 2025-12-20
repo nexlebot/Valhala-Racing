@@ -5,6 +5,7 @@ import Link from "next/link";
 interface SectionHeaderProps {
     title: string;
     subtitle?: string;
+    subHeading?: string;
     buttonText?: string;
     buttonLink?: string;
     buttonVariant?: "primary" | "secondary" | "tertiary";
@@ -15,6 +16,7 @@ interface SectionHeaderProps {
 const SectionHeader: React.FC<SectionHeaderProps> = ({
     title,
     subtitle,
+    subHeading,
     buttonText,
     buttonLink,
     buttonVariant = "primary",
@@ -47,6 +49,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
                 )}
             </div>
             {subtitle && <p className="my-2 lg:mt-0 text-sm lg:text-base">{subtitle}</p>}
+            {subHeading && <p className="my-2 lg:mt-0 text-xl text-primary lg:text-lg">{subHeading}</p>}
         </div>
     );
 };
