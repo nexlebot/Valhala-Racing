@@ -259,7 +259,7 @@ export default function AdminPage() {
                             <p className="text-zinc-400 text-sm">Sire / Dam: {horse.sire} × {horse.dam}</p>
                             <p className="text-zinc-400 text-sm mb-4">Career: {horse.career}</p>
                             <div className="flex flex-col gap-2">
-                                <button onClick={() => router.push(`/admin/horse/${horse.id}?pw=${password}`)} className="w-full bg-[#1ADB04] text-black py-2 rounded-lg text-sm font-bold">Manage Detail Page</button>
+                                <button onClick={() => { sessionStorage.setItem('adminPw', password); router.push(`/admin/horse/${horse.id}`); }} className="w-full bg-[#1ADB04] text-black py-2 rounded-lg text-sm font-bold">Manage Detail Page</button>
                                 <div className="flex gap-2">
                                     <button onClick={() => { setEditingHorse(horse); setEditFile(null); setEditPreview(null); }} className="flex-1 bg-zinc-700 hover:bg-zinc-600 text-white py-2 rounded-lg text-sm font-medium">Edit</button>
                                     <button onClick={() => handleDelete(horse.id)} className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg text-sm font-medium">Delete</button>

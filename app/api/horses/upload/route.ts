@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-const ADMIN_PASSWORD = 'valhalla2024';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
 
 export async function POST(req: NextRequest) {
     const formData = await req.formData();

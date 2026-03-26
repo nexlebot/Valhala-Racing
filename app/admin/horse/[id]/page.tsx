@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState, useCallback } from 'react';
-import { useParams, useSearchParams, useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import ImageCropper from '@/app/_components/ImageCropper';
 import { Star, Trash2, StarOff } from 'lucide-react';
 
@@ -39,9 +39,8 @@ function toEmbedUrl(url: string): string {
 
 export default function HorseDetailAdmin() {
     const { id } = useParams<{ id: string }>();
-    const searchParams = useSearchParams();
     const router = useRouter();
-    const password = searchParams.get('pw') || '';
+    const [password, setPassword] = useState('');
 
     const [horse, setHorse] = useState<Horse | null>(null);
     const [about, setAbout] = useState('');
@@ -62,7 +61,13 @@ export default function HorseDetailAdmin() {
         setGallery(data.gallery || []);
     }, [id, router]);
 
-    useEffect(() => { if (!password) { router.push('/admin'); return; } fetchHorse(); }, [fetchHorse, password, router]);
+    useEffect(() => {
+        const pw = sessionStorage.getItem('adminPw') || '';
+        if (!pw) { router.push('/admin'); return; }
+        setPassword(pw);
+    }, [router]);
+
+    useEffect(() => { if (password) fetchHorse(); }, [fetchHorse, password]);
 
     async function save(updatedGallery?: GalleryImage[]) {
         setSaving(true);
