@@ -4,34 +4,51 @@ import CareerStats from '@/app/_components/CareerStats'
 import Navbar from '@/app/_components/navbar'
 import PageIntro from '@/app/_components/PageIntro'
 import VideoPlayer from '@/app/_components/VideoPlayer'
+import { notFound } from 'next/navigation'
+import fs from 'fs'
+import path from 'path'
 
+export const dynamic = 'force-dynamic'
 
-const page = () => {
+function getHorse(id: string) {
+    const horses = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'horses.json'), 'utf-8'));
+    return horses.find((h: { id: number }) => String(h.id) === id) ?? null;
+}
+
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const horse = getHorse(id);
+    if (!horse) notFound();
+
+    const galleryImages = (horse.gallery || []).map((g: { url: string }) => ({ url: g.url, alt: horse.title }));
+
     return (
         <div className='mx-6 lg:mx-12'>
             <Navbar hasBackgroundImage={false} />
             <PageIntro mainHeading="Our Horses" intro='Champions bred with passion, trained for excellence.' />
-            <Slider />
+            {galleryImages.length > 0 && <Slider images={galleryImages} />}
             <HorseProfile />
 
             <div className=''>
                 <div className='my-14'>
-
                     <h1 className='text-primary text-3xl font-semibold py-6'>
-                        About Blaze King
+                        About {horse.title}
                     </h1>
-                    <p className='mb-1'>Blaze King is one of the most promising middle-distance runners of the current racing circuit. Known for his fiery acceleration and exceptional race intelligence, he consistently demonstrates strong stamina and the ability to dominate the final stretch. Trainers praise his willingness to learn and his controlled, powerful stride that sets him apart from other horses of his class.</p>
-                    <p>Over the years, Blaze King has built a reputation for delivering his best in high-pressure competitions. His recent victory at the Horizon Derby 2025 showcased not only his physical capability but also his calm temperament despite challenging race conditions. With an excellent training team and natural athleticism, he is expected to continue rising in top-tier events throughout the season.</p>
+                    {horse.about
+                        ? <div className='prose max-w-none' dangerouslySetInnerHTML={{ __html: horse.about }} />
+                        : <p className='text-gray-500 italic'>No description added yet.</p>
+                    }
                 </div>
-                <div className='mt-6 text-primary'>
-                    <h1 className=' font-semibold text-3xl mb-2'>Highlight Video</h1>
-                    <p className='mb-4'>Blaze King – Horizon Derby 2025 Highlights</p>
-                    <VideoPlayer url="https://www.youtube.com/embed/dQw4w9WgXcQ" />
-                </div>
+
+                {horse.videoUrl && (
+                    <div className='mt-6 text-primary'>
+                        <h1 className='font-semibold text-3xl mb-2'>Highlight Video</h1>
+                        <p className='mb-4'>{horse.title} – Highlights</p>
+                        <VideoPlayer url={horse.videoUrl} />
+                    </div>
+                )}
             </div>
             <CareerStats />
         </div>
     )
 }
-
-export default page
