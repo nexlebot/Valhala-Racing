@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getStore } from '@netlify/blobs';
+import { setBytes } from '@/lib/storage';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
 
@@ -17,8 +17,7 @@ export async function POST(req: NextRequest) {
     const ext = file.name.split('.').pop() || 'jpg';
     const filename = `${Date.now()}.${ext}`;
 
-    const store = getStore('horse-images');
-    await store.set(filename, bytes, { metadata: { contentType: file.type } });
+    await setBytes('horse-images', filename, bytes, { contentType: file.type });
 
     return NextResponse.json({ url: `/api/horses/upload/${filename}` });
 }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getStore } from '@netlify/blobs';
+import { getJSON, setJSON } from '@/lib/storage';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
 
@@ -10,8 +10,7 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const store = getStore('horses');
-    const existing = await store.get('list', { type: 'json' });
+    const existing = await getJSON('horses', 'list');
     if (existing) {
         return NextResponse.json({ message: 'Already seeded', count: existing.length });
     }
@@ -49,6 +48,6 @@ export async function GET(req: NextRequest) {
         }
     ];
 
-    await store.setJSON('list', initialData);
+    await setJSON('horses', 'list', initialData);
     return NextResponse.json({ message: 'Seeded successfully', count: initialData.length });
 }

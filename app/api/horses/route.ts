@@ -1,17 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getStore } from '@netlify/blobs';
+import { getJSON, setJSON } from '@/lib/storage';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
 
 async function readHorses() {
-    const store = getStore('horses');
-    const raw = await store.get('list', { type: 'json' });
-    return raw ?? [];
+    return (await getJSON('horses', 'list')) ?? [];
 }
 
 async function writeHorses(data: object) {
-    const store = getStore('horses');
-    await store.setJSON('list', data);
+    await setJSON('horses', 'list', data);
 }
 
 export async function GET() {

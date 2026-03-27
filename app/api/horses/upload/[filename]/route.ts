@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getStore } from '@netlify/blobs';
+import { getBytes } from '@/lib/storage';
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ filename: string }> }) {
     const { filename } = await params;
-    const store = getStore('horse-images');
-    const { data, metadata } = await store.getWithMetadata(filename, { type: 'arrayBuffer' });
-    if (!data) return NextResponse.json({ error: 'Not found' }, { status: 404 });
-    return new NextResponse(data as ArrayBuffer, {
+    const result = await getBytes('horse-images', filename);
+    if (!result) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    return new NextResponse(result.data, {
         headers: {
-            'Content-Type': (metadata?.contentType as string) || 'image/jpeg',
+            'Content-Type': result.meta?.contentType || 'image/jpeg',
             'Cache-Control': 'public, max-age=31536000, immutable',
         },
     });
