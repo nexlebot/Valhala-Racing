@@ -52,6 +52,15 @@
     "id": 1774531604174,
     "about": "",
     "videoUrl": "https://www.youtube.com/embed/Uh1DAyJt4CE",
-    "gallery": []
+    "gallery": [
+      {
+        "url": "/horses/1774534547623.jpg",
+        "isMain": true
+      },
+      {
+        "url": "/horses/1774534555285.webp",
+        "isMain": false
+      }
+    ]
   }
 ]

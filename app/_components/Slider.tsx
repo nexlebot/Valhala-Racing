@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface SliderImage { url: string; alt?: string; }
@@ -8,14 +8,21 @@ export default function ImageSlider({ images }: { images: SliderImage[] }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
 
-    if (!images?.length) return null;
-
-    const changeSlide = (newIndex: number) => {
-        if (isTransitioning) return;
+    const changeSlide = useCallback((newIndex: number) => {
         setIsTransitioning(true);
         setCurrentIndex(newIndex);
         setTimeout(() => setIsTransitioning(false), 500);
-    };
+    }, []);
+
+    useEffect(() => {
+        if (!images?.length || images.length <= 1) return;
+        const timer = setInterval(() => {
+            setCurrentIndex(prev => (prev === images.length - 1 ? 0 : prev + 1));
+        }, 10000);
+        return () => clearInterval(timer);
+    }, [images?.length]);
+
+    if (!images?.length) return null;
 
     return (
         <div className="flex justify-center mt-4">

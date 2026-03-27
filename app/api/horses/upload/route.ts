@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { getStore } from '@netlify/blobs';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
 
@@ -15,13 +14,11 @@ export async function POST(req: NextRequest) {
     if (!file) return NextResponse.json({ error: 'No file' }, { status: 400 });
 
     const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    const ext = file.name.split('.').pop() || 'jpg';
+    const filename = `${Date.now()}.${ext}`;
 
-    const ext = path.extname(file.name) || '.jpg';
-    const filename = `${Date.now()}${ext}`;
-    const savePath = path.join(process.cwd(), 'public', 'horses', filename);
+    const store = getStore('horse-images');
+    await store.set(filename, bytes, { metadata: { contentType: file.type } });
 
-    fs.writeFileSync(savePath, buffer);
-
-    return NextResponse.json({ url: `/horses/${filename}` });
+    return NextResponse.json({ url: `/api/horses/upload/${filename}` });
 }

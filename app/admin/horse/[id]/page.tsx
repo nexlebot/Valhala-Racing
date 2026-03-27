@@ -67,7 +67,11 @@ export default function HorseDetailAdmin() {
         setPassword(pw);
     }, [router]);
 
-    useEffect(() => { if (password) fetchHorse(); }, [fetchHorse, password]);
+    useEffect(() => {
+        if (!password) return;
+        fetchHorse();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [password]);
 
     async function save(updatedGallery?: GalleryImage[]) {
         setSaving(true);

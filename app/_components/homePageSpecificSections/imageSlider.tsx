@@ -58,21 +58,23 @@ const ImageSlider = () => {
 
     const checkSize = () => {
       const w = window.innerWidth;
-      setIsMobile(w <= 640);
-      setIsTablet(w > 640 && w <= 1100);
-      setIsDesktop(w > 1100);
+      const mobile = w <= 640;
+      const tablet = w > 640 && w <= 1100;
+      const desktop = w > 1100;
+      setIsMobile(mobile);
+      setIsTablet(tablet);
+      setIsDesktop(desktop);
     };
 
     const handleResize = () => {
       if (timeoutId) window.clearTimeout(timeoutId);
-      // debounce 80ms
       timeoutId = window.setTimeout(() => {
         checkSize();
         timeoutId = null;
       }, 80);
     };
 
-    checkSize(); // initial
+    checkSize();
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);

@@ -5,14 +5,12 @@ import Navbar from '@/app/_components/navbar'
 import PageIntro from '@/app/_components/PageIntro'
 import VideoPlayer from '@/app/_components/VideoPlayer'
 import { notFound } from 'next/navigation'
-import fs from 'fs'
-import path from 'path'
 
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const horse = getHorse(id);
+    const horse = await getHorse(id);
     if (!horse) return {};
     return {
         title: `${horse.title} | Valhalla Racing`,
@@ -26,14 +24,15 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     };
 }
 
-function getHorse(id: string) {
-    const horses = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'horses.json'), 'utf-8'));
-    return horses.find((h: { id: number }) => String(h.id) === id) ?? null;
+async function getHorse(id: string) {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/horses/${id}`, { cache: 'no-store' });
+    if (!res.ok) return null;
+    return res.json();
 }
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const horse = getHorse(id);
+    const horse = await getHorse(id);
     if (!horse) notFound();
 
     const galleryImages = (horse.gallery || []).map((g: { url: string }) => ({ url: g.url, alt: horse.title }));

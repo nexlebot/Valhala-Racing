@@ -74,7 +74,11 @@ export default function AdminPage() {
         setHorses(await res.json());
     }
 
-    useEffect(() => { if (authed) fetchHorses(); }, [authed]);
+    useEffect(() => {
+        if (!authed) return;
+        fetchHorses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [authed]);
 
     async function handleAdd(e: React.FormEvent) {
         e.preventDefault();

@@ -2,8 +2,6 @@ import React from 'react'
 import Navbar from '../_components/navbar'
 import PageIntro from '../_components/PageIntro'
 import HorseGallery from '../_components/HorseGallery'
-import fs from 'fs'
-import path from 'path'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,8 +22,9 @@ const data = {
     ],
 };
 
-const Page = () => {
-    const horses = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'horses.json'), 'utf-8'));
+const Page = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/horses`, { cache: 'no-store' });
+    const horses = await res.json();
     return (
         <div className='mx-6 lg:mx-12'>
             <Navbar hasBackgroundImage={false} />
