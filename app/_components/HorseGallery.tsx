@@ -10,6 +10,7 @@ interface GalleryImage {
     sire: string;
     dam: string;
     career: string;
+    stable: string;
 }
 
 interface HorseGalleryProps {
@@ -27,7 +28,7 @@ const HorseGallery: React.FC<HorseGalleryProps> = ({ images }) => {
                             className="relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
                         >
                             {/* Image */}
-                            <div className="aspect-[3/4] overflow-hidden">
+                            <div className="aspect-[3/2] overflow-hidden">
                                 <img
                                     src={image.url}
                                     alt={image.title}
@@ -68,6 +69,9 @@ const HorseGallery: React.FC<HorseGalleryProps> = ({ images }) => {
                                         Sire / Dam: {image.sire} × {image.dam}
                                     </p>
                                     <p className="text-gray-200">
+                                        Stable: {image.stable}
+                                    </p>
+                                    <p className="text-gray-200 font-bold">
                                         Career: {image.career}
                                     </p>
                                 </div>

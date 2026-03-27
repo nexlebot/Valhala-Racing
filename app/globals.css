@@ -11,3 +11,35 @@ body {
 .dot {
   @apply w-2 h-2 rounded-full bg-primary ring-2 ring-white;
 }
+
+/* Quill dark theme for admin */
+.quill-dark .ql-toolbar {
+  background-color: #18181b;
+  border-color: #3f3f46 !important;
+  border-radius: 8px 8px 0 0;
+}
+.quill-dark .ql-container {
+  background-color: #27272a;
+  border-color: #3f3f46 !important;
+  border-radius: 0 0 8px 8px;
+  min-height: 160px;
+  color: #fff;
+  font-size: 14px;
+}
+.quill-dark .ql-editor.ql-blank::before {
+  color: #71717a;
+  font-style: normal;
+}
+.quill-dark .ql-toolbar .ql-stroke { stroke: #a1a1aa; }
+.quill-dark .ql-toolbar .ql-fill { fill: #a1a1aa; }
+.quill-dark .ql-toolbar .ql-picker { color: #a1a1aa; }
+.quill-dark .ql-toolbar button:hover .ql-stroke,
+.quill-dark .ql-toolbar .ql-active .ql-stroke { stroke: #1ADB04; }
+.quill-dark .ql-toolbar button:hover .ql-fill,
+.quill-dark .ql-toolbar .ql-active .ql-fill { fill: #1ADB04; }
+.quill-dark .ql-toolbar .ql-picker-options {
+  background-color: #18181b;
+  border-color: #3f3f46;
+}
+.quill-dark .ql-toolbar .ql-picker-item { color: #a1a1aa; }
+.quill-dark .ql-toolbar .ql-picker-item:hover { color: #1ADB04; }

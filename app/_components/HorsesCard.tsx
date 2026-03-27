@@ -22,19 +22,19 @@ export function HorseCard({
     description
 }: HorseCardProps) {
     return (
-        <div className="flex flex-col lg:flex-row gap-0 lg:gap-8 items-start ">
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 items-start min-w-0">
             {/* Horse Image */}
-            <div className="max-w-[600px] w-full ">
+            <div className="w-full lg:max-w-[500px] shrink-0">
                 <img
                     src={image}
                     alt={name}
-                    className="max-w-[600px] w-full max-h-[400px] rounded-2xl object-cover shadow-lg"
+                    className="w-full h-[220px] sm:h-[300px] lg:h-[380px] rounded-2xl object-cover shadow-lg"
                 />
             </div>
 
             {/* Horse Details */}
-            <div className="w-full  flex flex-col justify-center py-3">
-                <h2 className="text-xl lg:text-2xl font-semibold text-[#1ADB04] mb-2">
+            <div className="w-full min-w-0 flex flex-col justify-center py-2">
+                <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-[#1ADB04] mb-2">
                     {name}
                 </h2>
 
@@ -49,16 +49,16 @@ export function HorseCard({
                 </div>
 
                 <div className="mb-2">
-                    <span className="text-[#1ADB04] font-semibold text-md lg:text-lg">
-                        Share Price: {sharePrice} (per {sharePercentage})
+                    <span className="text-[#1ADB04] font-semibold text-sm lg:text-lg">
+                        Share Price: {sharePrice}{sharePercentage ? ` (per ${sharePercentage})` : ''}
                     </span>
                 </div>
 
-                <p className="text-gray-700 leading-relaxed mb-4 text-sm lg:text-base">
-                    {description}
-                </p>
+                <div className="text-gray-700 leading-relaxed mb-4 text-sm lg:text-base prose prose-sm max-w-none break-words overflow-hidden"
+                    dangerouslySetInnerHTML={{ __html: description }}
+                />
 
-                <Button label='View Details' className='max-w-32 py-3' />
+                <Button label='View Details' className='w-full sm:max-w-[160px] py-3' />
             </div>
         </div>
     );

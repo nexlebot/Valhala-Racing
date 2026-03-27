@@ -25,8 +25,8 @@ export default function ImageSlider({ images }: { images: SliderImage[] }) {
     if (!images?.length) return null;
 
     return (
-        <div className="flex justify-center mt-4">
-            <div className="flex items-center justify-center gap-4 lg:gap-24 w-full">
+        <div className="flex justify-center mt-4 px-2">
+            <div className="flex items-center justify-center gap-2 sm:gap-6 lg:gap-24 w-full">
                 <button
                     onClick={() => changeSlide(currentIndex === 0 ? images.length - 1 : currentIndex - 1)}
                     disabled={isTransitioning}

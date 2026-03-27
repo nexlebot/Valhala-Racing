@@ -25,11 +25,12 @@ async function getCroppedBlob(imageSrc: string, cropArea: Area, originalFile: Fi
 interface Props {
     imageSrc: string;
     originalFile: File;
+    aspect?: number;
     onDone: (croppedFile: File) => void;
     onCancel: () => void;
 }
 
-export default function ImageCropper({ imageSrc, originalFile, onDone, onCancel }: Props) {
+export default function ImageCropper({ imageSrc, originalFile, aspect = 2089 / 1500, onDone, onCancel }: Props) {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
@@ -52,7 +53,7 @@ export default function ImageCropper({ imageSrc, originalFile, onDone, onCancel 
                     image={imageSrc}
                     crop={crop}
                     zoom={zoom}
-                    aspect={3 / 4}
+                    aspect={aspect}
                     objectFit="contain"
                     onCropChange={setCrop}
                     onZoomChange={setZoom}

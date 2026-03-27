@@ -61,7 +61,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                         About {horse.title}
                     </h1>
                     {horse.about
-                        ? <div className='prose max-w-none' dangerouslySetInnerHTML={{ __html: horse.about }} />
+                        ? <div className='prose max-w-none break-words overflow-hidden' dangerouslySetInnerHTML={{ __html: horse.about }} />
                         : <p className='text-gray-500 italic'>No description added yet.</p>
                     }
                 </div>
