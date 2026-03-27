@@ -75,6 +75,11 @@ export default function AdminPage() {
     }
 
     useEffect(() => {
+        const pw = sessionStorage.getItem('adminPw');
+        if (pw) { setPassword(pw); setAuthed(true); }
+    }, []);
+
+    useEffect(() => {
         if (!authed) return;
         fetchHorses();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -157,7 +162,7 @@ export default function AdminPage() {
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ password, _check: true }),
                             });
-                            if (res.status === 400) { setAuthed(true); setError(''); }
+                            if (res.status === 400) { sessionStorage.setItem('adminPw', password); setAuthed(true); setError(''); }
                             else setError('Wrong password');
                         }}
                         className="w-full bg-[#1ADB04] text-black font-bold py-3 rounded-lg"

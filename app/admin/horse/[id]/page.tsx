@@ -157,9 +157,6 @@ export default function HorseDetailAdmin() {
                     </label>
                 </div>
 
-                <button onClick={() => save()} disabled={saving} className="bg-zinc-700 hover:bg-zinc-600 text-white px-5 py-2 rounded-lg text-sm font-medium disabled:opacity-50">
-                    {saving ? 'Saving...' : saved ? '✓ Saved' : 'Save Gallery Order'}
-                </button>
             </section>
 
             {/* About */}
@@ -170,31 +167,33 @@ export default function HorseDetailAdmin() {
                     onChange={setAbout}
                     placeholder={`Write about ${horse.title}...`}
                 />
-                <button onClick={() => save()} disabled={saving} className="bg-[#1ADB04] text-black font-bold px-6 py-2 rounded-lg disabled:opacity-50">
-                    {saving ? 'Saving...' : saved ? '✓ Saved' : 'Save About'}
-                </button>
             </section>
 
             {/* Video */}
             <section className="bg-zinc-900 rounded-2xl p-6 mb-6">
                 <h2 className="text-lg font-semibold mb-1">Highlight Video</h2>
-                <p className="text-zinc-400 text-sm mb-4">Paste a YouTube embed URL or direct video URL.</p>
+                <p className="text-zinc-400 text-sm mb-4">Paste a YouTube URL or watch link — it will be converted automatically.</p>
                 <input
                     type="text"
                     value={videoUrl}
                     onChange={e => setVideoUrl(e.target.value)}
-                    placeholder="e.g. https://www.youtube.com/embed/xxxxx"
+                    placeholder="e.g. https://www.youtube.com/watch?v=xxxxx"
                     className="w-full bg-zinc-800 text-white px-4 py-3 rounded-lg outline-none placeholder-zinc-500 mb-4"
                 />
                 {videoUrl && (
-                    <div className="rounded-xl overflow-hidden aspect-video mb-4 border border-zinc-700">
-                        <iframe src={videoUrl} className="w-full h-full" allowFullScreen />
+                    <div className="rounded-xl overflow-hidden aspect-video border border-zinc-700">
+                        <iframe src={toEmbedUrl(videoUrl)} className="w-full h-full" allowFullScreen />
                     </div>
                 )}
-                <button onClick={() => save()} disabled={saving} className="bg-[#1ADB04] text-black font-bold px-6 py-2 rounded-lg disabled:opacity-50">
-                    {saving ? 'Saving...' : saved ? '✓ Saved' : 'Save Video'}
-                </button>
             </section>
+
+            {/* Save */}
+            <div className="bg-zinc-900 rounded-2xl px-6 py-4 flex items-center justify-end gap-4 mb-10">
+                {saved && <span className="text-[#1ADB04] text-sm font-medium">✓ All changes saved</span>}
+                <button onClick={() => save()} disabled={saving} className="bg-[#1ADB04] text-black font-bold px-8 py-2.5 rounded-lg disabled:opacity-50 text-sm">
+                    {saving ? 'Saving...' : 'Save All'}
+                </button>
+            </div>
 
             {/* Cropper */}
             {cropTarget && (
