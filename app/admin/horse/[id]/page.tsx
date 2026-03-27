@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import ImageCropper from '@/app/_components/ImageCropper';
+import RichTextEditor from '@/app/_components/RichTextEditor';
 import { Star, Trash2, StarOff } from 'lucide-react';
 
 interface GalleryImage { url: string; isMain: boolean; }
@@ -164,14 +165,11 @@ export default function HorseDetailAdmin() {
             {/* About */}
             <section className="bg-zinc-900 rounded-2xl p-6 mb-6">
                 <h2 className="text-lg font-semibold mb-4">About {horse.title}</h2>
-                <textarea
+                <RichTextEditor
                     value={about}
-                    onChange={e => setAbout(e.target.value)}
-                    rows={10}
+                    onChange={setAbout}
                     placeholder={`Write about ${horse.title}...`}
-                    className="w-full bg-zinc-800 text-white px-4 py-3 rounded-lg outline-none placeholder-zinc-500 resize-y text-sm leading-relaxed"
                 />
-                <p className="text-zinc-500 text-xs mt-2 mb-4">Basic HTML supported: &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;br&gt;</p>
                 <button onClick={() => save()} disabled={saving} className="bg-[#1ADB04] text-black font-bold px-6 py-2 rounded-lg disabled:opacity-50">
                     {saving ? 'Saving...' : saved ? '✓ Saved' : 'Save About'}
                 </button>
