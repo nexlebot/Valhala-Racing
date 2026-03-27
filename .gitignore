@@ -40,3 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .local-storage
+!.local-storage/scraped_data/
+!.local-storage/scraped_data/trainer_races.json
