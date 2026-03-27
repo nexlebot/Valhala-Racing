@@ -5,43 +5,23 @@ import UpComingRaceListView, { Column } from '../_components/homePageSpecificSec
 import UpcomingRacesMobile from '../_components/UpcomingRacesMobile'
 import { IoLocationSharp } from 'react-icons/io5'
 import { FaCalendarAlt } from "react-icons/fa";
-
-const raceData = [
-    {
-        "name": "Thunder Blaze",
-        "race": "Race #12",
-        "location": "Melbourne Racecourse, Australia",
-        "date": "October 18, 2025"
-    },
-    {
-        "name": "Golden Stride",
-        "race": "Race #7",
-        "location": "Sydney Park Arena, Australia",
-        "date": "October 20, 2025"
-    },
-    {
-        "name": "Midnight Charger",
-        "race": "Race #3",
-        "location": "Adelaide Downs, Australia",
-        "date": "October 28, 2025"
-    },
-    {
-        "name": "Silver Arrow",
-        "race": "Race #9",
-        "location": "Brisbane Grand Track, Australia",
-        "date": "November 2, 2025"
-    }
-]
-
+import { getUpcomingRaces } from '../../lib/getTrainerRaces';
 
 const columns: Column[] = [
-    { key: "name", label: "Horse Name", width: "flex-[0_0_300px]" },
-    { key: "race", label: "Race Number", width: "flex-[0_0_260px]" },
-    { key: "location", label: "Race Position", width: "flex-[0_0_400px]" },
+    { key: "horse_name", label: "Horse Name", width: "flex-[0_0_300px]" },
+    { key: "race_number", label: "Race Number", width: "flex-[0_0_260px]" },
+    { key: "race_details", label: "Race Position", width: "flex-[0_0_400px]" },
     { key: "date", label: "Date", width: "flex-[0_0_200px]", align: "left" },
 ];
 
-const page = () => {
+const page = async () => {
+    const races = await getUpcomingRaces();
+    const raceData = races.map(r => ({
+        horse_name: r.horse_name,
+        race_number: `Race #${r.race_number}`,
+        race_details: r.track,
+        date: r.date,
+    }));
     return (
         <div className=''>
             <Navbar />
@@ -60,7 +40,7 @@ const page = () => {
                 }
             ]} />
             <div className="mx-6 lg:mx-12 hidden lg:block ">
-                <UpComingRaceListView items={raceData} header={{
+                <UpComingRaceListView items={raceData as Record<string, unknown>[]} header={{
                     title: "Upcoming Races",
                     subtitle:
                         "Stay ahead of the action — explore the latest horse racing events happening soon across Australia.",
@@ -69,7 +49,7 @@ const page = () => {
                 />
             </div>
             <div className='mx-6 my-6 lg:mx-12 lg:hidden'>
-                <UpcomingRacesMobile items={raceData} />
+                <UpcomingRacesMobile items={raceData.map(r => ({ name: r.horse_name, race: r.race_number, location: r.race_details as string, date: r.date }))} />
             </div>
         </div>
     )

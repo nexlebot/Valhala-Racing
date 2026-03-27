@@ -1,78 +1,59 @@
-import React from 'react';
+'use client';
 
-interface WinCard {
-    id: number;
-    raceName: string;
-    date: string;
-    location: string;
-    horseName: string;
-    jockeyName: string;
-}
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { MajorWin } from '../../lib/getTrainerRaces';
 
-const MajorWins: React.FC = () => {
-    const wins: WinCard[] = [
-        {
-            id: 1,
-            raceName: "Perth Handicap",
-            date: "Dec 13, 2025",
-            location: "Ascot Pk",
-            horseName: "Soldanelle",
-            jockeyName: "Jockey: W. Pike"
-        },
-        {
-            id: 2,
-            raceName: "Electrical Consultancy Wa Maiden",
-            date: "Dec 11, 2025",
-            location: "Pinjarra",
-            horseName: "Lady Kiki",
-            jockeyName: "Jockey: C. Parnham"
-        },
-        {
-            id: 3,
-            raceName: "Indigenous Tennis & Learning / Rtsa",
-            date: "Oct 15, 2025",
-            location: "Ascot",
-            horseName: "Vandoula Jet",
-            jockeyName: "Jockey: S. Parnham"
-        },
-        {
-            id: 4,
-            raceName: "Tabtouch Share My Bet Mdn",
-            date: "Oct 08, 2025",
-            location: "Northam",
-            horseName: "Hoya Destroyer",
-            jockeyName: "Jockey: S. Parnham"
-        }
-    ];
+const PAGE_SIZE = 4;
 
+const MajorWins: React.FC<{ wins: MajorWin[] }> = ({ wins }) => {
+    const [page, setPage] = useState(0);
+    const totalPages = Math.ceil(wins.length / PAGE_SIZE);
+    const visible = wins.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
 
     return (
         <div className="w-full mt-6 lg:mt-0">
-            <div className="flex items-center gap-3 mb-5">
+            <div className="flex items-center justify-between mb-5">
                 <h1 className="text-2xl font-semibold" style={{ color: '#1ADB04CC' }}>
                     Major Wins
                 </h1>
+                {totalPages > 1 && (
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={() => setPage(p => p - 1)}
+                            disabled={page === 0}
+                            className="p-1.5 rounded-full border transition-colors disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100"
+                            style={{ borderColor: '#1ADB04CC' }}
+                        >
+                            <ChevronLeft className="w-4 h-4" />
+                        </button>
+                        <span className="text-sm text-gray-500">{page + 1} / {totalPages}</span>
+                        <button
+                            onClick={() => setPage(p => p + 1)}
+                            disabled={page === totalPages - 1}
+                            className="p-1.5 rounded-full border transition-colors disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100"
+                            style={{ borderColor: '#1ADB04CC' }}
+                        >
+                            <ChevronRight className="w-4 h-4" />
+                        </button>
+                    </div>
+                )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {wins.map((win, index) => (
+                {visible.map((win, index) => (
                     <div
-                        key={win.id}
+                        key={page * PAGE_SIZE + index}
                         className="relative rounded-2xl p-5 border transition-all duration-300 hover:shadow-lg"
                         style={{
                             backgroundColor: index === 0 ? '#1ADB04CC' : '#FFFFFF',
                             borderColor: '#1ADB04CC'
                         }}
                     >
-                        <div className='flex  justify-between items-center'>
-
-
-                            {/* Race Name */}
-                            <h3 className={`text-base font-medium  leading-tight ${index === 0 ? 'text-white' : 'text-gray-900'}`}>
-                                {win.raceName}
+                        <div className='flex justify-between items-center'>
+                            <h3 className={`text-base font-medium leading-tight ${index === 0 ? 'text-white' : 'text-gray-900'}`}>
+                                {win.event_name}
                             </h3>
-
-                            {/* Badge */}
                             <div className="inline-flex items-center justify-center">
                                 <span
                                     className="text-xs font-semibold px-3 py-1 rounded-full"
@@ -81,24 +62,15 @@ const MajorWins: React.FC = () => {
                                         color: index === 0 ? '#1ADB04CC' : 'white'
                                     }}
                                 >
-                                    1st
+                                    {win.position}
                                 </span>
                             </div>
                         </div>
-
-                        {/* Date and Location */}
                         <p className={`text-sm mt-1 mb-2 ${index === 0 ? 'text-white/90' : 'text-gray-600'}`}>
-                            {win.date} - {win.location}
+                            {win.date} - {win.meeting}
                         </p>
-
-                        {/* Horse Name */}
-                        <p className={`text-base font-semibold mb-1 ${index === 0 ? 'text-white' : 'text-gray-800'}`}>
-                            {win.horseName}
-                        </p>
-
-                        {/* Jockey Name */}
                         <p className={`text-sm ${index === 0 ? 'text-white/90' : 'text-gray-600'}`}>
-                            {win.jockeyName}
+                            {win.race_info}
                         </p>
                     </div>
                 ))}
