@@ -3,17 +3,11 @@ import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import ImageCropper from '@/app/_components/ImageCropper';
 import RichTextEditor from '@/app/_components/RichTextEditor';
-import { Star, Trash2, StarOff } from 'lucide-react';
+import AdminLayout from '@/app/admin/_components/AdminLayout';
+import { Star, Trash2, StarOff, Upload, ArrowLeft, Save, Video, FileText, Images } from 'lucide-react';
 
 interface GalleryImage { url: string; isMain: boolean; }
-interface Horse {
-    id: number;
-    title: string;
-    url: string;
-    about?: string;
-    videoUrl?: string;
-    gallery?: GalleryImage[];
-}
+interface Horse { id: number; title: string; url: string; about?: string; videoUrl?: string; gallery?: GalleryImage[]; }
 
 async function uploadImage(file: File, password: string): Promise<string | null> {
     const fd = new FormData();
@@ -26,12 +20,9 @@ async function uploadImage(file: File, password: string): Promise<string | null>
 
 function toEmbedUrl(url: string): string {
     try {
-        // Already embed
         if (url.includes('youtube.com/embed/')) return url;
-        // youtu.be/ID
         const short = url.match(/youtu\.be\/([^?&]+)/);
         if (short) return `https://www.youtube.com/embed/${short[1]}`;
-        // youtube.com/watch?v=ID
         const watch = url.match(/[?&]v=([^?&]+)/);
         if (watch) return `https://www.youtube.com/embed/${watch[1]}`;
     } catch { /* ignore */ }
@@ -42,7 +33,6 @@ export default function HorseDetailAdmin() {
     const { id } = useParams<{ id: string }>();
     const router = useRouter();
     const [password, setPassword] = useState('');
-
     const [horse, setHorse] = useState<Horse | null>(null);
     const [about, setAbout] = useState('');
     const [videoUrl, setVideoUrl] = useState('');
@@ -51,6 +41,7 @@ export default function HorseDetailAdmin() {
     const [saved, setSaved] = useState(false);
     const [cropTarget, setCropTarget] = useState<{ src: string; file: File } | null>(null);
     const [uploading, setUploading] = useState(false);
+    const [activeSection, setActiveSection] = useState<'gallery' | 'about' | 'video'>('gallery');
 
     const fetchHorse = useCallback(async () => {
         const res = await fetch(`/api/horses/${id}`);
@@ -71,7 +62,7 @@ export default function HorseDetailAdmin() {
     useEffect(() => {
         if (!password) return;
         fetchHorse();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [password]);
 
     async function save(updatedGallery?: GalleryImage[]) {
@@ -83,11 +74,7 @@ export default function HorseDetailAdmin() {
         });
         setSaving(false);
         setSaved(true);
-        setTimeout(() => setSaved(false), 2000);
-    }
-
-    function handleFileSelect(file: File) {
-        setCropTarget({ src: URL.createObjectURL(file), file });
+        setTimeout(() => setSaved(false), 2500);
     }
 
     async function handleCropDone(croppedFile: File) {
@@ -102,108 +89,177 @@ export default function HorseDetailAdmin() {
     }
 
     function toggleMain(index: number) {
-        const updated = gallery.map((g, i) => ({ ...g, isMain: i === index }));
-        setGallery(updated);
+        setGallery(gallery.map((g, i) => ({ ...g, isMain: i === index })));
     }
 
     function removeImage(index: number) {
         const updated = gallery.filter((_, i) => i !== index);
-        // if removed was main, set first as main
         if (gallery[index].isMain && updated.length > 0) updated[0].isMain = true;
         setGallery(updated);
     }
 
-    if (!horse) return <div className="min-h-screen bg-black flex items-center justify-center text-white">Loading...</div>;
+    if (!horse) return (
+        <AdminLayout>
+            <div className="flex items-center justify-center h-64">
+                <div className="flex items-center gap-3 text-zinc-500">
+                    <div className="w-5 h-5 border-2 border-zinc-600 border-t-[#1ADB04] rounded-full animate-spin" />
+                    Loading...
+                </div>
+            </div>
+        </AdminLayout>
+    );
+
+    const SECTIONS = [
+        { key: 'gallery' as const, label: 'Gallery', icon: Images },
+        { key: 'about' as const, label: 'About', icon: FileText },
+        { key: 'video' as const, label: 'Video', icon: Video },
+    ];
 
     return (
-        <div className="min-h-screen bg-black text-white p-6 lg:p-10 max-w-4xl mx-auto">
+        <AdminLayout>
             {/* Header */}
-            <div className="flex items-center gap-4 mb-10">
-                <button onClick={() => router.push('/admin')} className="text-zinc-400 hover:text-white text-sm">← Back</button>
-                <h1 className="text-2xl font-bold">Detail Page: <span className="text-[#1ADB04]">{horse.title}</span></h1>
-            </div>
-
-            {/* Gallery */}
-            <section className="bg-zinc-900 rounded-2xl p-6 mb-6">
-                <h2 className="text-lg font-semibold mb-4">Gallery / Carousel Images</h2>
-                <p className="text-zinc-400 text-sm mb-4">Click ★ to set as main image (shown on ownership page). First image is main by default.</p>
-
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
-                    {gallery.map((img, i) => (
-                        <div key={i} className="relative group rounded-xl overflow-hidden aspect-video bg-zinc-800">
-                            <img src={img.url} alt="" className="w-full h-full object-cover" />
-                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                                <button
-                                    onClick={() => toggleMain(i)}
-                                    title={img.isMain ? 'Main image' : 'Set as main'}
-                                    className={`p-2 rounded-full ${img.isMain ? 'bg-[#1ADB04] text-black' : 'bg-zinc-700 text-white'}`}
-                                >
-                                    {img.isMain ? <Star className="w-4 h-4" fill="currentColor" /> : <StarOff className="w-4 h-4" />}
-                                </button>
-                                <button onClick={() => removeImage(i)} className="p-2 rounded-full bg-red-600 text-white">
-                                    <Trash2 className="w-4 h-4" />
-                                </button>
-                            </div>
-                            {img.isMain && (
-                                <span className="absolute top-2 left-2 bg-[#1ADB04] text-black text-xs font-bold px-2 py-0.5 rounded-full">Main</span>
-                            )}
+            <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-4">
+                    <button onClick={() => router.push('/admin')} className="flex items-center gap-2 text-zinc-500 hover:text-white text-sm transition-colors">
+                        <ArrowLeft className="w-4 h-4" /> Back
+                    </button>
+                    <div className="w-px h-5 bg-zinc-700" />
+                    <div className="flex items-center gap-3">
+                        <img src={horse.url} alt={horse.title} className="w-10 h-10 rounded-xl object-cover border border-zinc-700" />
+                        <div>
+                            <h1 className="text-white font-bold text-xl leading-tight">{horse.title}</h1>
+                            <p className="text-zinc-500 text-xs">Detail Page Editor</p>
                         </div>
-                    ))}
-
-                    {/* Upload tile */}
-                    <label className="aspect-video rounded-xl border-2 border-dashed border-zinc-600 hover:border-[#1ADB04] flex items-center justify-center cursor-pointer transition-colors bg-zinc-800">
-                        <input type="file" accept="image/*" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) handleFileSelect(f); }} />
-                        {uploading ? <span className="text-zinc-400 text-sm">Uploading...</span> : <span className="text-zinc-400 text-sm">+ Add Image</span>}
-                    </label>
-                </div>
-
-            </section>
-
-            {/* About */}
-            <section className="bg-zinc-900 rounded-2xl p-6 mb-6">
-                <h2 className="text-lg font-semibold mb-4">About {horse.title}</h2>
-                <RichTextEditor
-                    value={about}
-                    onChange={setAbout}
-                    placeholder={`Write about ${horse.title}...`}
-                />
-            </section>
-
-            {/* Video */}
-            <section className="bg-zinc-900 rounded-2xl p-6 mb-6">
-                <h2 className="text-lg font-semibold mb-1">Highlight Video</h2>
-                <p className="text-zinc-400 text-sm mb-4">Paste a YouTube URL or watch link — it will be converted automatically.</p>
-                <input
-                    type="text"
-                    value={videoUrl}
-                    onChange={e => setVideoUrl(e.target.value)}
-                    placeholder="e.g. https://www.youtube.com/watch?v=xxxxx"
-                    className="w-full bg-zinc-800 text-white px-4 py-3 rounded-lg outline-none placeholder-zinc-500 mb-4"
-                />
-                {videoUrl && (
-                    <div className="rounded-xl overflow-hidden aspect-video border border-zinc-700">
-                        <iframe src={toEmbedUrl(videoUrl)} className="w-full h-full" allowFullScreen />
                     </div>
-                )}
-            </section>
-
-            {/* Save */}
-            <div className="bg-zinc-900 rounded-2xl px-6 py-4 flex items-center justify-end gap-4 mb-10">
-                {saved && <span className="text-[#1ADB04] text-sm font-medium">✓ All changes saved</span>}
-                <button onClick={() => save()} disabled={saving} className="bg-[#1ADB04] text-black font-bold px-8 py-2.5 rounded-lg disabled:opacity-50 text-sm">
-                    {saving ? 'Saving...' : 'Save All'}
+                </div>
+                <button
+                    onClick={() => save()}
+                    disabled={saving}
+                    className="flex items-center gap-2 bg-[#1ADB04] hover:bg-[#15c203] text-black font-bold px-5 py-2.5 rounded-xl text-sm disabled:opacity-50 transition-all"
+                >
+                    <Save className="w-4 h-4" />
+                    {saving ? 'Saving...' : saved ? '✓ Saved' : 'Save All'}
                 </button>
             </div>
 
-            {/* Cropper */}
+            <div className="flex gap-6 flex-col lg:flex-row">
+                {/* Section tabs — vertical on desktop */}
+                <div className="lg:w-48 shrink-0">
+                    <div className="bg-[#111] border border-zinc-800 rounded-2xl p-2 flex lg:flex-col gap-1">
+                        {SECTIONS.map(({ key, label, icon: Icon }) => (
+                            <button
+                                key={key}
+                                onClick={() => setActiveSection(key)}
+                                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium w-full transition-all ${activeSection === key ? 'bg-[#1ADB04]/10 text-[#1ADB04] border border-[#1ADB04]/20' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'}`}
+                            >
+                                <Icon className="w-4 h-4 shrink-0" />
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+
+                    {/* Gallery */}
+                    {activeSection === 'gallery' && (
+                        <div className="bg-[#111] border border-zinc-800 rounded-2xl p-6">
+                            <div className="flex items-center justify-between mb-2">
+                                <h2 className="text-white font-bold text-lg">Carousel Images</h2>
+                                <span className="text-zinc-500 text-sm">{gallery.length} image{gallery.length !== 1 ? 's' : ''}</span>
+                            </div>
+                            <p className="text-zinc-500 text-sm mb-6">Hover an image to set it as main or delete it. The main image is shown on the ownership page.</p>
+
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+                                {gallery.map((img, i) => (
+                                    <div key={i} className="relative group rounded-xl overflow-hidden aspect-video bg-zinc-900 border border-zinc-800">
+                                        <img src={img.url} alt="" className="w-full h-full object-cover" />
+                                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                            <button onClick={() => toggleMain(i)} title={img.isMain ? 'Main image' : 'Set as main'}
+                                                className={`p-2 rounded-lg transition-all ${img.isMain ? 'bg-[#1ADB04] text-black' : 'bg-zinc-800 text-white hover:bg-zinc-700'}`}>
+                                                {img.isMain ? <Star className="w-4 h-4" fill="currentColor" /> : <StarOff className="w-4 h-4" />}
+                                            </button>
+                                            <button onClick={() => removeImage(i)} className="p-2 rounded-lg bg-red-500/20 hover:bg-red-500/40 text-red-400 transition-all">
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                        {img.isMain && <span className="absolute top-2 left-2 bg-[#1ADB04] text-black text-xs font-bold px-2 py-0.5 rounded-full">Main</span>}
+                                    </div>
+                                ))}
+
+                                {/* Upload tile */}
+                                <label className="aspect-video rounded-xl border-2 border-dashed border-zinc-700 hover:border-[#1ADB04]/50 flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors bg-zinc-900/50">
+                                    <input type="file" accept="image/*" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) setCropTarget({ src: URL.createObjectURL(f), file: f }); }} />
+                                    {uploading
+                                        ? <div className="w-5 h-5 border-2 border-zinc-600 border-t-[#1ADB04] rounded-full animate-spin" />
+                                        : <><Upload className="w-5 h-5 text-zinc-600" /><span className="text-zinc-600 text-xs">Add Image</span></>
+                                    }
+                                </label>
+                            </div>
+
+                            <button onClick={() => save()} disabled={saving} className="flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 text-white px-5 py-2 rounded-xl text-sm font-medium transition-all disabled:opacity-50">
+                                <Save className="w-4 h-4" />
+                                {saving ? 'Saving...' : 'Save Gallery'}
+                            </button>
+                        </div>
+                    )}
+
+                    {/* About */}
+                    {activeSection === 'about' && (
+                        <div className="bg-[#111] border border-zinc-800 rounded-2xl p-6">
+                            <h2 className="text-white font-bold text-lg mb-1">About {horse.title}</h2>
+                            <p className="text-zinc-500 text-sm mb-5">This text appears on the horse&apos;s public detail page. Basic HTML supported.</p>
+                            <RichTextEditor
+                                value={about}
+                                onChange={setAbout}
+                                placeholder={`Write about ${horse.title}...`}
+                            />
+                            <div className="flex justify-end mt-4">
+                                <button onClick={() => save()} disabled={saving} className="flex items-center gap-2 bg-[#1ADB04] hover:bg-[#15c203] text-black font-bold px-5 py-2 rounded-xl text-sm disabled:opacity-50 transition-all">
+                                    <Save className="w-4 h-4" />
+                                    {saving ? 'Saving...' : saved ? '✓ Saved' : 'Save About'}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Video */}
+                    {activeSection === 'video' && (
+                        <div className="bg-[#111] border border-zinc-800 rounded-2xl p-6">
+                            <h2 className="text-white font-bold text-lg mb-1">Highlight Video</h2>
+                            <p className="text-zinc-500 text-sm mb-5">Paste any YouTube URL — it will be converted to an embed automatically.</p>
+
+                            <div className="flex flex-col gap-1.5 mb-5">
+                                <label className="text-xs font-medium text-zinc-400 uppercase tracking-wide">YouTube URL</label>
+                                <input
+                                    type="text"
+                                    value={videoUrl}
+                                    onChange={e => setVideoUrl(e.target.value)}
+                                    placeholder="https://www.youtube.com/watch?v=..."
+                                    className="bg-zinc-800/60 border border-zinc-700/50 text-white px-3.5 py-2.5 rounded-lg text-sm outline-none focus:border-[#1ADB04]/50 focus:ring-1 focus:ring-[#1ADB04]/20 placeholder-zinc-600 transition-all"
+                                />
+                            </div>
+
+                            {videoUrl && (
+                                <div className="rounded-xl overflow-hidden aspect-video border border-zinc-800 mb-5">
+                                    <iframe src={toEmbedUrl(videoUrl)} className="w-full h-full" allowFullScreen />
+                                </div>
+                            )}
+
+                            <button onClick={() => save()} disabled={saving} className="flex items-center gap-2 bg-[#1ADB04] hover:bg-[#15c203] text-black font-bold px-5 py-2 rounded-xl text-sm disabled:opacity-50 transition-all">
+                                <Save className="w-4 h-4" />
+                                {saving ? 'Saving...' : saved ? '✓ Saved' : 'Save Video'}
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
+
             {cropTarget && (
-                <ImageCropper
-                    imageSrc={cropTarget.src}
-                    originalFile={cropTarget.file}
-                    onDone={handleCropDone}
-                    onCancel={() => setCropTarget(null)}
-                />
+                <ImageCropper imageSrc={cropTarget.src} originalFile={cropTarget.file}
+                    onDone={handleCropDone} onCancel={() => setCropTarget(null)} />
             )}
-        </div>
+        </AdminLayout>
     );
 }
