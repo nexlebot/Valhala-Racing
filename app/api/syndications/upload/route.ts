@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { setBytes } from '@/lib/storage';
 
-const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD!;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
 
 export async function POST(req: NextRequest) {
     const formData = await req.formData();

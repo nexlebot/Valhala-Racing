@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getJSON, setJSON } from '@/lib/storage';
 
-const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD!;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
 
 async function readSyndications() {
     return (await getJSON('syndications', 'list')) ?? [];
