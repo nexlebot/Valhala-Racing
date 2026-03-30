@@ -38,7 +38,7 @@ const page = async () => {
             />
 
             <div className='flex flex-col gap-6 lg:gap-14 my-6 lg:mb-14'>
-                {syndications.map((s: { id: number; name: string; age: string; breed: string; sharePrice: string; description: string; url: string }) => (
+                {syndications.map((s: { id: number; name: string; age: string; breed: string; sharePrice: string; description?: string; url: string }) => (
                     <Link href={`/ownership/${s.id}`} key={s.id}>
                         <HorseCard
                             name={s.name}
@@ -47,7 +47,7 @@ const page = async () => {
                             sharePrice={s.sharePrice}
                             sharePercentage=""
                             image={s.url}
-                            description={s.description}
+                            description={s.description ?? ''}
                         />
                     </Link>
                 ))}

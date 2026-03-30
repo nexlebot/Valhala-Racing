@@ -8,7 +8,7 @@ interface HorseCardProps {
     sharePrice: string;
     sharePercentage: string;
     image: string;
-    description: string;
+    description?: string;
 }
 
 // Horse Card Component
@@ -54,9 +54,11 @@ export function HorseCard({
                     </span>
                 </div>
 
-                <div className="text-gray-700 leading-relaxed mb-4 text-sm lg:text-base prose prose-sm max-w-none break-words overflow-hidden"
-                    dangerouslySetInnerHTML={{ __html: description }}
-                />
+                {description && (
+                    <div className="text-gray-700 leading-relaxed mb-4 text-sm lg:text-base prose prose-sm max-w-none break-words overflow-hidden"
+                        dangerouslySetInnerHTML={{ __html: description }}
+                    />
+                )}
 
                 <Button label='View Details' className='w-full sm:max-w-[160px] py-3' />
             </div>
