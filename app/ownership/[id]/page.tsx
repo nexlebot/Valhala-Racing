@@ -4,6 +4,7 @@ import PageIntro from '@/app/_components/PageIntro'
 import Slider from '@/app/_components/Slider'
 import VideoPlayer from '@/app/_components/VideoPlayer'
 import { notFound } from 'next/navigation'
+import { getJSON } from '@/lib/storage'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,9 +24,9 @@ interface Syndication {
 
 export default async function OwnershipDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/syndications/${id}`, { cache: 'no-store' });
-    if (!res.ok) notFound();
-    const syn: Syndication = await res.json();
+    const syndications = (await getJSON('syndications', 'list')) ?? [];
+    const syn: Syndication | undefined = syndications.find((s: Syndication) => String(s.id) === id);
+    if (!syn) notFound();
 
     const sliderImages = (syn.gallery ?? []).map(g => ({ url: g.url }));
 

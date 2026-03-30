@@ -5,6 +5,7 @@ import Navbar from '@/app/_components/navbar'
 import PageIntro from '@/app/_components/PageIntro'
 import VideoPlayer from '@/app/_components/VideoPlayer'
 import { notFound } from 'next/navigation'
+import { getJSON } from '@/lib/storage'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,9 +26,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 async function getHorse(id: string) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/horses/${id}`, { cache: 'no-store' });
-    if (!res.ok) return null;
-    return res.json();
+    const horses = (await getJSON('horses', 'list')) ?? [];
+    return horses.find((h: { id: number }) => String(h.id) === id) ?? null;
 }
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {

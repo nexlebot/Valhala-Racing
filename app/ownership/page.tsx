@@ -2,12 +2,12 @@ import Navbar from '../_components/navbar'
 import { HorseCard } from '../_components/HorsesCard'
 import PageIntro from '../_components/PageIntro'
 import Link from 'next/link'
+import { getJSON } from '@/lib/storage'
 
 export const dynamic = 'force-dynamic'
 
 const page = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/syndications`, { cache: 'no-store' });
-    const syndications = await res.json();
+    const syndications = (await getJSON('syndications', 'list')) ?? [];
 
     return (
         <div className='mx-6 lg:mx-12'>
