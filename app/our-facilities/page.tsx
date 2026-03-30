@@ -35,7 +35,7 @@ const page = () => {
                     {
                         heading: "Unmatched Care Beyond the Track",
                         paragraphs: [
-                            "At Valhalla Racing, our dedication extends far beyond performance. Every horse receives comprehensive care through advanced wellness programs, balanced nutrition, and constant monitoring tailored to its unique needs. From daily grooming routines to therapeutic treatments, our team ensures optimal physical and mental well-being. With unwavering attention and compassion, we create an environment where horses can recover, grow, and perform at their very best today and for every race ahead."
+                            "At Vahala Racing, our dedication extends far beyond performance. Every horse receives comprehensive care through advanced wellness programs, balanced nutrition, and constant monitoring tailored to its unique needs. From daily grooming routines to therapeutic treatments, our team ensures optimal physical and mental well-being. With unwavering attention and compassion, we create an environment where horses can recover, grow, and perform at their very best today and for every race ahead."
                         ]
                     },
 

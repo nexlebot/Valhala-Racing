@@ -148,7 +148,7 @@ function AdminPageInner() {
                 <div className="w-full max-w-sm">
                     {/* Logo */}
                     <div className="flex flex-col items-center mb-8">
-                        <img src="/logo.png" alt="Valhalla Racing" className="w-16 h-16 object-contain mb-4" />
+                        <img src="/logo.png" alt="Vahala Racing" className="w-16 h-16 object-contain mb-4" />
                         <h1 className="text-white text-2xl font-bold">Welcome back</h1>
                         <p className="text-zinc-500 text-sm mt-1">Sign in to your admin panel</p>
                     </div>

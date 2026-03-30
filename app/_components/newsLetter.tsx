@@ -70,7 +70,7 @@ export default function NewsletterSubscribe() {
                             Stay Updated on Our Runners
                         </h2>
                         <p className="text-sm lg:text-base mt-2 text-[#000000CC]">
-                            Join our mailing list to get the latest race updates, results, and exclusive insights from the Valhalla Racing team.
+                            Join our mailing list to get the latest race updates, results, and exclusive insights from the Vahala Racing team.
                         </p>
                     </div>
 

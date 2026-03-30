@@ -14,12 +14,12 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     const horse = await getHorse(id);
     if (!horse) return {};
     return {
-        title: `${horse.title} | Valhalla Racing`,
+        title: `${horse.title} | Vahala Racing`,
         description: horse.about
             ? horse.about.replace(/<[^>]+>/g, '').slice(0, 155)
             : `${horse.title} – Age: ${horse.age}, Color: ${horse.color}, Sire: ${horse.sire}, Dam: ${horse.dam}. Career: ${horse.career}.`,
         openGraph: {
-            title: `${horse.title} | Valhalla Racing`,
+            title: `${horse.title} | Vahala Racing`,
             images: [horse.url],
         },
     };

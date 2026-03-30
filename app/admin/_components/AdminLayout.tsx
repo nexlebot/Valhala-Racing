@@ -41,9 +41,9 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
             <aside className={`fixed top-0 left-0 h-full w-60 bg-[#111] border-r border-zinc-800 z-30 flex flex-col transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
                 {/* Logo */}
                 <div className="flex items-center gap-3 px-5 py-5 border-b border-zinc-800">
-                    <img src="/logo.png" alt="Valhalla" className="w-8 h-8 object-contain" />
+                    <img src="/logo.png" alt="Vahala" className="w-8 h-8 object-contain" />
                     <div>
-                        <p className="text-white font-bold text-sm leading-tight">Valhalla Racing</p>
+                        <p className="text-white font-bold text-sm leading-tight">Vahala Racing</p>
                         <p className="text-zinc-500 text-xs">Admin Panel</p>
                     </div>
                 </div>
