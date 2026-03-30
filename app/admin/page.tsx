@@ -75,6 +75,9 @@ function AdminPageInner() {
     const [editingHorse, setEditingHorse] = useState<Horse | null>(null);
     const [editHorseFile, setEditHorseFile] = useState<File | null>(null);
     const [editHorsePreview, setEditHorsePreview] = useState<string | null>(null);
+    const [editingSyn, setEditingSyn] = useState<Syndication | null>(null);
+    const [editSynFile, setEditSynFile] = useState<File | null>(null);
+    const [editSynPreview, setEditSynPreview] = useState<string | null>(null);
     const [cropTarget, setCropTarget] = useState<{ src: string; file: File; target: string } | null>(null);
     const [showAddForm, setShowAddForm] = useState(false);
     const [synForm, setSynForm] = useState<SynForm>(emptySynForm);
@@ -107,6 +110,7 @@ function AdminPageInner() {
         const preview = URL.createObjectURL(croppedFile);
         if (cropTarget?.target === 'horseForm') { setHorseFormFile(croppedFile); setHorseFormPreview(preview); }
         else if (cropTarget?.target === 'horseEdit') { setEditHorseFile(croppedFile); setEditHorsePreview(preview); }
+        else if (cropTarget?.target === 'synEdit') { setEditSynFile(croppedFile); setEditSynPreview(preview); }
         else if (cropTarget?.target === 'synForm') { setSynFormFile(croppedFile); setSynFormPreview(preview); }
         setCropTarget(null);
     }
@@ -168,6 +172,26 @@ function AdminPageInner() {
         if (!res.ok) return setError('Failed to add ownership');
         setSynForm(emptySynForm); setSynFormFile(null); setSynFormPreview(null);
         setShowAddForm(false);
+        fetch('/api/syndications').then(r => r.json()).then(setSyndications);
+    }
+
+    async function handleEditSyn(e: React.FormEvent) {
+        e.preventDefault();
+        if (!editingSyn) return;
+        setLoading(true); setError('');
+        let url = editingSyn.url;
+        if (editSynFile) {
+            const uploaded = await uploadImage(editSynFile, password);
+            if (!uploaded) { setError('Image upload failed'); setLoading(false); return; }
+            url = uploaded;
+        }
+        const res = await fetch('/api/syndications', {
+            method: 'PUT', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...editingSyn, url, password }),
+        });
+        setLoading(false);
+        if (!res.ok) return setError('Failed to update ownership');
+        setEditingSyn(null); setEditSynFile(null); setEditSynPreview(null);
         fetch('/api/syndications').then(r => r.json()).then(setSyndications);
     }
 
@@ -369,7 +393,7 @@ function AdminPageInner() {
                                         <Settings2 className="w-3.5 h-3.5" /> Manage
                                     </button>
                                     <button
-                                        onClick={() => {/* edit */}}
+                                        onClick={() => { setEditingSyn(s); setEditSynFile(null); setEditSynPreview(null); }}
                                         className="flex items-center justify-center gap-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-2 rounded-xl text-sm transition-all"
                                     >
                                         <Pencil className="w-3.5 h-3.5" />
@@ -487,6 +511,41 @@ function AdminPageInner() {
                             {error && <div className="col-span-full bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2"><p className="text-red-400 text-sm">{error}</p></div>}
                             <div className="col-span-full flex gap-3 pt-2">
                                 <button type="button" onClick={() => setEditingHorse(null)} className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-2.5 rounded-xl text-sm font-medium transition-all">Cancel</button>
+                                <button type="submit" disabled={loading} className="flex-1 bg-[#1ADB04] hover:bg-[#15c203] text-black font-bold py-2.5 rounded-xl text-sm disabled:opacity-50 transition-all">
+                                    {loading ? 'Saving...' : 'Save Changes'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Edit Syndication Modal */}
+            {editingSyn && (
+                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
+                    <div className="bg-[#111] border border-zinc-800 rounded-2xl w-full max-w-xl my-8">
+                        <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
+                            <h2 className="text-white font-bold text-lg">Edit — {editingSyn.name}</h2>
+                            <button onClick={() => setEditingSyn(null)} className="text-zinc-500 hover:text-white text-xl leading-none">×</button>
+                        </div>
+                        <form onSubmit={handleEditSyn} className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {SYN_FIELDS.map(f => (
+                                <InputField key={f} label={SYN_LABELS[f]} placeholder={SYN_PLACEHOLDERS[f]}
+                                    value={editingSyn[f]} required
+                                    onChange={e => setEditingSyn(prev => prev ? { ...prev, [f]: e.target.value } : prev)} />
+                            ))}
+                            <div className="col-span-full">
+                                <label className="text-xs font-medium text-zinc-400 uppercase tracking-wide block mb-2">Replace Image (optional)</label>
+                                <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-zinc-700 hover:border-[#1ADB04]/50 rounded-xl p-4 cursor-pointer transition-colors bg-zinc-800/30">
+                                    <input type="file" accept="image/*" className="hidden"
+                                        onChange={e => { const f = e.target.files?.[0]; if (f) handleFileSelect(f, 'synEdit'); }} />
+                                    <img src={editSynPreview ?? editingSyn.url} className="h-28 rounded-lg object-cover" alt="preview" />
+                                    <span className="text-zinc-500 text-xs">Click to replace</span>
+                                </label>
+                            </div>
+                            {error && <div className="col-span-full bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2"><p className="text-red-400 text-sm">{error}</p></div>}
+                            <div className="col-span-full flex gap-3 pt-2">
+                                <button type="button" onClick={() => setEditingSyn(null)} className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-2.5 rounded-xl text-sm font-medium transition-all">Cancel</button>
                                 <button type="submit" disabled={loading} className="flex-1 bg-[#1ADB04] hover:bg-[#15c203] text-black font-bold py-2.5 rounded-xl text-sm disabled:opacity-50 transition-all">
                                     {loading ? 'Saving...' : 'Save Changes'}
                                 </button>
