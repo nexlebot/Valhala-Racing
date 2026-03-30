@@ -29,6 +29,9 @@ const HORSE_PLACEHOLDERS: Record<string, string> = {
 };
 
 const SYN_FIELDS = ['name', 'age', 'breed', 'sharePrice'] as const;
+const SYN_LABELS: Record<string, string> = {
+    name: 'Horse Name', age: 'Age', breed: 'Breed', sharePrice: 'Share Price',
+};
 const SYN_PLACEHOLDERS: Record<string, string> = {
     name: 'Horse Name', age: 'N/A', breed: 'Premium', sharePrice: 'Purchased for $90,000.00 at the 2026 Melbourne Inglis Premier Yearling Sale',
 };
@@ -431,7 +434,7 @@ function AdminPageInner() {
                         </div>
                         <form onSubmit={handleAddSyn} className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {SYN_FIELDS.map(f => (
-                                <InputField key={f} label={SYN_PLACEHOLDERS[f]} placeholder={SYN_PLACEHOLDERS[f]}
+                                <InputField key={f} label={SYN_LABELS[f]} placeholder={SYN_PLACEHOLDERS[f]}
                                     value={synForm[f]} required
                                     onChange={e => setSynForm(prev => ({ ...prev, [f]: e.target.value }))} />
                             ))}
