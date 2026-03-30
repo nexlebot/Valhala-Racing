@@ -24,12 +24,20 @@ interface Syndication {
 
 const HORSE_FIELDS = ['title', 'age', 'color', 'sire', 'dam', 'stable', 'career'] as const;
 const HORSE_PLACEHOLDERS: Record<string, string> = {
-    title: 'Horse Name', age: 'e.g. 6yo Gelding', color: 'e.g. Bay',
-    sire: 'Sire Name', dam: 'Dam Name', stable: 'e.g. "Azzie"', career: 'e.g. 32 Starts: 7-6-2',
+    title: 'Horse Name', age: '6yo Gelding', color: 'Bay',
+    sire: 'Sire Name', dam: 'Dam Name', stable: 'Stable Name', career: '32 Starts: 7-6-2',
+};
+
+const SYN_FIELDS = ['name', 'age', 'breed', 'sharePrice'] as const;
+const SYN_PLACEHOLDERS: Record<string, string> = {
+    name: 'Horse Name', age: 'N/A', breed: 'Premium', sharePrice: 'Purchased for $90,000.00 at the 2026 Melbourne Inglis Premier Yearling Sale',
 };
 
 type HorseForm = { title: string; age: string; color: string; sire: string; dam: string; stable: string; career: string; url: string };
 const emptyHorseForm: HorseForm = { title: '', age: '', color: '', sire: '', dam: '', stable: '', career: '', url: '' };
+
+type SynForm = { name: string; age: string; breed: string; sharePrice: string; url: string };
+const emptySynForm: SynForm = { name: '', age: '', breed: '', sharePrice: '', url: '' };
 
 async function uploadImage(file: File, password: string): Promise<string | null> {
     const fd = new FormData();
@@ -66,6 +74,9 @@ function AdminPageInner() {
     const [editHorsePreview, setEditHorsePreview] = useState<string | null>(null);
     const [cropTarget, setCropTarget] = useState<{ src: string; file: File; target: string } | null>(null);
     const [showAddForm, setShowAddForm] = useState(false);
+    const [synForm, setSynForm] = useState<SynForm>(emptySynForm);
+    const [synFormFile, setSynFormFile] = useState<File | null>(null);
+    const [synFormPreview, setSynFormPreview] = useState<string | null>(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [loginError, setLoginError] = useState('');
@@ -93,6 +104,7 @@ function AdminPageInner() {
         const preview = URL.createObjectURL(croppedFile);
         if (cropTarget?.target === 'horseForm') { setHorseFormFile(croppedFile); setHorseFormPreview(preview); }
         else if (cropTarget?.target === 'horseEdit') { setEditHorseFile(croppedFile); setEditHorsePreview(preview); }
+        else if (cropTarget?.target === 'synForm') { setSynFormFile(croppedFile); setSynFormPreview(preview); }
         setCropTarget(null);
     }
 
@@ -134,6 +146,26 @@ function AdminPageInner() {
         if (!res.ok) return setError('Failed to update horse');
         setEditingHorse(null); setEditHorseFile(null); setEditHorsePreview(null);
         fetch('/api/horses').then(r => r.json()).then(setHorses);
+    }
+
+    async function handleAddSyn(e: React.FormEvent) {
+        e.preventDefault();
+        setLoading(true); setError('');
+        let url = synForm.url;
+        if (synFormFile) {
+            const uploaded = await uploadImage(synFormFile, password);
+            if (!uploaded) { setError('Image upload failed'); setLoading(false); return; }
+            url = uploaded;
+        }
+        const res = await fetch('/api/syndications', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...synForm, url, password }),
+        });
+        setLoading(false);
+        if (!res.ok) return setError('Failed to add ownership');
+        setSynForm(emptySynForm); setSynFormFile(null); setSynFormPreview(null);
+        setShowAddForm(false);
+        fetch('/api/syndications').then(r => r.json()).then(setSyndications);
     }
 
     async function handleDeleteHorse(id: number) {
@@ -353,7 +385,7 @@ function AdminPageInner() {
             )}
 
             {/* Add Horse Modal */}
-            {showAddForm && (
+            {showAddForm && tab === 'horses' && (
                 <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
                     <div className="bg-[#111] border border-zinc-800 rounded-2xl w-full max-w-xl my-8">
                         <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
@@ -382,6 +414,43 @@ function AdminPageInner() {
                                 <button type="button" onClick={() => setShowAddForm(false)} className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-2.5 rounded-xl text-sm font-medium transition-all">Cancel</button>
                                 <button type="submit" disabled={loading} className="flex-1 bg-[#1ADB04] hover:bg-[#15c203] text-black font-bold py-2.5 rounded-xl text-sm disabled:opacity-50 transition-all">
                                     {loading ? 'Adding...' : 'Add Horse'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Add Ownership Modal */}
+            {showAddForm && tab === 'syndications' && (
+                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
+                    <div className="bg-[#111] border border-zinc-800 rounded-2xl w-full max-w-xl my-8">
+                        <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
+                            <h2 className="text-white font-bold text-lg">Add New Ownership</h2>
+                            <button onClick={() => setShowAddForm(false)} className="text-zinc-500 hover:text-white text-xl leading-none">×</button>
+                        </div>
+                        <form onSubmit={handleAddSyn} className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {SYN_FIELDS.map(f => (
+                                <InputField key={f} label={SYN_PLACEHOLDERS[f]} placeholder={SYN_PLACEHOLDERS[f]}
+                                    value={synForm[f]} required
+                                    onChange={e => setSynForm(prev => ({ ...prev, [f]: e.target.value }))} />
+                            ))}
+                            <div className="col-span-full">
+                                <label className="text-xs font-medium text-zinc-400 uppercase tracking-wide block mb-2">Horse Image</label>
+                                <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-zinc-700 hover:border-[#1ADB04]/50 rounded-xl p-6 cursor-pointer transition-colors bg-zinc-800/30">
+                                    <input type="file" accept="image/*" required className="hidden"
+                                        onChange={e => { const f = e.target.files?.[0]; if (f) handleFileSelect(f, 'synForm'); }} />
+                                    {synFormPreview
+                                        ? <img src={synFormPreview} className="h-32 rounded-lg object-cover" alt="preview" />
+                                        : <><ImageIcon className="w-8 h-8 text-zinc-600" /><span className="text-zinc-500 text-sm">Click to upload image</span></>
+                                    }
+                                </label>
+                            </div>
+                            {error && <div className="col-span-full bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2"><p className="text-red-400 text-sm">{error}</p></div>}
+                            <div className="col-span-full flex gap-3 pt-2">
+                                <button type="button" onClick={() => setShowAddForm(false)} className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-2.5 rounded-xl text-sm font-medium transition-all">Cancel</button>
+                                <button type="submit" disabled={loading} className="flex-1 bg-[#1ADB04] hover:bg-[#15c203] text-black font-bold py-2.5 rounded-xl text-sm disabled:opacity-50 transition-all">
+                                    {loading ? 'Adding...' : 'Add Ownership'}
                                 </button>
                             </div>
                         </form>
