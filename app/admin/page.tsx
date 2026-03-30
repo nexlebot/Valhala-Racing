@@ -8,7 +8,7 @@ import { Plus, Pencil, Trash2, Settings2, ChevronRight, Image as ImageIcon, User
 
 interface Horse {
     id: number; url: string; title: string; age: string;
-    color: string; sire: string; dam: string; career: string;
+    color: string; sire: string; dam: string; stable: string; career: string;
     gallery?: { url: string }[];
     videoUrl?: string;
     about?: string;
@@ -22,14 +22,14 @@ interface Syndication {
     about?: string;
 }
 
-const HORSE_FIELDS = ['title', 'age', 'color', 'sire', 'dam', 'career'] as const;
+const HORSE_FIELDS = ['title', 'age', 'color', 'sire', 'dam', 'stable', 'career'] as const;
 const HORSE_PLACEHOLDERS: Record<string, string> = {
-    title: 'Horse Name', age: 'e.g. 5 Years', color: 'e.g. Bay',
-    sire: 'Sire Name', dam: 'Dam Name', career: 'e.g. 25 Starts, 7-8-2',
+    title: 'Horse Name', age: 'e.g. 6yo Gelding', color: 'e.g. Bay',
+    sire: 'Sire Name', dam: 'Dam Name', stable: 'e.g. "Azzie"', career: 'e.g. 32 Starts: 7-6-2',
 };
 
-type HorseForm = { title: string; age: string; color: string; sire: string; dam: string; career: string; url: string };
-const emptyHorseForm: HorseForm = { title: '', age: '', color: '', sire: '', dam: '', career: '', url: '' };
+type HorseForm = { title: string; age: string; color: string; sire: string; dam: string; stable: string; career: string; url: string };
+const emptyHorseForm: HorseForm = { title: '', age: '', color: '', sire: '', dam: '', stable: '', career: '', url: '' };
 
 async function uploadImage(file: File, password: string): Promise<string | null> {
     const fd = new FormData();
@@ -254,7 +254,7 @@ function AdminPageInner() {
                         {/* Details */}
                         <div className="p-4">
                             <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 mb-4">
-                                {[['Age', horse.age], ['Color', horse.color], ['Sire', horse.sire], ['Dam', horse.dam]].map(([k, v]) => (
+                                {[['Age', horse.age], ['Colour', horse.color], ['Sire', horse.sire], ['Dam', horse.dam], ['Stable', horse.stable]].map(([k, v]) => (
                                     <div key={k}>
                                         <span className="text-zinc-600 text-xs">{k}</span>
                                         <p className="text-zinc-300 text-sm font-medium truncate">{v}</p>
