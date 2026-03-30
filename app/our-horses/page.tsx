@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../_components/navbar'
 import PageIntro from '../_components/PageIntro'
 import HorseGallery from '../_components/HorseGallery'
+import { getJSON } from '@/lib/storage'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,8 +24,7 @@ const data = {
 };
 
 const Page = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/horses`, { cache: 'no-store' });
-    const horses = await res.json();
+    const horses = (await getJSON('horses', 'list')) ?? [];
     return (
         <div className='mx-6 lg:mx-12'>
             <Navbar hasBackgroundImage={false} />
