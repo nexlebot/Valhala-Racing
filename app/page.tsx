@@ -53,7 +53,7 @@ const page = async () => {
         }
       ]} />
       <OwnerShipAndSyndication />
-      <ImageSlider syndications={syndications} updatedAt={scrapedAt} />
+      <ImageSlider syndications={syndications} />
       <div className="mx-6 lg:mx-12">
         <div className="hidden lg:block">
           <UpComingRaceListView items={raceData} header={{
