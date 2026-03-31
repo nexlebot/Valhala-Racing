@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const isNetlify = !!(process.env.NETLIFY_BLOBS_CONTEXT || process.env.SITE_ID);
+const isNetlify = !!(process.env.NETLIFY_BLOBS_CONTEXT);
 
 const DATA_DIR = path.join(process.cwd(), '.local-storage');
 
