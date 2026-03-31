@@ -7,6 +7,8 @@ import { IoLocationSharp } from 'react-icons/io5'
 import { FaCalendarAlt } from "react-icons/fa";
 import { getUpcomingRaces, getScrapedAt } from '../../lib/getTrainerRaces';
 
+export const dynamic = 'force-dynamic'
+
 const columns: Column[] = [
     { key: "horse_name", label: "Horse Name", width: "flex-[0_0_300px]" },
     { key: "race_number", label: "Race Number", width: "flex-[0_0_260px]" },

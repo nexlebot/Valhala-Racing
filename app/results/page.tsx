@@ -6,6 +6,8 @@ import UpComingRaceListView, { Column } from '../_components/homePageSpecificSec
 import UpcomingRacesMobile from '../_components/UpcomingRacesMobile'
 import { getMajorWins, getPreviousRunners, getScrapedAt } from '../../lib/getTrainerRaces'
 
+export const dynamic = 'force-dynamic'
+
 const columns: Column[] = [
     { key: "horse_name", label: "Horse Name", grow: 1 },
     { key: "position", label: "Position", grow: 1 },
