@@ -3,49 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import SectionHeader from '../sectionHeader';
 import Link from 'next/link';
-const slides = [
-  {
-    id: 1,
-    image: '/imageSlider1.jpg',
-    title: 'Blaze King',
-    age: '5 Years',
-    details: 'Storm Rider x Flame Queen',
-    result: '25 Start: 7-5-2'
-  },
-  {
-    id: 2,
-    image: '/imageSlider1.jpg',
-    title: 'Blaze King',
-    age: '3 Years',
-    details: 'Sire / Dam: Storm Rider x Martha Queen',
-    result: 'Latest Result: Winner - Horton Derby 2025'
-  },
-  {
-    id: 9,
-    image: '/imageSlider1.jpg',
-    title: 'Thunder Storm',
-    age: '4 Years',
-    details: 'Sire / Dam: Lightning Bolt x Royal Lady',
-    result: '2nd Place - Summer Stakes 2025'
-  },
-  {
-    id: 3,
-    image: '/imageSlider1.jpg',
-    title: 'Midnight Runner',
-    age: '5 Years',
-    details: 'Sire / Dam: Dark Knight x Starlight',
-    result: 'Winner - Classic Cup 2025'
-  },
-  {
-    id: 4,
-    image: '/imageSlider1.jpg',
-    title: 'Golden Arrow',
-    age: '3 Years',
-    details: 'Sire / Dam: Swift Wind x Golden Rose',
-    result: '3rd Place - Spring Derby 2025'
-  }
-];
-const ImageSlider = () => {
+
+type Syndication = {
+  id: number;
+  name: string;
+  age: string;
+  breed: string;
+  url: string;
+}
+
+const ImageSlider = ({ syndications }: { syndications: Syndication[] }) => {
+  const slides = syndications;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -183,19 +151,16 @@ const ImageSlider = () => {
               >
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                   <img
-                    src={slide.image}
-                    alt={slide.title}
-                    className="w-full h-[400px] md:h-[600px] object-cover"
+                    src={slide.url}
+                    alt={slide.name}
+                    className="w-full h-[220px] sm:h-[300px] lg:h-[380px] object-cover object-top"
                   />
-
-                  {/* Gradient Overlay */}
                   <div className="absolute inset-0 bg-linear-to-b from-black/50 via-white/10 to-black/50"></div>
-
                   {index === currentIndex && (
                     <div className=" mb-3 inline-block absolute top-3 m-5 w-full ">
                       <div className='flex justify-between items-center w-4/5'>
                         <div className=" text-white text-xs p-0 lg:px-3 py-0 ">
-                          <Link href={"/ownership/1"} className='border border-primary rounded-full px-3 p-2 lg:px-3 lg:py-2' >View Details</Link>
+                          <Link href={`/ownership/${slide.id}`} className='border border-primary rounded-full px-3 p-2 lg:px-3 lg:py-2'>View Details</Link>
                         </div>
                         <div className="relative -right-8">
                           <div className="hidden lg:block">
@@ -211,16 +176,11 @@ const ImageSlider = () => {
                   )}
                   {index === currentIndex && (
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                      <h2 className="text-2xl lg:text-3xl md:text-4xl font-semibold mb-2">{slide.title}</h2>
+                      <h2 className="text-2xl lg:text-3xl md:text-4xl font-semibold mb-2">{slide.name}</h2>
                       <p className="text-sm lg:text-base font-light"><span>Age: </span>{slide.age}</p>
-                      <p className="text-sm lg:text-base font-light"><span>Sire / Dam: </span>{slide.details}</p>
-                      <p className="text-sm lg:text-base"><span>Career: </span> {slide.result}</p>
+                      <p className="text-sm lg:text-base font-light"><span>Breed: </span>{slide.breed}</p>
                     </div>
                   )}
-
-
-                  {/* Content */}
-
                 </div>
               </div>
             ))}

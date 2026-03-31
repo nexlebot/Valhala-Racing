@@ -1,4 +1,3 @@
-// types.ts
 interface Stats {
     overview: string;
     '1stUp': string;
@@ -19,49 +18,15 @@ interface StatLabel {
     label: string;
 }
 
-interface StatsData {
-    sections: StatSection[];
-    labels: StatLabel[];
-}
-
-// statsData.json structure
-const statsData: StatsData = {
-    sections: [
-        {
-            title: "Season Stats (2025/2026)",
-            stats: {
-                overview: '4:0-1-0',
-                '1stUp': '1:0-0-0',
-                '2ndUp': '1:0-0-0',
-                firm: '0:0-0-0',
-                good: '4:0-1-0',
-                soft: '0:0-0-0',
-                heavy: '0:0-0-0'
-            }
-        },
-        {
-            title: "Career Form",
-            stats: {
-                overview: '29:7-6-2',
-                '1stUp': '6:1-1-0',
-                '2ndUp': '5:2-0-0',
-                firm: '0:0-0-0',
-                good: '21:4-4-1',
-                soft: '8:3-2-1',
-                heavy: '0:0-0-0'
-            }
-        }
-    ],
-    labels: [
-        { key: 'overview', label: 'Overview' },
-        { key: '1stUp', label: '1st Up' },
-        { key: '2ndUp', label: '2nd Up' },
-        { key: 'firm', label: 'Firm' },
-        { key: 'good', label: 'Good' },
-        { key: 'soft', label: 'Soft' },
-        { key: 'heavy', label: 'Heavy' }
-    ]
-};
+const LABELS: StatLabel[] = [
+    { key: 'overview', label: 'Overview' },
+    { key: '1stUp', label: '1st Up' },
+    { key: '2ndUp', label: '2nd Up' },
+    { key: 'firm', label: 'Firm' },
+    { key: 'good', label: 'Good' },
+    { key: 'soft', label: 'Soft' },
+    { key: 'heavy', label: 'Heavy' },
+];
 
 interface StatItemProps {
     label: string;
@@ -102,22 +67,27 @@ const StatsSection: React.FC<StatsSectionProps> = ({ title, stats, labels }) => 
     </div>
 );
 
-export default function StatsComponent(): React.ReactElement {
+export default function StatsComponent({ sections, updatedAt }: { sections?: StatSection[] | null; updatedAt?: string | null }): React.ReactElement {
+    if (!sections?.length) return <></>;
     return (
         <div className="my-14 md:my-14">
-            <div
-                className="font-semibold text-2xl md:text-3xl mb-4"
-                style={{ color: '#1ADB04' }}
-            >
-                Season / Career Stats
+            <div className="flex items-baseline gap-4 mb-4">
+                <div className="font-semibold text-2xl md:text-3xl" style={{ color: '#1ADB04' }}>
+                    Season / Career Stats
+                </div>
+                {updatedAt && (
+                    <span className="text-xs text-gray-400">
+                        Updated {new Date(updatedAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    </span>
+                )}
             </div>
 
-            {statsData.sections.map((section, index) => (
+            {sections.map((section, index) => (
                 <StatsSection
                     key={index}
                     title={section.title}
                     stats={section.stats}
-                    labels={statsData.labels}
+                    labels={LABELS}
                 />
             ))}
         </div>

@@ -18,6 +18,7 @@ type SectionHeaderProps = {
     buttonText?: string;
     buttonLink?: string;
     buttonVariant?: "primary" | "secondary";
+    updatedAt?: string;
 };
 
 type Props<T extends Record<string, unknown>> = {

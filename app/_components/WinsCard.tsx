@@ -6,7 +6,7 @@ import { MajorWin } from '../../lib/getTrainerRaces';
 
 const PAGE_SIZE = 4;
 
-const MajorWins: React.FC<{ wins: MajorWin[] }> = ({ wins }) => {
+const MajorWins: React.FC<{ wins: MajorWin[]; updatedAt?: string | null }> = ({ wins, updatedAt }) => {
     const [page, setPage] = useState(0);
     const totalPages = Math.ceil(wins.length / PAGE_SIZE);
     const visible = wins.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
@@ -14,9 +14,16 @@ const MajorWins: React.FC<{ wins: MajorWin[] }> = ({ wins }) => {
     return (
         <div className="w-full mt-6 lg:mt-0">
             <div className="flex items-center justify-between mb-5">
-                <h1 className="text-2xl font-semibold" style={{ color: '#1ADB04CC' }}>
-                    Major Wins
-                </h1>
+                <div className="flex items-baseline gap-3">
+                    <h1 className="text-2xl font-semibold" style={{ color: '#1ADB04CC' }}>
+                        Major Wins
+                    </h1>
+                    {updatedAt && (
+                        <span className="text-xs text-gray-400">
+                            Updated {new Date(updatedAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        </span>
+                    )}
+                </div>
                 {totalPages > 1 && (
                     <div className="flex items-center gap-2">
                         <button

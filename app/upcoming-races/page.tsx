@@ -5,7 +5,7 @@ import UpComingRaceListView, { Column } from '../_components/homePageSpecificSec
 import UpcomingRacesMobile from '../_components/UpcomingRacesMobile'
 import { IoLocationSharp } from 'react-icons/io5'
 import { FaCalendarAlt } from "react-icons/fa";
-import { getUpcomingRaces } from '../../lib/getTrainerRaces';
+import { getUpcomingRaces, getScrapedAt } from '../../lib/getTrainerRaces';
 
 const columns: Column[] = [
     { key: "horse_name", label: "Horse Name", width: "flex-[0_0_300px]" },
@@ -15,7 +15,7 @@ const columns: Column[] = [
 ];
 
 const page = async () => {
-    const races = await getUpcomingRaces();
+    const [races, scrapedAt] = await Promise.all([getUpcomingRaces(), getScrapedAt()]);
     const raceData = races.map(r => ({
         horse_name: r.horse_name,
         race_number: `Race #${r.race_number}`,
@@ -42,8 +42,8 @@ const page = async () => {
             <div className="mx-6 lg:mx-12 hidden lg:block ">
                 <UpComingRaceListView items={raceData as Record<string, unknown>[]} header={{
                     title: "Upcoming Races",
-                    subtitle:
-                        "Stay ahead of the action — explore the latest horse racing events happening soon across Australia.",
+                    subtitle: "Stay ahead of the action — explore the latest horse racing events happening soon across Australia.",
+                    updatedAt: scrapedAt ?? undefined,
                 }}
                     columns={columns}
                 />

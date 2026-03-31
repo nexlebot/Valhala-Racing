@@ -37,6 +37,10 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
     const galleryImages = (horse.gallery || []).map((g: { url: string }) => ({ url: g.url, alt: horse.title }));
 
+    const scrapedData = await getJSON('scraped_data', 'horse_profiles');
+    const profile = scrapedData?.profiles?.[horse.title] ?? null;
+    const updatedAt = scrapedData?.updatedAt ?? null;
+
     return (
         <div className='mx-6 lg:mx-12'>
             <Navbar hasBackgroundImage={false} />
@@ -53,7 +57,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
             />
             <PageIntro mainHeading="Our Horses" intro='Champions bred with passion, trained for excellence.' />
             {galleryImages.length > 0 && <Slider images={galleryImages} />}
-            <HorseProfile />
+            <HorseProfile profile={profile} updatedAt={updatedAt} />
 
             <div className=''>
                 <div className='my-14'>
@@ -74,7 +78,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                     </div>
                 )}
             </div>
-            <CareerStats />
+            <CareerStats sections={profile?.stats ?? null} updatedAt={updatedAt} />
         </div>
     )
 }

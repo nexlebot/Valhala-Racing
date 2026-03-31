@@ -11,6 +11,7 @@ interface SectionHeaderProps {
     buttonVariant?: "primary" | "secondary" | "tertiary";
     onButtonClick?: () => void;
     className?: string;
+    updatedAt?: string;
 }
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({
@@ -22,13 +23,21 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
     buttonVariant = "primary",
     onButtonClick,
     className = "",
+    updatedAt,
 }) => {
     return (
         <div className={` mb-2 lg:mb-12 ${className}`}>
             <div className="flex justify-between items-start lg:items-center ">
 
                 <div className="max-w-[70%] mb-2 lg:mb-0">
-                    <h1 className="text-2xl lg:text-4xl font-semibold mb-1 text-primary">{title}</h1>
+                    <div className="flex items-baseline gap-3">
+                        <h1 className="text-2xl lg:text-4xl font-semibold mb-1 text-primary">{title}</h1>
+                        {updatedAt && (
+                            <span className="text-xs text-gray-400">
+                                Updated {new Date(updatedAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
+                            </span>
+                        )}
+                    </div>
                 </div>
 
                 {buttonText && buttonLink ? (

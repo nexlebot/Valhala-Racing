@@ -25,30 +25,59 @@ export const CurvedLine: React.FC<CurvedLineProps> = ({ className }) => {
     </svg>
 }
 
-const HorseProfile = () => {
+interface ScrapedProfile {
+    age: number;
+    sex: string;
+    coat: string;
+    class: string;
+    prizeMoney: number;
+    bonus: number;
+    numOfFirstPosition: number;
+    numOfSecondPosition: number;
+    numOfThirdPosition: number;
+    totalStarts: number;
+    sireName: string;
+    damName: string;
+    breederName: string;
+    trainer: { preferredName: string; surname: string };
+}
+
+const HorseProfile = ({ profile, updatedAt }: { profile?: ScrapedProfile | null; updatedAt?: string | null }) => {
+    const winPct = profile && profile.totalStarts
+        ? Math.round((profile.numOfFirstPosition / profile.totalStarts) * 100)
+        : null;
+    const placePct = profile && profile.totalStarts
+        ? Math.round(((profile.numOfFirstPosition + profile.numOfSecondPosition + profile.numOfThirdPosition) / profile.totalStarts) * 100)
+        : null;
 
     const firstRowData = {
-        age: "6",
-        rating: "m102",
-        sex: "Gelding",
-        class: "Open",
-        color: "Bay",
-        prizeMoney: "$608,915",
-        bonus: "$157,300",
-        win: "24%",
-        place: "52%"
+        age: profile ? String(profile.age) : '—',
+        sex: profile ? profile.sex.charAt(0) + profile.sex.slice(1).toLowerCase() : '—',
+        class: profile ? profile.class : '—',
+        color: profile ? profile.coat : '—',
+        prizeMoney: profile ? `$${profile.prizeMoney.toLocaleString()}` : '—',
+        bonus: profile ? `$${profile.bonus.toLocaleString()}` : '—',
+        win: winPct !== null ? `${winPct}%` : '—',
+        place: placePct !== null ? `${placePct}%` : '—',
     };
 
     const secondRowData = {
-        sire: "UNIVERSAL RULER",
-        dam: "I LOVE RUBIES",
-        trainer: "Quanah Park Thoroughbreds",
-        breeder: "Stefan Vahala"
+        sire: profile ? profile.sireName.toUpperCase() : '—',
+        dam: profile ? profile.damName.toUpperCase() : '—',
+        breeder: profile ? profile.breederName : '—',
+        trainer: profile ? `${profile.trainer.preferredName} ${profile.trainer.surname}` : '—',
     };
 
     return (
         <div>
-            <h1 className="text-2xl lg:text-3xl font-semibold text-primary my-14 mb-10">Profile</h1>
+            <div className="flex items-baseline gap-4 my-14 mb-10">
+                <h1 className="text-2xl lg:text-3xl font-semibold text-primary">Profile</h1>
+                {updatedAt && (
+                    <span className="text-xs text-gray-400">
+                        Updated {new Date(updatedAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    </span>
+                )}
+            </div>
             <div className=" flex flex-col gap-16 mb-8">
                 {/* First Row */}
                 <div className="relative">

@@ -4,7 +4,7 @@ import Navbar from '../_components/navbar'
 import WinsCard from '../_components/WinsCard'
 import UpComingRaceListView, { Column } from '../_components/homePageSpecificSections/upComingRaceListView'
 import UpcomingRacesMobile from '../_components/UpcomingRacesMobile'
-import { getMajorWins, getPreviousRunners } from '../../lib/getTrainerRaces'
+import { getMajorWins, getPreviousRunners, getScrapedAt } from '../../lib/getTrainerRaces'
 
 const columns: Column[] = [
     { key: "horse_name", label: "Horse Name", grow: 1 },
@@ -15,7 +15,7 @@ const columns: Column[] = [
 ];
 
 const page = async () => {
-    const [majorWins, previousRunners] = await Promise.all([getMajorWins(), getPreviousRunners()]);
+    const [majorWins, previousRunners, scrapedAt] = await Promise.all([getMajorWins(), getPreviousRunners(), getScrapedAt()]);
 
     return (
         <div className='mx-6 lg:mx-12'>
@@ -35,14 +35,15 @@ const page = async () => {
                 ]}
             />
 
-            <WinsCard wins={majorWins} />
+            <WinsCard wins={majorWins} updatedAt={scrapedAt} />
 
             <div className='hidden lg:block'>
                 <UpComingRaceListView
                     items={previousRunners as Record<string, unknown>[]}
                     header={{
                         title: "Previous Runner Results",
-                        subHeading: "Vahala Racing — Season Race Winners"
+                        subHeading: "Vahala Racing — Season Race Winners",
+                        updatedAt: scrapedAt ?? undefined,
                     }}
                     columns={columns}
                 />

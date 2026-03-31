@@ -24,8 +24,13 @@ interface Syndication {
 
 const HORSE_FIELDS = ['title', 'age', 'color', 'sire', 'dam', 'stable', 'career'] as const;
 const HORSE_PLACEHOLDERS: Record<string, string> = {
-    title: 'Horse Name', age: '6yo Gelding', color: 'Bay',
-    sire: 'Sire Name', dam: 'Dam Name', stable: 'Stable Name', career: '32 Starts: 7-6-2',
+    title: 'Horse Name', age: 'e.g. 6yo Gelding', color: 'Bay',
+    sire: 'Sire Name', dam: 'Dam Name', stable: 'Stable Name', career: 'e.g. 32 Starts: 7-6-2',
+};
+
+const HORSE_LABELS: Record<string, string> = {
+    title: 'Horse Name', age: 'Age', color: 'Colour',
+    sire: 'Sire', dam: 'Dam', stable: 'Stable Name', career: 'Career',
 };
 
 const SYN_FIELDS = ['name', 'age', 'breed', 'sharePrice'] as const;
@@ -421,7 +426,7 @@ function AdminPageInner() {
                         </div>
                         <form onSubmit={handleAddHorse} className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {HORSE_FIELDS.map(f => (
-                                <InputField key={f} label={HORSE_PLACEHOLDERS[f]} placeholder={HORSE_PLACEHOLDERS[f]}
+                                <InputField key={f} label={HORSE_LABELS[f]} placeholder={HORSE_PLACEHOLDERS[f]}
                                     value={horseForm[f]} required
                                     onChange={e => setHorseForm(prev => ({ ...prev, [f]: e.target.value }))} />
                             ))}
@@ -495,7 +500,7 @@ function AdminPageInner() {
                         </div>
                         <form onSubmit={handleEditHorse} className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {HORSE_FIELDS.map(f => (
-                                <InputField key={f} label={HORSE_PLACEHOLDERS[f]} placeholder={HORSE_PLACEHOLDERS[f]}
+                                <InputField key={f} label={HORSE_LABELS[f]} placeholder={HORSE_PLACEHOLDERS[f]}
                                     value={editingHorse[f]} required
                                     onChange={e => setEditingHorse(prev => prev ? { ...prev, [f]: e.target.value } : prev)} />
                             ))}
