@@ -7,3 +7,23 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, s-maxage=60, stale-while-revalidate=300"
+
+[[headers]]
+  for = "/results"
+  [headers.values]
+    Cache-Control = "public, s-maxage=60, stale-while-revalidate=300"
+
+[[headers]]
+  for = "/upcoming-races"
+  [headers.values]
+    Cache-Control = "public, s-maxage=60, stale-while-revalidate=300"
+
+[[headers]]
+  for = "/our-horses/*"
+  [headers.values]
+    Cache-Control = "public, s-maxage=60, stale-while-revalidate=300"
