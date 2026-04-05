@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getJSON, setJSON } from '@/lib/storage';
 
-function removeDuplicates<T extends Record<string, any>>(array: T[], key: string): T[] {
+function removeDuplicates<T extends Record<string, unknown>>(array: T[], key: string): T[] {
   const seen = new Set();
   return array.filter(item => {
     const identifier = item[key];
