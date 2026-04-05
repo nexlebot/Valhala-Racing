@@ -11,9 +11,8 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     hasData: !!data,
     keys: data ? Object.keys(data) : [],
-    majorWinsCount: data?.major_wins?.wins?.length ?? 0,
-    previousRunnersCount: data?.previous_runners?.results?.length ?? 0,
+    majorWinsRaw: data?.major_wins ?? null,
+    previousRunnersRaw: data?.previous_runners ?? null,
     upcomingRacesCount: data?.upcoming_races?.races?.length ?? 0,
-    sample: data?.major_wins?.wins?.[0] ?? null,
   });
 }
