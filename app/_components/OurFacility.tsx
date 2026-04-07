@@ -16,7 +16,7 @@ const featuresData = [
 ];
 const OurFacility = () => {
     return (
-        <div className='mx-6 lg:mx-12'>
+        <div className='mx-6 lg:mx-12 mb-12 lg:mb-20'>
             <SectionHeader title='Our Facilities' subtitle='World-class infrastructure built to train champions and inspire excellence.' buttonText='See facilities' buttonLink='/our-facilities' buttonVariant='secondary' />
             <StablesFeatures features={featuresData} />
         </div>

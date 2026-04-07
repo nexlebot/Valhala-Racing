@@ -37,7 +37,7 @@ export default function Navbar({
     logoHeight = 64,
     logoAlt = "logo",
     ctaLabel = "Merch Store",
-    ctaHref = "/merch",
+    ctaHref = "https://www.fanfave.com.au/collections/vahala-racing-stables",
     hasBackgroundImage = true,
     className = "",
 }: NavbarProps) {
@@ -100,7 +100,9 @@ export default function Navbar({
 
                     {/* Right: CTA and mobile button */}
                     <div className="flex items-center gap-4">
-                        <Button label={ctaLabel} className="hidden sm:inline-flex text-base! font-normal" />
+                        <a href={ctaHref} target="_blank" rel="noopener noreferrer">
+                            <Button label={ctaLabel} className="hidden sm:inline-flex text-base! font-normal" />
+                        </a>
 
                         {/* Mobile: hamburger */}
                         <button
@@ -160,6 +162,8 @@ export default function Navbar({
                         <li className="pt-2">
                             <Link
                                 href={ctaHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 onClick={() => setOpen(false)}
                                 className="block w-full text-center rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-md"
                             >

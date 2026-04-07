@@ -2,7 +2,6 @@ import HeroSection from "./_components/HeroSection"
 import ImageSlider from "./_components/homePageSpecificSections/imageSlider"
 import OwnerShipAndSyndication from "./_components/homePageSpecificSections/ownerShipAndSyndication"
 import RecentResultSection from "./_components/homePageSpecificSections/recentResultSection"
-import Testimonials from "./_components/homePageSpecificSections/testimonials"
 import UpComingRaceListView, { Column } from "./_components/homePageSpecificSections/upComingRaceListView"
 import Navbar from "./_components/navbar"
 import OurFacility from "./_components/OurFacility"
@@ -73,7 +72,6 @@ const page = async () => {
         <RecentResultSection />
       </div>
       <OurFacility />
-      <Testimonials />
     </div>
   )
 }
