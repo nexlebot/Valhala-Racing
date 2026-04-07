@@ -7,6 +7,7 @@ import { LayoutDashboard, Rabbit, Users, LogOut, Menu } from 'lucide-react';
 const NAV = [
     { label: 'Our Horses', href: '/admin', icon: Rabbit },
     { label: 'Ownership', href: '/admin?tab=syndications', icon: Users },
+    { label: 'Subscribers', href: '/admin?tab=subscribers', icon: LayoutDashboard },
 ];
 
 function AdminLayoutInner({ children }: { children: React.ReactNode }) {
@@ -54,7 +55,9 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
                     {NAV.map(({ label, href, icon: Icon }) => {
                         const isActive = href.includes('tab=syndications')
                             ? tab === 'syndications'
-                            : pathname === '/admin' && tab !== 'syndications';
+                            : href.includes('tab=subscribers')
+                            ? tab === 'subscribers'
+                            : pathname === '/admin' && tab !== 'syndications' && tab !== 'subscribers';
                         return (
                             <Link key={href} href={href} onClick={() => setSidebarOpen(false)}
                                 className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all select-none ${isActive ? 'bg-[#1ADB04]/10 text-[#1ADB04] border border-[#1ADB04]/20' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'}`}>

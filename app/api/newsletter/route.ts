@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     const subscribers: Subscriber[] = await getJSON('newsletter', 'subscribers') ?? [];
 
     if (subscribers.some(s => s.email.toLowerCase() === email.toLowerCase())) {
-        return NextResponse.json({ message: 'Already subscribed' });
+        return NextResponse.json({ success: true });
     }
 
     subscribers.push({ name: name.trim(), email: email.trim(), subscribedAt: new Date().toISOString() });

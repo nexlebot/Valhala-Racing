@@ -68,11 +68,12 @@ function InputField({ label, ...props }: { label: string } & React.InputHTMLAttr
 function AdminPageInner() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const tab = searchParams.get('tab') === 'syndications' ? 'syndications' : 'horses';
+    const tab = searchParams.get('tab') === 'syndications' ? 'syndications' : searchParams.get('tab') === 'subscribers' ? 'subscribers' : 'horses';
     const [password, setPassword] = useState('');
     const [authed, setAuthed] = useState(false);
     const [horses, setHorses] = useState<Horse[]>([]);
     const [syndications, setSyndications] = useState<Syndication[]>([]);
+    const [subscribers, setSubscribers] = useState<{ name: string; email: string; subscribedAt: string }[]>([]);
     const [confirmDelete, setConfirmDelete] = useState<{ id: number; type: 'horse' | 'syndication'; name: string } | null>(null);
     const [horseForm, setHorseForm] = useState<HorseForm>(emptyHorseForm);
     const [horseFormFile, setHorseFormFile] = useState<File | null>(null);
@@ -105,6 +106,7 @@ function AdminPageInner() {
         if (!authed) return;
         fetch('/api/horses').then(r => r.json()).then(setHorses);
         fetch('/api/syndications').then(r => r.json()).then(setSyndications);
+        fetch('/api/newsletter', { headers: { Authorization: `Bearer ${pw}` } }).then(r => r.json()).then(d => Array.isArray(d) ? setSubscribers(d) : null);
     }, [authed]);
 
     function handleFileSelect(file: File, target: string) {
@@ -259,9 +261,16 @@ function AdminPageInner() {
             {/* Page header */}
             <div className="flex items-center justify-between mb-8">
                 <div>
-                    <h1 className="text-white text-2xl font-bold">{tab === 'horses' ? 'Our Horses' : 'Ownership'}</h1>
-                    <p className="text-zinc-500 text-sm mt-0.5">{tab === 'horses' ? `${horses.length} horse${horses.length !== 1 ? 's' : ''} in stable` : 'Manage ownership horses'}</p>
+                    <h1 className="text-white text-2xl font-bold">
+                        {tab === 'horses' ? 'Our Horses' : tab === 'syndications' ? 'Ownership' : 'Subscribers'}
+                    </h1>
+                    <p className="text-zinc-500 text-sm mt-0.5">
+                        {tab === 'horses' ? `${horses.length} horse${horses.length !== 1 ? 's' : ''} in stable`
+                        : tab === 'syndications' ? 'Manage ownership horses'
+                        : `${subscribers.length} subscriber${subscribers.length !== 1 ? 's' : ''}`}
+                    </p>
                 </div>
+                {tab !== 'subscribers' && (
                 <button
                     onClick={() => setShowAddForm(true)}
                     className="flex items-center gap-2 bg-[#1ADB04] hover:bg-[#15c203] text-black font-semibold px-4 py-2.5 rounded-xl text-sm transition-colors"
@@ -269,6 +278,7 @@ function AdminPageInner() {
                     <Plus className="w-4 h-4" />
                     {tab === 'horses' ? 'Add Horse' : 'Add Ownership'}
                 </button>
+                )}
             </div>
 
             {/* Stats row */}
@@ -557,6 +567,40 @@ function AdminPageInner() {
                             </div>
                         </form>
                     </div>
+                </div>
+            )}
+
+            {/* Subscribers tab */}
+            {tab === 'subscribers' && (
+                <div className="bg-[#111] border border-zinc-800 rounded-2xl overflow-hidden">
+                    {subscribers.length === 0 ? (
+                        <div className="p-12 flex flex-col items-center justify-center text-center">
+                            <Users className="w-12 h-12 text-zinc-700 mb-4" />
+                            <h2 className="text-white font-bold text-lg mb-2">No Subscribers Yet</h2>
+                            <p className="text-zinc-500 text-sm">Subscribers will appear here once users sign up.</p>
+                        </div>
+                    ) : (
+                        <table className="w-full text-sm">
+                            <thead>
+                                <tr className="border-b border-zinc-800">
+                                    <th className="text-left text-zinc-500 text-xs uppercase tracking-wide px-6 py-3">#</th>
+                                    <th className="text-left text-zinc-500 text-xs uppercase tracking-wide px-6 py-3">Name</th>
+                                    <th className="text-left text-zinc-500 text-xs uppercase tracking-wide px-6 py-3">Email</th>
+                                    <th className="text-left text-zinc-500 text-xs uppercase tracking-wide px-6 py-3">Subscribed</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {subscribers.map((s, i) => (
+                                    <tr key={s.email} className="border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-colors">
+                                        <td className="px-6 py-3 text-zinc-600">{i + 1}</td>
+                                        <td className="px-6 py-3 text-white font-medium">{s.name}</td>
+                                        <td className="px-6 py-3 text-[#1ADB04]">{s.email}</td>
+                                        <td className="px-6 py-3 text-zinc-400">{new Date(s.subscribedAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
                 </div>
             )}
 
