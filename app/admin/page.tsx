@@ -106,7 +106,7 @@ function AdminPageInner() {
         if (!authed) return;
         fetch('/api/horses').then(r => r.json()).then(setHorses);
         fetch('/api/syndications').then(r => r.json()).then(setSyndications);
-        fetch('/api/newsletter', { headers: { Authorization: `Bearer ${pw}` } }).then(r => r.json()).then(d => Array.isArray(d) ? setSubscribers(d) : null);
+        fetch('/api/newsletter', { headers: { Authorization: `Bearer ${password}` } }).then(r => r.json()).then(d => Array.isArray(d) ? setSubscribers(d) : null);
     }, [authed]);
 
     function handleFileSelect(file: File, target: string) {
