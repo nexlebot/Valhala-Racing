@@ -74,6 +74,9 @@ function AdminPageInner() {
     const [horses, setHorses] = useState<Horse[]>([]);
     const [syndications, setSyndications] = useState<Syndication[]>([]);
     const [subscribers, setSubscribers] = useState<{ name: string; email: string; subscribedAt: string }[]>([]);
+    const [selectedEmails, setSelectedEmails] = useState<Set<string>>(new Set());
+    const [subPage, setSubPage] = useState(1);
+    const SUB_PAGE_SIZE = 20;
     const [confirmDelete, setConfirmDelete] = useState<{ id: number; type: 'horse' | 'syndication'; name: string } | null>(null);
     const [horseForm, setHorseForm] = useState<HorseForm>(emptyHorseForm);
     const [horseFormFile, setHorseFormFile] = useState<File | null>(null);
@@ -572,38 +575,122 @@ function AdminPageInner() {
             )}
 
             {/* Subscribers tab */}
-            {tab === 'subscribers' && (
-                <div className="bg-[#111] border border-zinc-800 rounded-2xl overflow-hidden">
-                    {subscribers.length === 0 ? (
-                        <div className="p-12 flex flex-col items-center justify-center text-center">
-                            <Users className="w-12 h-12 text-zinc-700 mb-4" />
-                            <h2 className="text-white font-bold text-lg mb-2">No Subscribers Yet</h2>
-                            <p className="text-zinc-500 text-sm">Subscribers will appear here once users sign up.</p>
+            {tab === 'subscribers' && (() => {
+                const totalPages = Math.ceil(subscribers.length / SUB_PAGE_SIZE);
+                const paginated = subscribers.slice((subPage - 1) * SUB_PAGE_SIZE, subPage * SUB_PAGE_SIZE);
+                const pageEmails = paginated.map(s => s.email);
+                const allPageSelected = pageEmails.length > 0 && pageEmails.every(e => selectedEmails.has(e));
+
+                function toggleEmail(email: string) {
+                    setSelectedEmails(prev => { const n = new Set(prev); n.has(email) ? n.delete(email) : n.add(email); return n; });
+                }
+                function togglePage() {
+                    setSelectedEmails(prev => {
+                        const n = new Set(prev);
+                        allPageSelected ? pageEmails.forEach(e => n.delete(e)) : pageEmails.forEach(e => n.add(e));
+                        return n;
+                    });
+                }
+                function downloadCSV(list: typeof subscribers) {
+                    const csv = ['Name,Email,Subscribed At', ...list.map(s => `${s.name},${s.email},${new Date(s.subscribedAt).toLocaleDateString('en-AU')}`)];
+                    const blob = new Blob([csv.join('\n')], { type: 'text/csv' });
+                    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+                    a.download = 'subscribers.csv'; a.click();
+                }
+                async function deleteSelected() {
+                    const pw = sessionStorage.getItem('adminPw') ?? '';
+                    await fetch('/api/newsletter', { method: 'DELETE', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${pw}` }, body: JSON.stringify({ emails: [...selectedEmails] }) });
+                    setSubscribers(prev => prev.filter(s => !selectedEmails.has(s.email)));
+                    setSelectedEmails(new Set());
+                    setSubPage(1);
+                }
+
+                return (
+                    <div className="bg-[#111] border border-zinc-800 rounded-2xl overflow-hidden">
+                        {/* Toolbar */}
+                        <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-4 border-b border-zinc-800">
+                            <span className="text-zinc-400 text-sm">
+                                {selectedEmails.size > 0 ? <span className="text-[#1ADB04] font-medium">{selectedEmails.size} selected</span> : `${subscribers.length} total`}
+                            </span>
+                            <div className="flex gap-2">
+                                {selectedEmails.size > 0 && (
+                                    <>
+                                        <button onClick={() => downloadCSV(subscribers.filter(s => selectedEmails.has(s.email)))}
+                                            className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-lg text-xs font-medium transition-all">
+                                            ↓ Download Selected
+                                        </button>
+                                        <button onClick={deleteSelected}
+                                            className="flex items-center gap-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 px-3 py-1.5 rounded-lg text-xs font-medium transition-all">
+                                            <Trash2 className="w-3.5 h-3.5" /> Delete Selected
+                                        </button>
+                                    </>
+                                )}
+                                <button onClick={() => downloadCSV(subscribers)}
+                                    className="flex items-center gap-1.5 bg-[#1ADB04]/10 hover:bg-[#1ADB04]/20 text-[#1ADB04] border border-[#1ADB04]/20 px-3 py-1.5 rounded-lg text-xs font-medium transition-all">
+                                    ↓ Download All
+                                </button>
+                            </div>
                         </div>
-                    ) : (
-                        <table className="w-full text-sm">
-                            <thead>
-                                <tr className="border-b border-zinc-800">
-                                    <th className="text-left text-zinc-500 text-xs uppercase tracking-wide px-6 py-3">#</th>
-                                    <th className="text-left text-zinc-500 text-xs uppercase tracking-wide px-6 py-3">Name</th>
-                                    <th className="text-left text-zinc-500 text-xs uppercase tracking-wide px-6 py-3">Email</th>
-                                    <th className="text-left text-zinc-500 text-xs uppercase tracking-wide px-6 py-3">Subscribed</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {subscribers.map((s, i) => (
-                                    <tr key={s.email} className="border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-colors">
-                                        <td className="px-6 py-3 text-zinc-600">{i + 1}</td>
-                                        <td className="px-6 py-3 text-white font-medium">{s.name}</td>
-                                        <td className="px-6 py-3 text-[#1ADB04]">{s.email}</td>
-                                        <td className="px-6 py-3 text-zinc-400">{new Date(s.subscribedAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    )}
-                </div>
-            )}
+
+                        {subscribers.length === 0 ? (
+                            <div className="p-12 flex flex-col items-center justify-center text-center">
+                                <Users className="w-12 h-12 text-zinc-700 mb-4" />
+                                <h2 className="text-white font-bold text-lg mb-2">No Subscribers Yet</h2>
+                                <p className="text-zinc-500 text-sm">Subscribers will appear here once users sign up.</p>
+                            </div>
+                        ) : (
+                            <>
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="border-b border-zinc-800">
+                                            <th className="px-6 py-3 w-10">
+                                                <input type="checkbox" checked={allPageSelected} onChange={togglePage}
+                                                    className="accent-[#1ADB04] w-4 h-4 cursor-pointer" />
+                                            </th>
+                                            <th className="text-left text-zinc-500 text-xs uppercase tracking-wide px-4 py-3">#</th>
+                                            <th className="text-left text-zinc-500 text-xs uppercase tracking-wide px-4 py-3">Name</th>
+                                            <th className="text-left text-zinc-500 text-xs uppercase tracking-wide px-4 py-3">Email</th>
+                                            <th className="text-left text-zinc-500 text-xs uppercase tracking-wide px-4 py-3">Subscribed</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {paginated.map((s, i) => (
+                                            <tr key={s.email} className={`border-b border-zinc-800/50 transition-colors cursor-pointer ${ selectedEmails.has(s.email) ? 'bg-[#1ADB04]/5' : 'hover:bg-zinc-800/30'}`}
+                                                onClick={() => toggleEmail(s.email)}>
+                                                <td className="px-6 py-3" onClick={e => e.stopPropagation()}>
+                                                    <input type="checkbox" checked={selectedEmails.has(s.email)} onChange={() => toggleEmail(s.email)}
+                                                        className="accent-[#1ADB04] w-4 h-4 cursor-pointer" />
+                                                </td>
+                                                <td className="px-4 py-3 text-zinc-600">{(subPage - 1) * SUB_PAGE_SIZE + i + 1}</td>
+                                                <td className="px-4 py-3 text-white font-medium">{s.name}</td>
+                                                <td className="px-4 py-3 text-[#1ADB04]">{s.email}</td>
+                                                <td className="px-4 py-3 text-zinc-400">{new Date(s.subscribedAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+
+                                {/* Pagination */}
+                                {totalPages > 1 && (
+                                    <div className="flex items-center justify-between px-6 py-4 border-t border-zinc-800">
+                                        <span className="text-zinc-500 text-xs">Page {subPage} of {totalPages}</span>
+                                        <div className="flex gap-2">
+                                            <button disabled={subPage === 1} onClick={() => setSubPage(p => p - 1)}
+                                                className="px-3 py-1.5 rounded-lg text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 disabled:opacity-40 disabled:cursor-not-allowed transition-all">← Prev</button>
+                                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                                                <button key={p} onClick={() => setSubPage(p)}
+                                                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${ p === subPage ? 'bg-[#1ADB04] text-black' : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300'}`}>{p}</button>
+                                            ))}
+                                            <button disabled={subPage === totalPages} onClick={() => setSubPage(p => p + 1)}
+                                                className="px-3 py-1.5 rounded-lg text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 disabled:opacity-40 disabled:cursor-not-allowed transition-all">Next →</button>
+                                        </div>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+                );
+            })()}
 
             {cropTarget && (
                 <ImageCropper imageSrc={cropTarget.src} originalFile={cropTarget.file}
