@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getJSON, setJSON } from '@/lib/storage';
 
 function removeDuplicates<T extends Record<string, unknown>>(array: T[], key: string): T[] {
@@ -50,16 +51,16 @@ export async function POST(req: NextRequest) {
     body.upcoming_races.races = removeDuplicates(body.upcoming_races.races, 'race_url');
   }
 
-  // Merge: only overwrite sections that have actual data
+  // Merge: always use incoming data, only fall back to existing if section is missing
   const existing = await getJSON('scraped_data', 'trainer_races') ?? {};
   const merged = {
     ...existing,
     ...body,
-    major_wins: body.major_wins?.wins?.length ? body.major_wins : (existing.major_wins ?? body.major_wins),
-    previous_runners: body.previous_runners?.results?.length ? body.previous_runners : (existing.previous_runners ?? body.previous_runners),
   };
 
   await setJSON('scraped_data', 'trainer_races', merged);
+
+  revalidatePath('/', 'layout');
 
   return NextResponse.json({ 
     success: true, 
