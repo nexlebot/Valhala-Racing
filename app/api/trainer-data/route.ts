@@ -40,15 +40,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
   }
 
-  // Clean duplicates from incoming data
+  // Clean duplicates and recalculate totals
   if (body.major_wins?.wins) {
     body.major_wins.wins = removeDuplicates(body.major_wins.wins, 'race_url');
+    body.major_wins.total = body.major_wins.wins.length;
   }
   if (body.previous_runners?.results) {
     body.previous_runners.results = removeDuplicates(body.previous_runners.results, 'race_url');
+    body.previous_runners.total = body.previous_runners.results.length;
   }
   if (body.upcoming_races?.races) {
     body.upcoming_races.races = removeDuplicates(body.upcoming_races.races, 'race_url');
+    body.upcoming_races.total = body.upcoming_races.races.length;
   }
 
   // Merge: always use incoming data, only fall back to existing if section is missing
