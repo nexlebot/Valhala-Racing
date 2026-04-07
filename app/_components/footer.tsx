@@ -18,7 +18,6 @@ const navLinks = [
     { label: "Our Horses", href: "/our-horses" },
     { label: "Our Facilities", href: "/our-facilities" },
     { label: "Gallery", href: "/gallery" },
-    { label: "Contact", href: "/contact" },
 ];
 
 export default function Footer() {

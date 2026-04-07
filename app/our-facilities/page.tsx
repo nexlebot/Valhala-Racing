@@ -1,9 +1,7 @@
 import React from 'react'
 import Navbar from '../_components/navbar'
 import PageIntro from '../_components/PageIntro'
-import LeftRightBlog from '../_components/leftRightBlog'
 import { StablesFeatures } from '../_components/StablesFeatures'
-import ContactForm from '../_components/ContactForm'
 
 const featuresData = [
     {
@@ -28,7 +26,7 @@ const featuresData = [
 
 const page = () => {
     return (
-        <div className='mx-6 lg:mx-12'>
+        <div className='mx-6 lg:mx-12 mb-12 lg:mb-20'>
             <Navbar hasBackgroundImage={false} />
             <PageIntro mainHeading="Our Facilities" intro="At Vahala Racing, we pride ourselves on our state-of-the-art facilities that provide the best environment for our horses to thrive. Our commitment to excellence is reflected in every aspect of our operations, from training to care."
                 blocks={[
@@ -42,9 +40,6 @@ const page = () => {
                 ]} />
 
             <StablesFeatures features={featuresData} />
-            <div className='py-14'>
-                <ContactForm />
-            </div>
         </div>
     )
 }
