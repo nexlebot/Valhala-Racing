@@ -6,7 +6,7 @@ frontend:
         - npm ci
     build:
       commands:
-        - env | grep -e SCRAPER_TOKEN -e ADMIN_PASSWORD -e S3_BUCKET_NAME >> .env.production
+        - env | grep -e SCRAPER_TOKEN -e ADMIN_PASSWORD -e S3_BUCKET_NAME -e S3_ACCESS_KEY_ID -e S3_SECRET_ACCESS_KEY >> .env.production
         - echo "S3_REGION=ap-southeast-2" >> .env.production
         - npm run build
   artifacts:

@@ -33,7 +33,13 @@ const local = {
 
 async function getS3Client() {
     const { S3Client } = await import('@aws-sdk/client-s3');
-    return new S3Client({ region: process.env.S3_REGION });
+    return new S3Client({
+        region: process.env.S3_REGION,
+        credentials: process.env.S3_ACCESS_KEY_ID ? {
+            accessKeyId: process.env.S3_ACCESS_KEY_ID,
+            secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
+        } : undefined,
+    });
 }
 
 function s3Key(store: string, key: string) {
