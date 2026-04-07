@@ -6,6 +6,7 @@ frontend:
         - npm ci
     build:
       commands:
+        - env | grep -e SCRAPER_TOKEN -e ADMIN_PASSWORD -e S3_BUCKET_NAME -e S3_REGION >> .env.production
         - npm run build
   artifacts:
     baseDirectory: .next
