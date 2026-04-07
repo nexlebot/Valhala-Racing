@@ -1,8 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const isNetlify = !!(process.env.NETLIFY_BLOBS_CONTEXT);
-
+const IS_CLOUD = !!(process.env.S3_BUCKET_NAME);
 const DATA_DIR = path.join(process.cwd(), '.local-storage');
 
 function localPath(store: string, key: string) {
@@ -32,28 +31,60 @@ const local = {
     },
 };
 
+async function getS3Client() {
+    const { S3Client } = await import('@aws-sdk/client-s3');
+    return new S3Client({ region: process.env.S3_REGION ?? 'us-east-1' });
+}
+
+function s3Key(store: string, key: string) {
+    return `${store}/${key}`;
+}
+
 export async function getJSON(store: string, key: string) {
-    if (isNetlify) {
-        const { getStore } = await import('@netlify/blobs');
-        return getStore(store).get(key, { type: 'json' });
+    if (IS_CLOUD) {
+        const { GetObjectCommand } = await import('@aws-sdk/client-s3');
+        const client = await getS3Client();
+        try {
+            const res = await client.send(new GetObjectCommand({
+                Bucket: process.env.S3_BUCKET_NAME!,
+                Key: s3Key(store, key),
+            }));
+            const body = await res.Body?.transformToString();
+            return body ? JSON.parse(body) : null;
+        } catch { return null; }
     }
     return local.getJSON(store, key);
 }
 
 export async function setJSON(store: string, key: string, value: unknown) {
-    if (isNetlify) {
-        const { getStore } = await import('@netlify/blobs');
-        return getStore(store).setJSON(key, value);
+    if (IS_CLOUD) {
+        const { PutObjectCommand } = await import('@aws-sdk/client-s3');
+        const client = await getS3Client();
+        await client.send(new PutObjectCommand({
+            Bucket: process.env.S3_BUCKET_NAME!,
+            Key: s3Key(store, key),
+            Body: JSON.stringify(value),
+            ContentType: 'application/json',
+        }));
+        return;
     }
     local.setJSON(store, key, value);
 }
 
 export async function getBytes(store: string, key: string) {
-    if (isNetlify) {
-        const { getStore } = await import('@netlify/blobs');
-        const result = await getStore(store).getWithMetadata(key, { type: 'arrayBuffer' });
-        if (!result.data) return null;
-        return { data: result.data as ArrayBuffer, meta: result.metadata as Record<string, string> };
+    if (IS_CLOUD) {
+        const { GetObjectCommand } = await import('@aws-sdk/client-s3');
+        const client = await getS3Client();
+        try {
+            const [dataRes, metaRes] = await Promise.all([
+                client.send(new GetObjectCommand({ Bucket: process.env.S3_BUCKET_NAME!, Key: s3Key(store, key) })),
+                client.send(new GetObjectCommand({ Bucket: process.env.S3_BUCKET_NAME!, Key: s3Key(store, key + '.meta') })),
+            ]);
+            const data = await dataRes.Body?.transformToByteArray();
+            const metaBody = await metaRes.Body?.transformToString();
+            if (!data || !metaBody) return null;
+            return { data: data.buffer as ArrayBuffer, meta: JSON.parse(metaBody) as Record<string, string> };
+        } catch { return null; }
     }
     const result = local.getBytes(store, key);
     if (!result) return null;
@@ -61,9 +92,24 @@ export async function getBytes(store: string, key: string) {
 }
 
 export async function setBytes(store: string, key: string, bytes: ArrayBuffer, meta: Record<string, string>) {
-    if (isNetlify) {
-        const { getStore } = await import('@netlify/blobs');
-        return getStore(store).set(key, bytes, { metadata: meta });
+    if (IS_CLOUD) {
+        const { PutObjectCommand } = await import('@aws-sdk/client-s3');
+        const client = await getS3Client();
+        await Promise.all([
+            client.send(new PutObjectCommand({
+                Bucket: process.env.S3_BUCKET_NAME!,
+                Key: s3Key(store, key),
+                Body: Buffer.from(bytes),
+                ContentType: meta.contentType ?? 'application/octet-stream',
+            })),
+            client.send(new PutObjectCommand({
+                Bucket: process.env.S3_BUCKET_NAME!,
+                Key: s3Key(store, key + '.meta'),
+                Body: JSON.stringify(meta),
+                ContentType: 'application/json',
+            })),
+        ]);
+        return;
     }
     local.setBytes(store, key, bytes, meta);
 }
