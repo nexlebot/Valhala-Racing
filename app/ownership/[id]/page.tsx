@@ -1,4 +1,3 @@
-import ContactForm from '@/app/_components/ContactForm'
 import Navbar from '@/app/_components/navbar'
 import PageIntro from '@/app/_components/PageIntro'
 import Slider from '@/app/_components/Slider'
@@ -66,7 +65,7 @@ export default async function OwnershipDetailPage({ params }: { params: Promise<
 
             {/* Video */}
             {syn.videoUrl && (
-                <div className='mt-6 text-primary'>
+                <div className='mt-6 pb-14 text-primary'>
                     <h1 className='font-semibold text-2xl lg:text-3xl mb-2'>Highlight Video</h1>
                     {syn.videoTitle && <p className='mb-6 text-sm lg:text-base'>{syn.videoTitle}</p>}
                     <div className='w-full'>
@@ -75,9 +74,6 @@ export default async function OwnershipDetailPage({ params }: { params: Promise<
                 </div>
             )}
 
-            <div className='py-6 lg:py-14'>
-                <ContactForm />
-            </div>
         </div>
     )
 }
