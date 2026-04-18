@@ -23,7 +23,7 @@ interface Syndication {
 }
 
 interface Testimonial {
-    id: number; text: string; name: string; role: string;
+    id: number; text: string; name: string; role: string; image?: string;
 }
 
 const HORSE_FIELDS = ['title', 'age', 'color', 'sire', 'dam', 'stable', 'career'] as const;
