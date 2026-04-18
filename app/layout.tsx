@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Roboto } from "next/font/google";
 import "./globals.css";
-import Footer from "./_components/footer";
-import NewsLetter from "./_components/newsLetter";
+import PublicFooter from "./_components/PublicFooter";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -53,8 +52,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.variable} ${roboto.variable} antialiased`}>
         {children}
-        <NewsLetter />
-        <Footer />
+        <PublicFooter />
       </body>
     </html>
   );

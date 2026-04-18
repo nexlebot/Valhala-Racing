@@ -2,11 +2,12 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { LayoutDashboard, Rabbit, Users, LogOut, Menu } from 'lucide-react';
+import { LayoutDashboard, Rabbit, Users, LogOut, Menu, MessageSquareQuote } from 'lucide-react';
 
 const NAV = [
     { label: 'Our Horses', href: '/admin', icon: Rabbit },
     { label: 'Ownership', href: '/admin?tab=syndications', icon: Users },
+    { label: 'Testimonials', href: '/admin?tab=testimonials', icon: MessageSquareQuote },
     { label: 'Subscribers', href: '/admin?tab=subscribers', icon: LayoutDashboard },
 ];
 
@@ -57,7 +58,9 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
                             ? tab === 'syndications'
                             : href.includes('tab=subscribers')
                             ? tab === 'subscribers'
-                            : pathname === '/admin' && tab !== 'syndications' && tab !== 'subscribers';
+                            : href.includes('tab=testimonials')
+                            ? tab === 'testimonials'
+                            : pathname === '/admin' && !tab;
                         return (
                             <Link key={href} href={href} onClick={() => setSidebarOpen(false)}
                                 className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all select-none ${isActive ? 'bg-[#1ADB04]/10 text-[#1ADB04] border border-[#1ADB04]/20' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'}`}>

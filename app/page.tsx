@@ -5,9 +5,11 @@ import RecentResultSection from "./_components/homePageSpecificSections/recentRe
 import UpComingRaceListView, { Column } from "./_components/homePageSpecificSections/upComingRaceListView"
 import Navbar from "./_components/navbar"
 import OurFacility from "./_components/OurFacility"
+import Testimonials from "./_components/homePageSpecificSections/testimonials"
 import UpcomingRacesMobile from "./_components/UpcomingRacesMobile"
 import { getJSON } from "@/lib/storage"
 import { getUpcomingRaces, getScrapedAt } from "@/lib/getTrainerRaces"
+import { Testimonial } from "./_components/homePageSpecificSections/testimonials"
 
 export const dynamic = 'force-dynamic'
 
@@ -21,10 +23,11 @@ const columns: Column[] = [
 ];
 
 const page = async () => {
-  const [syndications, races, scrapedAt] = await Promise.all([
+  const [syndications, races, scrapedAt, testimonials] = await Promise.all([
     getJSON('syndications', 'list').then((d: unknown) => (d as Syndication[]) ?? []),
     getUpcomingRaces(),
     getScrapedAt(),
+    getJSON('testimonials', 'list').then((d: unknown) => (d as Testimonial[]) ?? []),
   ]);
 
   const raceData = races.map(r => ({
@@ -72,6 +75,7 @@ const page = async () => {
         <RecentResultSection />
       </div>
       <OurFacility />
+      <Testimonials items={testimonials} />
     </div>
   )
 }

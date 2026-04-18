@@ -22,6 +22,10 @@ interface Syndication {
     about?: string;
 }
 
+interface Testimonial {
+    id: number; text: string; name: string; role: string;
+}
+
 const HORSE_FIELDS = ['title', 'age', 'color', 'sire', 'dam', 'stable', 'career'] as const;
 const HORSE_PLACEHOLDERS: Record<string, string> = {
     title: 'Horse Name', age: 'e.g. 6yo Gelding', color: 'Bay',
@@ -68,12 +72,20 @@ function InputField({ label, ...props }: { label: string } & React.InputHTMLAttr
 function AdminPageInner() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const tab = searchParams.get('tab') === 'syndications' ? 'syndications' : searchParams.get('tab') === 'subscribers' ? 'subscribers' : 'horses';
+    const tab = searchParams.get('tab') === 'syndications' ? 'syndications' : searchParams.get('tab') === 'subscribers' ? 'subscribers' : searchParams.get('tab') === 'testimonials' ? 'testimonials' : 'horses';
     const [password, setPassword] = useState('');
     const [authed, setAuthed] = useState(false);
     const [horses, setHorses] = useState<Horse[]>([]);
     const [syndications, setSyndications] = useState<Syndication[]>([]);
     const [subscribers, setSubscribers] = useState<{ name: string; email: string; subscribedAt: string }[]>([]);
+    const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+    const [testimonialForm, setTestimonialForm] = useState({ text: '', name: '', role: '', image: '' });
+    const [testimonialFormFile, setTestimonialFormFile] = useState<File | null>(null);
+    const [testimonialFormPreview, setTestimonialFormPreview] = useState<string | null>(null);
+    const [editingTestimonial, setEditingTestimonial] = useState<Testimonial | null>(null);
+    const [editTestimonialFile, setEditTestimonialFile] = useState<File | null>(null);
+    const [editTestimonialPreview, setEditTestimonialPreview] = useState<string | null>(null);
+    const [confirmDeleteTestimonial, setConfirmDeleteTestimonial] = useState<Testimonial | null>(null);
     const [selectedEmails, setSelectedEmails] = useState<Set<string>>(new Set());
     const [subPage, setSubPage] = useState(1);
     const SUB_PAGE_SIZE = 20;
@@ -111,6 +123,7 @@ function AdminPageInner() {
         fetch('/api/horses').then(r => r.json()).then(setHorses);
         fetch('/api/syndications').then(r => r.json()).then(setSyndications);
         fetch('/api/newsletter', { headers: { Authorization: `Bearer ${pw}` } }).then(r => r.json()).then(d => Array.isArray(d) ? setSubscribers(d) : null);
+        fetch('/api/testimonials').then(r => r.json()).then(setTestimonials);
     }, [authed]);
 
     function handleFileSelect(file: File, target: string) {
@@ -123,6 +136,8 @@ function AdminPageInner() {
         else if (cropTarget?.target === 'horseEdit') { setEditHorseFile(croppedFile); setEditHorsePreview(preview); }
         else if (cropTarget?.target === 'synEdit') { setEditSynFile(croppedFile); setEditSynPreview(preview); }
         else if (cropTarget?.target === 'synForm') { setSynFormFile(croppedFile); setSynFormPreview(preview); }
+        else if (cropTarget?.target === 'testimonialForm') { setTestimonialFormFile(croppedFile); setTestimonialFormPreview(preview); }
+        else if (cropTarget?.target === 'testimonialEdit') { setEditTestimonialFile(croppedFile); setEditTestimonialPreview(preview); }
         setCropTarget(null);
     }
 
@@ -266,15 +281,16 @@ function AdminPageInner() {
             <div className="flex items-center justify-between mb-8">
                 <div>
                     <h1 className="text-white text-2xl font-bold">
-                        {tab === 'horses' ? 'Our Horses' : tab === 'syndications' ? 'Ownership' : 'Subscribers'}
+                        {tab === 'horses' ? 'Our Horses' : tab === 'syndications' ? 'Ownership' : tab === 'testimonials' ? 'Testimonials' : 'Subscribers'}
                     </h1>
                     <p className="text-zinc-500 text-sm mt-0.5">
                         {tab === 'horses' ? `${horses.length} horse${horses.length !== 1 ? 's' : ''} in stable`
                         : tab === 'syndications' ? 'Manage ownership horses'
+                        : tab === 'testimonials' ? `${testimonials.length} testimonial${testimonials.length !== 1 ? 's' : ''}`
                         : `${subscribers.length} subscriber${subscribers.length !== 1 ? 's' : ''}`}
                     </p>
                 </div>
-                {tab !== 'subscribers' && (
+                {tab !== 'subscribers' && tab !== 'testimonials' && (
                 <button
                     onClick={() => setShowAddForm(true)}
                     className="flex items-center gap-2 bg-[#1ADB04] hover:bg-[#15c203] text-black font-semibold px-4 py-2.5 rounded-xl text-sm transition-colors"
@@ -570,6 +586,144 @@ function AdminPageInner() {
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Testimonials tab */}
+            {tab === 'testimonials' && (
+                <div className="space-y-4">
+                    {/* Add form */}
+                    <div className="bg-[#111] border border-zinc-800 rounded-2xl p-6">
+                        <h2 className="text-white font-bold text-base mb-4">Add Testimonial</h2>
+                        <form onSubmit={async (e) => {
+                            e.preventDefault();
+                            setLoading(true); setError('');
+                            let image = testimonialForm.image;
+                            if (testimonialFormFile) {
+                                const uploaded = await uploadImage(testimonialFormFile, password);
+                                if (!uploaded) { setError('Image upload failed'); setLoading(false); return; }
+                                image = uploaded;
+                            }
+                            const res = await fetch('/api/testimonials', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...testimonialForm, image, password }) });
+                            setLoading(false);
+                            if (!res.ok) return setError('Failed to add testimonial');
+                            setTestimonialForm({ text: '', name: '', role: '', image: '' });
+                            setTestimonialFormFile(null); setTestimonialFormPreview(null);
+                            fetch('/api/testimonials').then(r => r.json()).then(setTestimonials);
+                        }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="col-span-full flex flex-col gap-1.5">
+                                <label className="text-xs font-medium text-zinc-400 uppercase tracking-wide">Testimonial Text</label>
+                                <textarea required rows={3} value={testimonialForm.text} onChange={e => setTestimonialForm(p => ({ ...p, text: e.target.value }))} placeholder="What they said..." className="bg-zinc-800/60 border border-zinc-700/50 text-white px-3.5 py-2.5 rounded-lg text-sm outline-none focus:border-[#1ADB04]/50 focus:ring-1 focus:ring-[#1ADB04]/20 placeholder-zinc-600 transition-all resize-none" />
+                            </div>
+                            <InputField label="Name" required value={testimonialForm.name} onChange={e => setTestimonialForm(p => ({ ...p, name: e.target.value }))} placeholder="e.g. Sheikh Owais" />
+                            <InputField label="Role" required value={testimonialForm.role} onChange={e => setTestimonialForm(p => ({ ...p, role: e.target.value }))} placeholder="e.g. Owner" />
+                            <div className="col-span-full">
+                                <label className="text-xs font-medium text-zinc-400 uppercase tracking-wide block mb-2">Profile Image (optional)</label>
+                                <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-zinc-700 hover:border-[#1ADB04]/50 rounded-xl p-4 cursor-pointer transition-colors bg-zinc-800/30">
+                                    <input type="file" accept="image/*" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) handleFileSelect(f, 'testimonialForm'); }} />
+                                    {testimonialFormPreview
+                                        ? <img src={testimonialFormPreview} className="h-20 w-20 rounded-full object-cover" alt="preview" />
+                                        : <><ImageIcon className="w-6 h-6 text-zinc-600" /><span className="text-zinc-500 text-xs">Click to upload photo</span></>
+                                    }
+                                </label>
+                            </div>
+                            {error && <div className="col-span-full bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2"><p className="text-red-400 text-sm">{error}</p></div>}
+                            <div className="col-span-full">
+                                <button type="submit" disabled={loading} className="bg-[#1ADB04] hover:bg-[#15c203] text-black font-bold px-6 py-2.5 rounded-xl text-sm disabled:opacity-50 transition-all">
+                                    {loading ? 'Adding...' : 'Add Testimonial'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    {/* List */}
+                    {testimonials.map(t => (
+                        <div key={t.id} className="bg-[#111] border border-zinc-800 rounded-2xl p-5 flex flex-col gap-3">
+                            <p className="text-zinc-300 text-sm leading-relaxed">&ldquo;{t.text}&rdquo;</p>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-white text-sm font-semibold">{t.name}</p>
+                                    <p className="text-zinc-500 text-xs">{t.role}</p>
+                                </div>
+                                <div className="flex gap-2">
+                                    <button onClick={() => setEditingTestimonial(t)} className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-lg text-xs transition-all"><Pencil className="w-3.5 h-3.5" /> Edit</button>
+                                    <button onClick={() => setConfirmDeleteTestimonial(t)} className="flex items-center gap-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 px-3 py-1.5 rounded-lg text-xs transition-all"><Trash2 className="w-3.5 h-3.5" /> Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+
+                    {testimonials.length === 0 && (
+                        <div className="bg-[#111] border border-zinc-800 rounded-2xl p-12 flex flex-col items-center justify-center text-center">
+                            <p className="text-zinc-500 text-sm">No testimonials yet. Add one above.</p>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* Edit Testimonial Modal */}
+            {editingTestimonial && (
+                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-[#111] border border-zinc-800 rounded-2xl w-full max-w-xl">
+                        <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
+                            <h2 className="text-white font-bold text-lg">Edit Testimonial</h2>
+                            <button onClick={() => setEditingTestimonial(null)} className="text-zinc-500 hover:text-white text-xl leading-none">×</button>
+                        </div>
+                        <form onSubmit={async (e) => {
+                            e.preventDefault();
+                            setLoading(true); setError('');
+                            let image = editingTestimonial.image ?? '';
+                            if (editTestimonialFile) {
+                                const uploaded = await uploadImage(editTestimonialFile, password);
+                                if (!uploaded) { setError('Image upload failed'); setLoading(false); return; }
+                                image = uploaded;
+                            }
+                            const res = await fetch('/api/testimonials', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...editingTestimonial, image, password }) });
+                            setLoading(false);
+                            if (!res.ok) return setError('Failed to update');
+                            setEditingTestimonial(null); setEditTestimonialFile(null); setEditTestimonialPreview(null);
+                            fetch('/api/testimonials').then(r => r.json()).then(setTestimonials);
+                        }} className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="col-span-full flex flex-col gap-1.5">
+                                <label className="text-xs font-medium text-zinc-400 uppercase tracking-wide">Testimonial Text</label>
+                                <textarea required rows={3} value={editingTestimonial.text} onChange={e => setEditingTestimonial(p => p ? { ...p, text: e.target.value } : p)} className="bg-zinc-800/60 border border-zinc-700/50 text-white px-3.5 py-2.5 rounded-lg text-sm outline-none focus:border-[#1ADB04]/50 focus:ring-1 focus:ring-[#1ADB04]/20 transition-all resize-none" />
+                            </div>
+                            <InputField label="Name" required value={editingTestimonial.name} onChange={e => setEditingTestimonial(p => p ? { ...p, name: e.target.value } : p)} />
+                            <InputField label="Role" required value={editingTestimonial.role} onChange={e => setEditingTestimonial(p => p ? { ...p, role: e.target.value } : p)} />
+                            <div className="col-span-full">
+                                <label className="text-xs font-medium text-zinc-400 uppercase tracking-wide block mb-2">Replace Photo (optional)</label>
+                                <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-zinc-700 hover:border-[#1ADB04]/50 rounded-xl p-4 cursor-pointer transition-colors bg-zinc-800/30">
+                                    <input type="file" accept="image/*" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) handleFileSelect(f, 'testimonialEdit'); }} />
+                                    <img src={editTestimonialPreview ?? editingTestimonial.image ?? '/profile1.jpg'} className="h-20 w-20 rounded-full object-cover" alt="preview" />
+                                    <span className="text-zinc-500 text-xs">Click to replace</span>
+                                </label>
+                            </div>
+                            {error && <div className="col-span-full bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2"><p className="text-red-400 text-sm">{error}</p></div>}
+                            <div className="col-span-full flex gap-3">
+                                <button type="button" onClick={() => setEditingTestimonial(null)} className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-2.5 rounded-xl text-sm font-medium transition-all">Cancel</button>
+                                <button type="submit" disabled={loading} className="flex-1 bg-[#1ADB04] hover:bg-[#15c203] text-black font-bold py-2.5 rounded-xl text-sm disabled:opacity-50 transition-all">{loading ? 'Saving...' : 'Save Changes'}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Confirm Delete Testimonial */}
+            {confirmDeleteTestimonial && (
+                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-[#111] border border-zinc-800 rounded-2xl w-full max-w-sm p-6">
+                        <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center mb-4"><Trash2 className="w-5 h-5 text-red-400" /></div>
+                        <h2 className="text-white font-bold text-lg mb-1">Delete Testimonial?</h2>
+                        <p className="text-zinc-400 text-sm mb-6">By <span className="text-white font-medium">{confirmDeleteTestimonial.name}</span> will be permanently deleted.</p>
+                        <div className="flex gap-3">
+                            <button onClick={() => setConfirmDeleteTestimonial(null)} className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-2.5 rounded-xl text-sm font-medium transition-all">Cancel</button>
+                            <button onClick={async () => {
+                                await fetch('/api/testimonials', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: confirmDeleteTestimonial.id, password }) });
+                                setConfirmDeleteTestimonial(null);
+                                fetch('/api/testimonials').then(r => r.json()).then(setTestimonials);
+                            }} className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2.5 rounded-xl text-sm font-bold transition-all">Delete</button>
+                        </div>
                     </div>
                 </div>
             )}
