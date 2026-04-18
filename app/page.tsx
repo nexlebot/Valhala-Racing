@@ -47,7 +47,7 @@ const page = async () => {
         {
           text: "Upcoming Races",
           href: "/upcoming-races",
-          icon: <img src={"/flag.png"} className="w-5 h-5" />,
+          icon: <img src={"/Flag.png"} className="w-5 h-5" />,
           variant: "secondary",
         }
       ]} />
