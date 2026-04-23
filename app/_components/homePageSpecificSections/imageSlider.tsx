@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import SectionHeader from '../sectionHeader';
 import Link from 'next/link';
 
@@ -157,26 +157,18 @@ const ImageSlider = ({ syndications }: { syndications: Syndication[] }) => {
                   />
                   <div className="absolute inset-0 bg-linear-to-b from-black/50 via-white/10 to-black/50"></div>
                   {index === currentIndex && (
-                    <div className=" mb-3 inline-block absolute top-3 m-5 w-full ">
-                      <div className='flex justify-between items-center w-4/5'>
-                        <div className=" text-white text-xs p-0 lg:px-3 py-0 ">
-                          <Link href={`/ownership/${slide.id}`} className='border border-primary rounded-full px-3 p-2 lg:px-3 lg:py-2'>View Details</Link>
-                        </div>
-                        <div className="relative -right-8">
-                          <div className="hidden lg:block">
-                            <button
-                              onClick={goToNext}
-                              disabled={isAnimating}
-                              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-primary hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed rounded-full flex items-center justify-center text-white shadow-lg transition-all duration-300 hover:scale-110"
-                            ><ChevronRight size={24} /></button>
-                          </div>
-                        </div>
-                      </div>
+                    <div className="absolute top-3 right-3 z-10">
+                      <Link
+                        href={`/ownership/${slide.id}`}
+                        className='w-10 h-10 bg-[#1ADB04] rounded-full flex items-center justify-center transition-colors shadow-lg'
+                      >
+                        <ArrowRight className='w-5 h-5 text-white' aria-hidden='true' />
+                      </Link>
                     </div>
                   )}
                   {index === currentIndex && (
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                      <h2 className="text-2xl lg:text-3xl md:text-4xl font-semibold mb-2">{slide.name}</h2>
+                      <h2 className="text-base sm:text-lg lg:text-3xl font-semibold mb-2 leading-tight">{slide.name}</h2>
                       <p className="text-sm lg:text-base font-light"><span>Age: </span>{slide.age}</p>
                       <p className="text-sm lg:text-base font-light"><span>Breed: </span>{slide.breed}</p>
                     </div>

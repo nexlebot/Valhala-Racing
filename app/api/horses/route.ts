@@ -26,6 +26,9 @@ export async function POST(req: NextRequest) {
     const horses = await readHorses();
     const newHorse = { ...body, id: Date.now() };
     delete newHorse.password;
+    if (!newHorse.gallery?.length && newHorse.url) {
+        newHorse.gallery = [{ url: newHorse.url, isMain: true }];
+    }
     horses.push(newHorse);
     await writeHorses(horses);
     return NextResponse.json(newHorse, { status: 201 });

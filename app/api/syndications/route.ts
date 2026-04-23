@@ -26,6 +26,9 @@ export async function POST(req: NextRequest) {
     const syndications = await readSyndications();
     const newItem = { ...body, id: Date.now() };
     delete newItem.password;
+    if (!newItem.gallery?.length && newItem.url) {
+        newItem.gallery = [{ url: newItem.url, isMain: true }];
+    }
     syndications.push(newItem);
     await writeSyndications(syndications);
     return NextResponse.json(newItem, { status: 201 });
