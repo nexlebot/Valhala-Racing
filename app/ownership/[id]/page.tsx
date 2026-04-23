@@ -19,6 +19,7 @@ interface Syndication {
     videoUrl?: string;
     videoTitle?: string;
     gallery?: GalleryImage[];
+    pedigreeUrl?: string;
 }
 
 export default async function OwnershipDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -41,6 +42,20 @@ export default async function OwnershipDetailPage({ params }: { params: Promise<
             {/* Carousel */}
             {sliderImages.length > 0 && <Slider images={sliderImages} />}
 
+            {syn.pedigreeUrl && (
+                <div className='flex justify-center mt-4'>
+                    <a
+                        href={syn.pedigreeUrl}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='px-8 py-3 rounded-full text-white font-medium text-base'
+                        style={{ backgroundColor: '#1ADB04' }}
+                    >
+                        View Pedigree
+                    </a>
+                </div>
+            )}
+
             <div className='py-6 lg:py-14 bg-white'>
                 {/* Horse header info */}
                 <div className='mb-6'>
@@ -57,8 +72,13 @@ export default async function OwnershipDetailPage({ params }: { params: Promise<
                 {/* Rich text content */}
                 {syn.about && (
                     <div
-                        className='prose prose-sm max-w-none text-gray-700 mb-6 break-words overflow-hidden'
-                        dangerouslySetInnerHTML={{ __html: syn.about }}
+                        className='rich-content text-gray-700 mb-6 break-words overflow-hidden'
+                        dangerouslySetInnerHTML={{ __html: (() => {
+                            let html = syn.about.includes('&lt;') ? syn.about.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&') : syn.about;
+                            html = html.replace(/&nbsp;/g, ' ');
+                            const match = html.match(/^\s*<div[^>]*class="[^"]*prose[^"]*"[^>]*>([\s\S]*)<\/div>\s*$/);
+                            return match ? match[1].trim() : html;
+                        })() }}
                     />
                 )}
             </div>

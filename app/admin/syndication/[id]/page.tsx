@@ -4,12 +4,12 @@ import { useParams, useRouter } from 'next/navigation';
 import ImageCropper from '@/app/_components/ImageCropper';
 import RichTextEditor from '@/app/_components/RichTextEditor';
 import AdminLayout from '@/app/admin/_components/AdminLayout';
-import { Star, Trash2, StarOff, Upload, ArrowLeft, Save, Video, FileText, Images } from 'lucide-react';
+import { Star, Trash2, StarOff, Upload, ArrowLeft, Save, Video, FileText, Images, FileDown } from 'lucide-react';
 
 interface GalleryImage { url: string; isMain: boolean; }
 interface Syndication {
     id: number; name: string; url: string;
-    about?: string; videoUrl?: string; videoTitle?: string; gallery?: GalleryImage[];
+    about?: string; videoUrl?: string; videoTitle?: string; gallery?: GalleryImage[]; pedigreeUrl?: string;
 }
 
 async function uploadImage(file: File, password: string): Promise<string | null> {
@@ -32,6 +32,13 @@ function toEmbedUrl(url: string): string {
     return url;
 }
 
+function unescapeHtml(html: string): string {
+    return html
+        .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&')
+        .replace(/^\s*<div[^>]*>(.*)<\/div>\s*$/s, '$1').trim()
+        .replace(/&nbsp;/g, ' ');
+}
+
 export default function SyndicationDetailAdmin() {
     const { id } = useParams<{ id: string }>();
     const router = useRouter();
@@ -45,17 +52,21 @@ export default function SyndicationDetailAdmin() {
     const [saved, setSaved] = useState(false);
     const [cropTarget, setCropTarget] = useState<{ src: string; file: File } | null>(null);
     const [uploading, setUploading] = useState(false);
-    const [activeSection, setActiveSection] = useState<'gallery' | 'about' | 'video'>('gallery');
+    const [activeSection, setActiveSection] = useState<'gallery' | 'about' | 'video' | 'pedigree'>('gallery');
+    const [pedigreeUrl, setPedigreeUrl] = useState('');
+    const [pedigreeUploading, setPedigreeUploading] = useState(false);
+    const [pedigreeDeleting, setPedigreeDeleting] = useState(false);
 
     const fetchSyn = useCallback(async () => {
         const res = await fetch(`/api/syndications/${id}`);
         if (!res.ok) { router.push('/admin?tab=syndications'); return; }
         const data = await res.json();
         setSyn(data);
-        setAbout(data.about || '');
+        setAbout(data.about ? unescapeHtml(data.about) : '');
         setVideoUrl(data.videoUrl || '');
         setVideoTitle(data.videoTitle || '');
         setGallery(data.gallery || []);
+        setPedigreeUrl(data.pedigreeUrl || '');
     }, [id, router]);
 
     useEffect(() => {
@@ -114,10 +125,38 @@ export default function SyndicationDetailAdmin() {
         </AdminLayout>
     );
 
+    async function uploadPedigree(file: File) {
+        setPedigreeUploading(true);
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('password', password);
+        fd.append('type', 'pedigree');
+        fd.append('syndicationId', id);
+        const res = await fetch('/api/syndications/upload', { method: 'POST', body: fd });
+        setPedigreeUploading(false);
+        if (!res.ok) return;
+        const { url } = await res.json();
+        setPedigreeUrl(url);
+    }
+
+    async function deletePedigree() {
+        if (!pedigreeUrl) return;
+        setPedigreeDeleting(true);
+        const filename = pedigreeUrl.split('/').pop()!;
+        await fetch(`/api/syndications/pedigree/${filename}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password, syndicationId: id }),
+        });
+        setPedigreeDeleting(false);
+        setPedigreeUrl('');
+    }
+
     const SECTIONS = [
         { key: 'gallery' as const, label: 'Gallery', icon: Images },
         { key: 'about' as const, label: 'About', icon: FileText },
         { key: 'video' as const, label: 'Video', icon: Video },
+        { key: 'pedigree' as const, label: 'Pedigree', icon: FileDown },
     ];
 
     return (
@@ -264,6 +303,40 @@ export default function SyndicationDetailAdmin() {
                                 <Save className="w-4 h-4" />
                                 {saving ? 'Saving...' : saved ? '✓ Saved' : 'Save Video'}
                             </button>
+                        </div>
+                    )}
+
+                    {/* Pedigree */}
+                    {activeSection === 'pedigree' && (
+                        <div className="bg-[#111] border border-zinc-800 rounded-2xl p-6">
+                            <h2 className="text-white font-bold text-lg mb-1">Pedigree PDF</h2>
+                            <p className="text-zinc-500 text-sm mb-6">Upload a single PDF file. Users can view it directly in their browser from the ownership page.</p>
+
+                            {pedigreeUrl ? (
+                                <div className="flex items-center gap-4 p-4 bg-zinc-900 border border-zinc-700 rounded-xl">
+                                    <FileDown className="w-8 h-8 text-[#1ADB04] shrink-0" />
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-white text-sm font-medium truncate">Pedigree PDF uploaded</p>
+                                        <a href={pedigreeUrl} target="_blank" rel="noopener noreferrer" className="text-[#1ADB04] text-xs hover:underline">Preview in browser →</a>
+                                    </div>
+                                    <button
+                                        onClick={deletePedigree}
+                                        disabled={pedigreeDeleting}
+                                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/20 hover:bg-red-500/40 text-red-400 text-sm font-medium transition-all disabled:opacity-50"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                        {pedigreeDeleting ? 'Deleting...' : 'Delete'}
+                                    </button>
+                                </div>
+                            ) : (
+                                <label className="flex flex-col items-center justify-center gap-3 p-10 border-2 border-dashed border-zinc-700 hover:border-[#1ADB04]/50 rounded-xl cursor-pointer transition-colors bg-zinc-900/50">
+                                    <input type="file" accept="application/pdf" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) uploadPedigree(f); }} />
+                                    {pedigreeUploading
+                                        ? <div className="w-6 h-6 border-2 border-zinc-600 border-t-[#1ADB04] rounded-full animate-spin" />
+                                        : <><FileDown className="w-8 h-8 text-zinc-600" /><span className="text-zinc-500 text-sm">Click to upload PDF</span></>
+                                    }
+                                </label>
+                            )}
                         </div>
                     )}
                 </div>

@@ -97,6 +97,20 @@ export async function getBytes(store: string, key: string) {
     return { data: result.data.buffer as ArrayBuffer, meta: result.meta };
 }
 
+export async function deleteBytes(store: string, key: string) {
+    if (IS_CLOUD) {
+        const { DeleteObjectCommand } = await import('@aws-sdk/client-s3');
+        const client = await getS3Client();
+        await Promise.all([
+            client.send(new DeleteObjectCommand({ Bucket: process.env.S3_BUCKET_NAME!, Key: s3Key(store, key) })),
+            client.send(new DeleteObjectCommand({ Bucket: process.env.S3_BUCKET_NAME!, Key: s3Key(store, key + '.meta') })),
+        ]);
+        return;
+    }
+    try { fs.unlinkSync(localPath(store, key)); } catch { /* ignore */ }
+    try { fs.unlinkSync(localPath(store, key + '.meta')); } catch { /* ignore */ }
+}
+
 export async function setBytes(store: string, key: string, bytes: ArrayBuffer, meta: Record<string, string>) {
     if (IS_CLOUD) {
         const { PutObjectCommand } = await import('@aws-sdk/client-s3');
