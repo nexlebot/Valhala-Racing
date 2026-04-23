@@ -13,7 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: `${BASE_URL}/ownership`, priority: 0.8, changeFrequency: 'weekly' as const },
         { url: `${BASE_URL}/upcoming-races`, priority: 0.8, changeFrequency: 'daily' as const },
         { url: `${BASE_URL}/results`, priority: 0.7, changeFrequency: 'weekly' as const },
-        { url: `${BASE_URL}/our-facilities`, priority: 0.6, changeFrequency: 'monthly' as const },
+        // { url: `${BASE_URL}/our-facilities`, priority: 0.6, changeFrequency: 'monthly' as const },
         { url: `${BASE_URL}/gallery`, priority: 0.6, changeFrequency: 'monthly' as const },
         { url: `${BASE_URL}/contact`, priority: 0.5, changeFrequency: 'monthly' as const },
     ];

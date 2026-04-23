@@ -24,6 +24,20 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (body.password !== ADMIN_PASSWORD) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+    if (body.about) {
+        // Unescape if double-escaped, strip outer wrapper div, replace &nbsp;
+        let about = body.about;
+        if (about.includes('&lt;')) {
+            about = about.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+        }
+        about = about.replace(/^<div[^>]*>(.*)<\/div>$/s, '$1').replace(/&nbsp;/g, ' ');
+        body.about = about;
+    }
+    if (body.about) {
+        body.about = body.about
+            .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&')
+            .replace(/(<p>\s*<\/p>\s*){2,}/g, '<p></p>');
+    }
     const syndications = await readSyndications();
     const index = syndications.findIndex((s: { id: number }) => String(s.id) === id);
     if (index === -1) return NextResponse.json({ error: 'Not found' }, { status: 404 });

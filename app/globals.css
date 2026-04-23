@@ -43,3 +43,15 @@ body {
 }
 .quill-dark .ql-toolbar .ql-picker-item { color: #a1a1aa; }
 .quill-dark .ql-toolbar .ql-picker-item:hover { color: #1ADB04; }
+
+/* Rich text content rendering */
+.rich-content p { margin-bottom: 0.75rem !important; }
+.rich-content p:empty, .rich-content p:has(> br:only-child) { min-height: 1em !important; margin-bottom: 0 !important; }
+.rich-content p:last-child { margin-bottom: 0 !important; }
+.rich-content strong { font-weight: 700 !important; }
+.rich-content em { font-style: italic !important; }
+.rich-content u { text-decoration: underline !important; }
+.rich-content ul { list-style: disc !important; padding-left: 1.5rem !important; margin-bottom: 0.75rem !important; }
+.rich-content ol { list-style: decimal !important; padding-left: 1.5rem !important; margin-bottom: 0.75rem !important; }
+.rich-content li { margin-bottom: 0.25rem !important; }
+.rich-content h1, .rich-content h2, .rich-content h3 { font-weight: 700 !important; margin-bottom: 0.5rem !important; }

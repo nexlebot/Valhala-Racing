@@ -29,7 +29,7 @@ export default function Navbar({
         { label: "Upcoming Races", href: "/upcoming-races" },
         { label: "Results", href: "/results" },
         { label: "Our Horses", href: "/our-horses" },
-        { label: "Our Facilities", href: "/our-facilities" },
+        // { label: "Our Facilities", href: "/our-facilities" },
         { label: "Contact", href: "/contact" },
     ],
     logoSrc = "/logo.png",

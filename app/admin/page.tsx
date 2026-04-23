@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ImageCropper from '../_components/ImageCropper';
 import AdminLayout from './_components/AdminLayout';
-import { Plus, Pencil, Trash2, Settings2, ChevronRight, Image as ImageIcon, Users } from 'lucide-react';
+import { Plus, Pencil, Trash2, Settings2, ChevronRight, Image as ImageIcon, Users, GripVertical } from 'lucide-react';
 
 interface Horse {
     id: number; url: string; title: string; age: string;
@@ -86,6 +86,7 @@ function AdminPageInner() {
     const [editTestimonialFile, setEditTestimonialFile] = useState<File | null>(null);
     const [editTestimonialPreview, setEditTestimonialPreview] = useState<string | null>(null);
     const [confirmDeleteTestimonial, setConfirmDeleteTestimonial] = useState<Testimonial | null>(null);
+    const [dragIndex, setDragIndex] = useState<number | null>(null);
     const [selectedEmails, setSelectedEmails] = useState<Set<string>>(new Set());
     const [subPage, setSubPage] = useState(1);
     const SUB_PAGE_SIZE = 20;
@@ -638,9 +639,28 @@ function AdminPageInner() {
                     </div>
 
                     {/* List */}
-                    {testimonials.map(t => (
-                        <div key={t.id} className="bg-[#111] border border-zinc-800 rounded-2xl p-5 flex flex-col gap-3">
-                            <p className="text-zinc-300 text-sm leading-relaxed">&ldquo;{t.text}&rdquo;</p>
+                    {testimonials.map((t, i) => (
+                        <div
+                            key={t.id}
+                            draggable
+                            onDragStart={() => setDragIndex(i)}
+                            onDragOver={e => { e.preventDefault(); }}
+                            onDrop={() => {
+                                if (dragIndex === null || dragIndex === i) return;
+                                const reordered = [...testimonials];
+                                const [moved] = reordered.splice(dragIndex, 1);
+                                reordered.splice(i, 0, moved);
+                                setTestimonials(reordered);
+                                setDragIndex(null);
+                                fetch('/api/testimonials', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ order: reordered, password }) });
+                            }}
+                            onDragEnd={() => setDragIndex(null)}
+                            className={`bg-[#111] border border-zinc-800 rounded-2xl p-5 flex flex-col gap-3 cursor-grab active:cursor-grabbing transition-opacity ${dragIndex === i ? 'opacity-40' : 'opacity-100'}`}
+                        >
+                            <div className="flex items-start gap-3">
+                                <GripVertical className="w-4 h-4 text-zinc-600 mt-0.5 shrink-0" />
+                                <p className="text-zinc-300 text-sm leading-relaxed">&ldquo;{t.text}&rdquo;</p>
+                            </div>
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-white text-sm font-semibold">{t.name}</p>
@@ -695,7 +715,7 @@ function AdminPageInner() {
                                 <label className="text-xs font-medium text-zinc-400 uppercase tracking-wide block mb-2">Replace Photo (optional)</label>
                                 <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-zinc-700 hover:border-[#1ADB04]/50 rounded-xl p-4 cursor-pointer transition-colors bg-zinc-800/30">
                                     <input type="file" accept="image/*" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) handleFileSelect(f, 'testimonialEdit'); }} />
-                                    <img src={editTestimonialPreview ?? editingTestimonial.image ?? '/profile1.jpg'} className="h-20 w-20 rounded-full object-cover" alt="preview" />
+                                    <img src={editTestimonialPreview ?? editingTestimonial.image ?? '/logo.png'} className="h-20 w-20 rounded-full object-cover" alt="preview" />
                                     <span className="text-zinc-500 text-xs">Click to replace</span>
                                 </label>
                             </div>

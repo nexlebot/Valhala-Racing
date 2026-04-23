@@ -74,7 +74,7 @@ const page = async () => {
       <div className="my-3 lg:my-0">
         <RecentResultSection />
       </div>
-      <OurFacility />
+      {/* <OurFacility /> */}
       <Testimonials items={testimonials} />
     </div>
   )

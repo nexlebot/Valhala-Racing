@@ -43,12 +43,19 @@ export default function HorseDetailAdmin() {
     const [uploading, setUploading] = useState(false);
     const [activeSection, setActiveSection] = useState<'gallery' | 'about' | 'video'>('gallery');
 
+    function sanitizeAbout(html: string): string {
+        return html
+            .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&')
+            .replace(/^\s*<div[^>]*>(.*)<\/div>\s*$/s, '$1').trim()
+            .replace(/&nbsp;/g, ' ');
+    }
+
     const fetchHorse = useCallback(async () => {
         const res = await fetch(`/api/horses/${id}`);
         if (!res.ok) { router.push('/admin'); return; }
         const data = await res.json();
         setHorse(data);
-        setAbout(data.about || '');
+        setAbout(data.about ? sanitizeAbout(data.about) : '');
         setVideoUrl(data.videoUrl || '');
         setGallery(data.gallery || []);
     }, [id, router]);

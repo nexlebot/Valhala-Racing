@@ -35,6 +35,13 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json(updated);
 }
 
+export async function PATCH(req: NextRequest) {
+    const body = await req.json();
+    if (body.password !== ADMIN_PASSWORD) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    await setJSON('testimonials', 'list', body.order);
+    return NextResponse.json({ success: true });
+}
+
 export async function DELETE(req: NextRequest) {
     const body = await req.json();
     if (body.password !== ADMIN_PASSWORD) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
