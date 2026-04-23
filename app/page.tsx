@@ -4,7 +4,6 @@ import OwnerShipAndSyndication from "./_components/homePageSpecificSections/owne
 import RecentResultSection from "./_components/homePageSpecificSections/recentResultSection"
 import UpComingRaceListView, { Column } from "./_components/homePageSpecificSections/upComingRaceListView"
 import Navbar from "./_components/navbar"
-import OurFacility from "./_components/OurFacility"
 import Testimonials from "./_components/homePageSpecificSections/testimonials"
 import UpcomingRacesMobile from "./_components/UpcomingRacesMobile"
 import { getJSON } from "@/lib/storage"
