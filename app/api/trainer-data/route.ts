@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     body.major_wins.total = body.major_wins.wins.length;
   }
   if (body.previous_runners?.results) {
-    body.previous_runners.results = removeDuplicates(body.previous_runners.results, 'race_url');
+    body.previous_runners.results = removeDuplicates(body.previous_runners.results, 'replay_url');
     body.previous_runners.total = body.previous_runners.results.length;
   }
   if (body.upcoming_races?.races) {
