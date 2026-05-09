@@ -61,9 +61,9 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
             <div className=''>
                 <div className='my-14'>
-                    <h1 className='text-primary text-3xl font-semibold py-6'>
+                    <h2 className='text-primary text-3xl font-semibold py-6'>
                         About {horse.title}
-                    </h1>
+                    </h2>
                     {horse.about
                         ? <div className='rich-content break-words overflow-hidden' dangerouslySetInnerHTML={{ __html: horse.about.replace(/&nbsp;/g, ' ') }} />
                         : <p className='text-gray-500 italic'>No description added yet.</p>
@@ -72,7 +72,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
                 {horse.videoUrl && (
                     <div className='mt-6 text-primary'>
-                        <h1 className='font-semibold text-3xl mb-2'>Highlight Video</h1>
+                        <h2 className='font-semibold text-3xl mb-2'>Highlight Video</h2>
                         <p className='mb-4'>{horse.title} – Highlights</p>
                         <VideoPlayer url={horse.videoUrl} />
                     </div>

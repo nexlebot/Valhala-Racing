@@ -19,7 +19,7 @@ export const RecentResults = () => {
       <div className="flex flex-col-reverse lg:flex-row gap-10 lg:gap-20 ">
         {/* Left content */}
         <div className="flex-1 text-sm lg:text-base">
-          <h4 className="text-xl lg:text-2xl font-semibold text-gray-900">Race Day Success: Our Commitment to Winning Form</h4>
+          <h3 className="text-xl lg:text-2xl font-semibold text-gray-900">Race Day Success: Our Commitment to Winning Form</h3>
           <p className="mt-2 text-gray-700 text-base lg:text-[18px] font-medium">Witness the Consistent Performance That Defines Our Successful Horse Ownership.</p>
 
           <p className="mt-4 text-gray-600 leading-relaxed">

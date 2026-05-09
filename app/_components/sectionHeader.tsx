@@ -31,7 +31,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
 
                 <div className="max-w-[70%] mb-2 lg:mb-0">
                     <div className="flex items-baseline gap-3">
-                        <h1 className="text-2xl lg:text-4xl font-semibold mb-1 text-primary">{title}</h1>
+                        <h2 className="text-2xl lg:text-4xl font-semibold mb-1 text-primary">{title}</h2>
                         {updatedAt && (
                             <span className="text-xs text-gray-400">
                                 Updated {new Date(updatedAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}

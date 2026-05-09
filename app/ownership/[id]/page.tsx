@@ -59,7 +59,7 @@ export default async function OwnershipDetailPage({ params }: { params: Promise<
             <div className='py-6 lg:py-14 bg-white'>
                 {/* Horse header info */}
                 <div className='mb-6'>
-                    <h1 className='text-2xl lg:text-3xl font-semibold mb-2' style={{ color: '#1ADB04' }}>{syn.name}</h1>
+                    <h2 className='text-2xl lg:text-3xl font-semibold mb-2' style={{ color: '#1ADB04' }}>{syn.name}</h2>
                     <div className='text-gray-700 space-y-1'>
                         <p><span className='font-semibold'>Age:</span> {syn.age}</p>
                         <p><span className='font-semibold'>Breed:</span> {syn.breed}</p>
@@ -86,7 +86,7 @@ export default async function OwnershipDetailPage({ params }: { params: Promise<
             {/* Video */}
             {syn.videoUrl && (
                 <div className='mt-6 pb-14 text-primary'>
-                    <h1 className='font-semibold text-2xl lg:text-3xl mb-2'>Highlight Video</h1>
+                    <h2 className='font-semibold text-2xl lg:text-3xl mb-2'>Highlight Video</h2>
                     {syn.videoTitle && <p className='mb-6 text-sm lg:text-base'>{syn.videoTitle}</p>}
                     <div className='w-full'>
                         <VideoPlayer url={syn.videoUrl} />

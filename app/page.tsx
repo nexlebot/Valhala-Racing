@@ -39,7 +39,7 @@ const page = async () => {
   return (
     <div className="">
       <Navbar />
-      <HeroSection title="Own, Race, Win The Vahala Racing Way" description="Join a professional stable delivering high-performance horses, expert care, and exceptional ownership opportunities in every race." backgroundImage="/heroImage.png" buttons={[
+      <HeroSection title={<>Expert Thoroughbred Training<br />& Ownership in Perth, Ascot, WA</>} description="Join a professional stable delivering high-performance horses, expert care, and exceptional ownership opportunities in every race." backgroundImage="/heroImage.png" buttons={[
         {
           text: "View Ownership Opportunities",
           href: "/ownership",
