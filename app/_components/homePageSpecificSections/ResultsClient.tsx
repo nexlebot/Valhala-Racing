@@ -104,6 +104,7 @@ export default function ResultsClient({ runners, scrapedAt }: { runners: Runner[
                         race: r.meeting,
                         location: r.event_name,
                         date: r.date,
+                        position: r.position,
                     }))}
                 />
             </div>

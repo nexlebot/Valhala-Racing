@@ -68,7 +68,13 @@ const page = async () => {
             columns={columns}
           />
         </div>
-        <div className="block mb-8 lg:mb-0 my-6 lg:hidden"><UpcomingRacesMobile items={raceData} /></div>
+        <div className="block mb-8 lg:mb-0 my-6 lg:hidden"><UpcomingRacesMobile
+            title="Upcoming Races"
+            subtitle="Stay ahead of the action — explore the latest horse racing events happening soon across Australia."
+            buttonText="view all races"
+            buttonVariant="secondary"
+            items={raceData}
+          /></div>
       </div>
       <div className="my-3 lg:my-0">
         <RecentResultSection />

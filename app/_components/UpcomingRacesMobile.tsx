@@ -8,6 +8,7 @@ type RaceItem = {
     race: string;
     location: string;
     date: string;
+    position?: string;
 };
 
 type UpcomingRacesMobileProps = {
@@ -54,20 +55,20 @@ export default function UpcomingRacesMobile({
                                 <h3 className="text-xl font-semibold text-gray-900">
                                     {item.name}
                                 </h3>
-                                <div className="flex items-center gap-2 px-3 py-1 rounded-full">
-                                    <span
-                                        className="w-2 h-2 rounded-full"
-                                        style={{ backgroundColor: dotColor }}
-                                    />
-                                    <span className="text-sm font-medium text-gray-600">
-                                        {item.race}
+                                {item.position && (
+                                    <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-primary/10 text-primary">
+                                        Pos: {item.position}
                                     </span>
-                                </div>
+                                )}
                             </div>
 
                             {/* Race Details */}
                             <div className="space-y-2 mb-3">
                                 <div className="flex items-center gap-2 text-gray-600">
+                                    <span
+                                        className="w-2 h-2 rounded-full shrink-0"
+                                        style={{ backgroundColor: dotColor }}
+                                    />
                                     <span className="text-sm font-medium">{item.race}</span>
                                     <span className="text-gray-400">•</span>
                                     <span className="text-sm">{item.date}</span>
