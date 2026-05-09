@@ -21,9 +21,9 @@ type UpcomingRacesMobileProps = {
 };
 
 export default function UpcomingRacesMobile({
-    title = "Upcoming Races",
-    subtitle = "Stay ahead of the action — explore the latest horse racing events happening soon across Australia.",
-    buttonText = "View races",
+    title = "Previous Runner Results",
+    subtitle = "",
+    buttonText,
     buttonVariant = "secondary",
     items = [],
     borderColor = "#00D66F",

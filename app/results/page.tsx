@@ -2,19 +2,10 @@ import React from 'react'
 import PageIntro from '../_components/PageIntro'
 import Navbar from '../_components/navbar'
 import WinsCard from '../_components/WinsCard'
-import UpComingRaceListView, { Column } from '../_components/homePageSpecificSections/upComingRaceListView'
-import UpcomingRacesMobile from '../_components/UpcomingRacesMobile'
+import ResultsClient from '../_components/homePageSpecificSections/ResultsClient'
 import { getMajorWins, getPreviousRunners, getScrapedAt } from '../../lib/getTrainerRaces'
 
 export const dynamic = 'force-dynamic'
-
-const columns: Column[] = [
-    { key: "horse_name", label: "Horse Name", grow: 1 },
-    { key: "position", label: "Position", grow: 1 },
-    { key: "meeting", label: "Race Meeting", grow: 1 },
-    { key: "event_name", label: "Event", grow: 1 },
-    { key: "date", label: "Date", grow: 1, align: "left" },
-];
 
 const page = async () => {
     const [majorWins, previousRunners, scrapedAt] = await Promise.all([getMajorWins(), getPreviousRunners(), getScrapedAt()]);
@@ -73,27 +64,7 @@ const page = async () => {
             )}
 
             {previousRunners && previousRunners.length > 0 && (
-                <>
-                    <div className='hidden lg:block'>
-                        <UpComingRaceListView
-                            items={previousRunners as Record<string, unknown>[]}
-                            header={{
-                                title: "Previous Runner Results",
-                                subHeading: "Vahala Racing — Season Race Winners",
-                                updatedAt: scrapedAt ?? undefined,
-                            }}
-                            columns={columns}
-                        />
-                    </div>
-                    <div className='my-6 lg:my-0 lg:hidden'>
-                        <UpcomingRacesMobile items={previousRunners.map(r => ({
-                            name: r.horse_name,
-                            race: r.meeting,
-                            location: r.event_name,
-                            date: r.date,
-                        }))} />
-                    </div>
-                </>
+                <ResultsClient runners={previousRunners} scrapedAt={scrapedAt} />
             )}
         </div>
     )
