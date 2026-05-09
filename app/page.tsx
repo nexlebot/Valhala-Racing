@@ -72,7 +72,9 @@ const page = async () => {
             title="Upcoming Races"
             subtitle="Stay ahead of the action — explore the latest horse racing events happening soon across Australia."
             buttonText="view all races"
+            buttonLink="/upcoming-races"
             buttonVariant="secondary"
+            updatedAt={scrapedAt ?? undefined}
             items={raceData}
           /></div>
       </div>

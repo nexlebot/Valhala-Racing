@@ -15,20 +15,24 @@ type UpcomingRacesMobileProps = {
     title?: string;
     subtitle?: string;
     buttonText?: string;
+    buttonLink?: string;
     buttonVariant?: 'primary' | 'secondary';
     items?: RaceItem[];
     borderColor?: string;
     dotColor?: string;
+    updatedAt?: string;
 };
 
 export default function UpcomingRacesMobile({
-    title = "Previous Runner Results",
+    title = "Upcoming Races",
     subtitle = "",
     buttonText,
+    buttonLink,
     buttonVariant = "secondary",
     items = [],
     borderColor = "#00D66F",
-    dotColor = "#00D66F"
+    dotColor = "#00D66F",
+    updatedAt,
 }: UpcomingRacesMobileProps) {
     return (
         <div className="bg-white">
@@ -37,7 +41,9 @@ export default function UpcomingRacesMobile({
                 title={title}
                 subtitle={subtitle}
                 buttonText={buttonText}
+                buttonLink={buttonLink}
                 buttonVariant={buttonVariant}
+                updatedAt={updatedAt}
             />
 
             {/* Race Cards */}
@@ -57,7 +63,7 @@ export default function UpcomingRacesMobile({
                                 </h3>
                                 {item.position && (
                                     <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-primary/10 text-primary">
-                                        Pos: {item.position}
+                                        Position #{item.position}
                                     </span>
                                 )}
                             </div>

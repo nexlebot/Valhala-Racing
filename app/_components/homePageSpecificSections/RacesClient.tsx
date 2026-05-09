@@ -102,6 +102,8 @@ export default function RacesClient({ races, scrapedAt }: { races: RaceRow[]; sc
                     title='Upcoming Races'
                     subtitle='Stay ahead of the action — explore the latest horse racing events happening soon across Australia.'
                     buttonText='View races'
+                    buttonLink='/upcoming-races'
+                    updatedAt={scrapedAt ?? undefined}
                     items={mobileItems}
                 />
             </div>
