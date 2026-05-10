@@ -53,7 +53,7 @@ export default function RootLayout({
       <body className={`${poppins.variable} ${roboto.variable} antialiased`}>
         {children}
         <PublicFooter />
-        <div dangerouslySetInnerHTML={{ __html: '<script src="https://nexle.netlify.app/agent-widget.js" agent-id="e9f06666-10aa-4dae-a90a-ce12e613b6cb"></script>' }} />
+        <div dangerouslySetInnerHTML={{ __html: '<script src="https://nexle.ai/agent-widget.js" agent-id="e9f06666-10aa-4dae-a90a-ce12e613b6cb"></script>' }} />
       </body>
     </html>
   );
