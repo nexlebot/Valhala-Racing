@@ -50,21 +50,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){
-  var s=document.createElement('script');
-  s.src='https://nexle.netlify.app/agent-widget.js';
-  s.setAttribute('agent-id','e9f06666-10aa-4dae-a90a-ce12e613b6cb');
-  document.head.appendChild(s);
-})();`
-          }}
-        />
-      </head>
       <body className={`${poppins.variable} ${roboto.variable} antialiased`}>
         {children}
         <PublicFooter />
+        <div dangerouslySetInnerHTML={{ __html: '<script src="https://nexle.netlify.app/agent-widget.js" agent-id="e9f06666-10aa-4dae-a90a-ce12e613b6cb"></script>' }} />
       </body>
     </html>
   );
