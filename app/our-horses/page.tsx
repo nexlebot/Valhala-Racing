@@ -7,17 +7,14 @@ import { getJSON } from '@/lib/storage'
 export const dynamic = 'force-dynamic'
 
 const data = {
-    mainHeading: "Our Horse",
-    intro: "A loyal and strong companion who stays with us on every journey.",
+    mainHeading: "Our Horses",
+    intro: "Built on passion, patience, and performance, our stable is home to a talented group of thoroughbreds with exciting futures ahead. Every horse in our care is treated as an individual, with tailored training programs, expert attention, and the highest standard of care designed to help them reach their full potential both on and off the track.",
     blocks: [
         {
-            heading: "Horse Care & Training",
-            subHeading: "Basic Guide for a Healthy and Well-Trained Horse",
             paragraphs: [
-                "Taking proper care of a horse is essential to maintain its health, strength, and trust. Providing clean water and nutritious feed daily is the first and most important step.",
-                "Regular grooming keeps the horse's coat and skin healthy while also strengthening your bond with it.",
-                "During training, the horse should be taught with patience and consistency—starting with basic commands like walking, stopping, and turning, and gradually moving toward advanced skills.",
-                "Proper exercise, routine health checkups, and a clean, safe resting space are also crucial. With good care and training, a horse not only stays fit but also becomes a dependable and loyal companion."
+                "From early education and development through to race day preparation, we take pride in creating an environment where our horses can thrive. Guided by a dedicated team and a commitment to excellence, we aim to give each horse every opportunity to succeed at the highest level.",,
+
+                "Explore our team of equine athletes and follow their journey from the training track to race day as they continue to grow, compete, and represent our stable with pride."
             ]
         }
     ],

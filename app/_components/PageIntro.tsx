@@ -37,7 +37,7 @@ const PageIntro: React.FC<PageIntroProps> = ({ mainHeading, intro, blocks = [] }
           {block.paragraphs?.map((text, idx) => (
             <p
               key={idx}
-              className={`${idx === 0 ? "mt-2" : "mt-1"} text-[#000000CC] text-sm lg:text-base`}
+              className={`${idx === 0 ? "mt-2" : "mt-4"} text-[#000000CC] text-sm lg:text-base`}
             >
               {text}
             </p>
