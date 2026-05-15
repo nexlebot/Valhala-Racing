@@ -12,8 +12,7 @@ const data = {
     blocks: [
         {
             paragraphs: [
-                "From early education and development through to race day preparation, we take pride in creating an environment where our horses can thrive. Guided by a dedicated team and a commitment to excellence, we aim to give each horse every opportunity to succeed at the highest level.",,
-
+                "From early education and development through to race day preparation, we take pride in creating an environment where our horses can thrive. Guided by a dedicated team and a commitment to excellence, we aim to give each horse every opportunity to succeed at the highest level.",
                 "Explore our team of equine athletes and follow their journey from the training track to race day as they continue to grow, compete, and represent our stable with pride."
             ]
         }
