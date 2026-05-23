@@ -4,6 +4,12 @@ import Navbar from '../_components/navbar'
 import WinsCard from '../_components/WinsCard'
 import ResultsClient from '../_components/homePageSpecificSections/ResultsClient'
 import { getMajorWins, getPreviousRunners, getScrapedAt } from '../../lib/getTrainerRaces'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Race Results',
+    description: 'View Vahala Racing’s latest race results, major wins, and previous runner performances across Australian thoroughbred racing.',
+}
 
 export const dynamic = 'force-dynamic'
 

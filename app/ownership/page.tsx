@@ -3,6 +3,12 @@ import { HorseCard } from '../_components/HorsesCard'
 import PageIntro from '../_components/PageIntro'
 import Link from 'next/link'
 import { getJSON } from '@/lib/storage'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Ownership & Syndication',
+    description: 'Explore thoroughbred ownership and syndication opportunities with Vahala Racing. Join our stable and experience the thrill of racehorse ownership in Perth, WA.',
+}
 
 export const dynamic = 'force-dynamic'
 

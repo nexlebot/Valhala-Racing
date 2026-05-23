@@ -35,7 +35,7 @@ const HorseRacingGallery = () => {
     return (
         <div className="">
             <div className="max-w-7xl mx-auto my-6 lg:my-14">
-                <h1 className="text-3xl font-bold text-[#1ADB04] mb-6">Horse Racing Gallery</h1>
+                <h2 className="text-3xl font-bold text-[#1ADB04] mb-6">Horse Racing Gallery</h2>
 
                 {/* Masonry Grid Layout */}
                 <div className="columns-2 md:columns-3 2xl:columns-4 gap-2 space-y-2">

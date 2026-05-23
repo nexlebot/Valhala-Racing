@@ -3,6 +3,12 @@ import Navbar from '../_components/navbar'
 import PageIntro from '../_components/PageIntro'
 import HorseGallery from '../_components/HorseGallery'
 import { getJSON } from '@/lib/storage'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Our Horses',
+    description: 'Meet the Vahala Racing stable — elite thoroughbreds trained for excellence, speed, and legacy on Australian racetracks.',
+}
 
 export const dynamic = 'force-dynamic'
 

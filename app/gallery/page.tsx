@@ -2,6 +2,12 @@ import React from 'react'
 import HorseRacingGallery from '../_components/HorseRacingGallery'
 import Navbar from '../_components/navbar'
 import PageIntro from '../_components/PageIntro'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Gallery',
+    description: 'Browse the Vahala Racing photo gallery — race day action, training sessions, and behind-the-scenes moments with our champion thoroughbreds.',
+}
 
 const page = () => {
   return (
