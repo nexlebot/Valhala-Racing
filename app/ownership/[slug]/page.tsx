@@ -78,9 +78,7 @@ export default async function OwnershipDetailPage({ params }: { params: Promise<
             {syn.pedigreeUrl && (
                 <div className='flex justify-center mt-4'>
                     <a
-                        href={syn.pedigreeUrl}
-                        target='_blank'
-                        rel='noopener noreferrer'
+                        href={`/ownership/pedigree/${syn.slug || syn.id}`}
                         className='px-8 py-3 rounded-full text-white font-medium text-base'
                         style={{ backgroundColor: '#1ADB04' }}
                     >

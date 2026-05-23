@@ -8,7 +8,7 @@ const BASE_URL = 'https://www.vahalaracingstables.com.au';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const [horses, syndications] = await Promise.all([
         getJSON('horses', 'list').then((d: unknown) => (d as { id: number; slug?: string }[]) ?? []),
-        getJSON('syndications', 'list').then((d: unknown) => (d as { id: number; slug?: string }[]) ?? []),
+        getJSON('syndications', 'list').then((d: unknown) => (d as { id: number; slug?: string; pedigreeUrl?: string }[]) ?? []),
     ]);
 
     const staticPages: MetadataRoute.Sitemap = [
@@ -27,11 +27,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: 'daily',
     }));
 
-    const ownershipPages: MetadataRoute.Sitemap = syndications.map((s) => ({
-        url: `${BASE_URL}/ownership/${s.slug || s.id}`,
-        priority: 0.8,
-        changeFrequency: 'daily',
-    }));
+    const ownershipPages: MetadataRoute.Sitemap = syndications.flatMap((s) => {
+        const slug = s.slug || s.id;
+        const pages: MetadataRoute.Sitemap = [{
+            url: `${BASE_URL}/ownership/${slug}`,
+            priority: 0.8,
+            changeFrequency: 'daily',
+        }];
+        if (s.pedigreeUrl) {
+            pages.push({
+                url: `${BASE_URL}/ownership/pedigree/${slug}`,
+                priority: 0.8,
+                changeFrequency: 'daily',
+            });
+        }
+        return pages;
+    });
 
     return [...staticPages, ...horsePages, ...ownershipPages];
 }
