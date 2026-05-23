@@ -64,7 +64,7 @@ export default async function OwnershipDetailPage({ params }: { params: Promise<
                     '@type': 'Product',
                     name: syn.name,
                     description: syn.about?.replace(/<[^>]+>/g, '').slice(0, 200) || `${syn.name} – Age: ${syn.age}, Breed: ${syn.breed}`,
-                    url: `https://www.valhallaracing.com.au/ownership/${canonicalSlug}`,
+                    url: `https://www.vahalaracingstables.com.au/ownership/${canonicalSlug}`,
                 }) }}
             />
 

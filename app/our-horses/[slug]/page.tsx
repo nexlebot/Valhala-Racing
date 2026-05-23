@@ -57,7 +57,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                     name: horse.title,
                     description: horse.about?.replace(/<[^>]+>/g, '').slice(0, 200) || `${horse.title} – Age: ${horse.age}, Color: ${horse.color}`,
                     image: horse.url?.startsWith('http') ? horse.url : `https://www.valhallaracing.com.au${horse.url}`,
-                    url: `https://www.valhallaracing.com.au/our-horses/${canonicalSlug}`,
+                    url: `https://www.vahalaracingstables.com.au/our-horses/${canonicalSlug}`,
                 }) }}
             />
             <PageIntro mainHeading="Our Horses" intro='Champions bred with passion, trained for excellence.' />

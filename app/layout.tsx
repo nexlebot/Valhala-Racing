@@ -16,7 +16,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.valhallaracing.com.au'),
+  metadataBase: new URL('https://www.vahalaracingstables.com.au'),
   title: {
     default: 'Vahala Racing | Own, Race, Win',
     template: '%s | Vahala Racing',
