@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 type Syndication = {
   id: number;
+  slug?: string;
   name: string;
   age: string;
   breed: string;
@@ -159,7 +160,7 @@ const ImageSlider = ({ syndications }: { syndications: Syndication[] }) => {
                   {index === currentIndex && (
                     <div className="absolute top-3 right-3 z-10">
                       <Link
-                        href={`/ownership/${slide.id}`}
+                        href={`/ownership/${slide.slug || slide.id}`}
                         className='w-10 h-10 bg-[#1ADB04] rounded-full flex items-center justify-center transition-colors shadow-lg'
                       >
                         <ArrowRight className='w-5 h-5 text-white' aria-hidden='true' />

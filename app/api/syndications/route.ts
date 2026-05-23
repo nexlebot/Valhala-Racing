@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getJSON, setJSON } from '@/lib/storage';
+import { toSlug } from '@/lib/slug';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
 
@@ -26,6 +27,7 @@ export async function POST(req: NextRequest) {
     const syndications = await readSyndications();
     const newItem = { ...body, id: Date.now() };
     delete newItem.password;
+    if (!newItem.slug) newItem.slug = toSlug(newItem.name || '');
     if (!newItem.gallery?.length && newItem.url) {
         newItem.gallery = [{ url: newItem.url, isMain: true }];
     }

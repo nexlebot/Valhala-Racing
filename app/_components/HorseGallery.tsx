@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 interface GalleryImage {
     id: string | number;
+    slug?: string;
     url: string;
     title: string;
     age: string;
@@ -22,7 +23,7 @@ const HorseGallery: React.FC<HorseGalleryProps> = ({ images }) => {
         <div className="w-full mx-auto my-14">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
                 {images.map((image) => (
-                    <Link href={`/our-horses/${image.id}`} key={image.id}>
+                    <Link href={`/our-horses/${image.slug || image.id}`} key={image.id}>
                         <div
                             key={image.id}
                             className="relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"

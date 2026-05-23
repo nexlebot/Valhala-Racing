@@ -9,9 +9,17 @@ import { getJSON } from '@/lib/storage'
 
 export const dynamic = 'force-dynamic'
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params;
-    const horse = await getHorse(id);
+async function getHorse(slug: string) {
+    const horses = (await getJSON('horses', 'list')) ?? [];
+    // Match by slug first, then fall back to numeric ID for existing URLs
+    return horses.find((h: { id: number; slug?: string }) =>
+        h.slug === slug || String(h.id) === slug
+    ) ?? null;
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const horse = await getHorse(slug);
     if (!horse) return {};
     return {
         title: `${horse.title} | Vahala Racing`,
@@ -25,14 +33,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     };
 }
 
-async function getHorse(id: string) {
-    const horses = (await getJSON('horses', 'list')) ?? [];
-    return horses.find((h: { id: number }) => String(h.id) === id) ?? null;
-}
-
-export default async function Page({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params;
-    const horse = await getHorse(id);
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const horse = await getHorse(slug);
     if (!horse) notFound();
 
     const galleryImages = (horse.gallery || []).map((g: { url: string }) => ({ url: g.url, alt: horse.title }));
@@ -40,6 +43,8 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     const scrapedData = await getJSON('scraped_data', 'horse_profiles');
     const profile = scrapedData?.profiles?.[horse.title] ?? null;
     const updatedAt = scrapedData?.updatedAt ?? null;
+
+    const canonicalSlug = horse.slug || String(horse.id);
 
     return (
         <div className='mx-6 lg:mx-12'>
@@ -52,7 +57,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                     name: horse.title,
                     description: horse.about?.replace(/<[^>]+>/g, '').slice(0, 200) || `${horse.title} – Age: ${horse.age}, Color: ${horse.color}`,
                     image: horse.url?.startsWith('http') ? horse.url : `https://www.valhallaracing.com.au${horse.url}`,
-                    url: `https://www.valhallaracing.com.au/our-horses/${horse.id}`,
+                    url: `https://www.valhallaracing.com.au/our-horses/${canonicalSlug}`,
                 }) }}
             />
             <PageIntro mainHeading="Our Horses" intro='Champions bred with passion, trained for excellence.' />

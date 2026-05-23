@@ -38,8 +38,8 @@ const page = async () => {
             />
 
             <div className='flex flex-col gap-6 lg:gap-14 my-6 lg:mb-14'>
-                {syndications.map((s: { id: number; name: string; age: string; breed: string; sharePrice: string; description?: string; url: string }) => (
-                    <Link href={`/ownership/${s.id}`} key={s.id}>
+                {syndications.map((s: { id: number; slug?: string; name: string; age: string; breed: string; sharePrice: string; description?: string; url: string }) => (
+                    <Link href={`/ownership/${s.slug || s.id}`} key={s.id}>
                         <HorseCard
                             name={s.name}
                             age={s.age}

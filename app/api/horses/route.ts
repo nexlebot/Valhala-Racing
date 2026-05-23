@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getJSON, setJSON } from '@/lib/storage';
+import { toSlug } from '@/lib/slug';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
 
@@ -26,6 +27,7 @@ export async function POST(req: NextRequest) {
     const horses = await readHorses();
     const newHorse = { ...body, id: Date.now() };
     delete newHorse.password;
+    if (!newHorse.slug) newHorse.slug = toSlug(newHorse.title || '');
     if (!newHorse.gallery?.length && newHorse.url) {
         newHorse.gallery = [{ url: newHorse.url, isMain: true }];
     }
